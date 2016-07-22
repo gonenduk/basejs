@@ -30,4 +30,4 @@ node_modules
 npm-debug.log
 
 # WebStorm configuration (remove after first git push)
-#.idea
+.idea

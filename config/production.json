@@ -1,0 +1,10 @@
+{
+  "server": {
+    "port": 80
+  },
+
+  "log": {
+    "level": "info",
+    "stackTrace": false
+  }
+}

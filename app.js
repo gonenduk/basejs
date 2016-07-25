@@ -5,6 +5,7 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const Boom = require('boom');
 
 const routes = require('./routes/index');
 const api = require('./routes/api');
@@ -28,15 +29,13 @@ app.use('/', routes);
 app.use('/api', api);
 
 // Catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  const err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+app.use((req, res, next) => {
+  next(Boom.notFound());
 });
 
 // Error handlers
-app.use(function(err, req, res, next) {
-  err.status = err.status || 500;
+app.use((err, req, res, next) => {
+  Boom.wrap(err, err.isJoi ? 400 : 500);
   err.stack = config.log.stackTrace ? err.stack : '';
-  res.status(err.status).render('error', {error: err});
+  res.status(err.output.statusCode).render('error', {error: err});
 });

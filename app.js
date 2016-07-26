@@ -25,17 +25,5 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes setup
-app.use('/', routes);
 app.use('/api', api);
-
-// Catch 404 and forward to error handler
-app.use((req, res, next) => {
-  next(Boom.notFound());
-});
-
-// Error handlers
-app.use((err, req, res, next) => {
-  Boom.wrap(err, err.isJoi ? 400 : 500);
-  err.stack = config.log.stackTrace ? err.stack : '';
-  res.status(err.output.statusCode).render('error', {error: err});
-});
+app.use('/', routes);

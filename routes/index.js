@@ -1,6 +1,6 @@
 const express = require('express');
-const config = require('config');
 const Boom = require('boom');
+const error2json = require('../modules/error2json');
 const router = express.Router();
 
 // GET home page
@@ -24,9 +24,8 @@ router.use((req, res, next) => {
 
 // Error handler
 router.use((err, req, res, next) => {
-  Boom.wrap(err, err.isJoi ? 400 : 500);
-  err.stack = config.log.stackTrace ? err.stack : '';
-  res.status(err.output.statusCode).render('error', {error: err});
+  const jsonError = error2json(err);
+  res.status(jsonError.code).render('error', {error: jsonError});
 });
 
 module.exports = router;

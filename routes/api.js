@@ -1,8 +1,8 @@
 const express = require('express');
+const config = require('config');
 const validation = require('./validations');
 const Celebrate = require('celebrate');
 const Boom = require('boom');
-const error2json = require('../modules/error2json');
 const router = express.Router();
 
 // GET API listing
@@ -21,8 +21,9 @@ router.use((req, res, next) => {
 
 // API error handler
 router.use((err, req, res, next) => {
-  const jsonError = error2json(err);
-  res.status(jsonError.code).json(jsonError);
+  const errPayload = Boom.wrap(err, err.isJoi ? 400 : 500).output.payload;
+  errPayload.stack = config.log.stackTrace ? err.stack : undefined;
+  res.status(errPayload.statusCode).json(errPayload);
 });
 
 module.exports = router;

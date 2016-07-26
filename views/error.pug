@@ -2,6 +2,5 @@ extends layout
 
 block content
   h1= error.message
-  h2 #{error.code} (#{error.name})
-  h2= error.data
+  h2 #{error.statusCode} (#{error.error})
   pre #{error.stack}

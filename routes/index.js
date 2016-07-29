@@ -25,7 +25,7 @@ router.use((req, res, next) => {
 // Error handler
 router.use((err, req, res, next) => {
   const errPayload = Boom.wrap(err, err.isJoi ? 400 : 500).output.payload;
-  errPayload.stack = config.log.stackTrace ? err.stack : undefined;
+  errPayload.stack = config.server.stackTrace ? err.stack : undefined;
   res.status(errPayload.statusCode).render('error', {error: errPayload});
 });
 

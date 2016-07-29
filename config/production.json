@@ -10,7 +10,7 @@
   },
 
   "cluster": {
-    "count": "max",
+    "count": 0,
     "respawn": true,
     "verbose": true
   }

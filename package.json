@@ -12,6 +12,7 @@
     "config": "^1.21.0",
     "cookie-parser": "~1.4.3",
     "express": "~4.13.4",
+    "express-cluster": "0.0.4",
     "joi": "^9.0.4",
     "morgan": "~1.7.0",
     "pug": "^2.0.0-beta4",

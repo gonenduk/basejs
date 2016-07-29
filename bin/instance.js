@@ -1,8 +1,9 @@
-module.exports = config => {
+module.exports = (config, worker) => {
 
-  // Store configuration in express
+  // Store configuration and worker in express
   const express = require('express');
   express.config = config;
+  express.worker = worker;
 
   // Load app and http server
   const app = require('../app');
@@ -46,15 +47,16 @@ module.exports = config => {
     const bind = typeof port === 'string'
       ? 'Pipe ' + port
       : 'Port ' + port;
+    const id = worker ? `(${worker.id}) ` : '';
 
     // handle specific listen errors with friendly messages
     switch (error.code) {
       case 'EACCES':
-        console.error(bind + ' requires elevated privileges');
+        console.error(`${id}${bind} requires elevated privileges`);
         process.exit(1);
         break;
       case 'EADDRINUSE':
-        console.error(bind + ' is already in use');
+        console.error(`${id}${bind} is already in use`);
         process.exit(1);
         break;
       default:
@@ -68,6 +70,7 @@ module.exports = config => {
     const bind = typeof addr === 'string'
       ? 'pipe ' + addr
       : 'port ' + addr.port;
-    console.log('Listening on ' + bind);
+    const id = worker ? `(${worker.id}) ` : '';
+    console.log(`${id}Listening on ${bind}`);
   }
 };

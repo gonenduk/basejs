@@ -1,5 +1,4 @@
 const express = require('express');
-const config = require('config');
 const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
@@ -11,6 +10,7 @@ const routes = require('./routes/index');
 const api = require('./routes/api');
 
 const app = module.exports = express();
+const config = express.config;
 
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));

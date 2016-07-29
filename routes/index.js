@@ -1,7 +1,7 @@
 const express = require('express');
-const config = require('config');
 const Boom = require('boom');
 const router = express.Router();
+const config = express.config;
 
 // GET home page
 router.get('/', (req, res, next) => {

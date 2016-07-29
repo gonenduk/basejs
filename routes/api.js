@@ -1,9 +1,9 @@
 const express = require('express');
-const config = require('config');
 const validation = require('./validations');
 const Celebrate = require('celebrate');
 const Boom = require('boom');
 const router = express.Router();
+const config = express.config;
 
 // GET API listing
 router.get('/', /*Celebrate(validation.resource-name.get),*/ (req, res, next) => {

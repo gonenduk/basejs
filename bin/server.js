@@ -8,16 +8,16 @@ require('use-strict');
 const config = require('config');
 process.config = Object.assign(config, process.config);
 
-// Load modules
-const cluster = require('express-cluster');
-
-// Initialize server instances with configuration
+// Use cluster - Initialize worker instances
 if (config.cluster) {
-  cluster(worker => {
-    require('./instance')(worker);
-  }, config.cluster);
+  const cluster = require('express-cluster');
 
-// Initialize single server in master process
+  cluster(config.cluster, worker => {
+    process.worker = worker;
+    require('./instance');
+  });
+
+// Don't use cluster - Initialize single server instance in master process
 } else {
-  require('./instance')();
+  require('./instance');
 }

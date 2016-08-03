@@ -4,17 +4,20 @@
 'use strict';
 require('use-strict');
 
-// Load modules
+// Add process configuration to config module and store back on process
 const config = require('config');
+process.config = Object.assign(config, process.config);
+
+// Load modules
 const cluster = require('express-cluster');
 
 // Initialize server instances with configuration
 if (config.cluster) {
   cluster(worker => {
-    require('./instance')(config, worker);
+    require('./instance')(worker);
   }, config.cluster);
 
 // Initialize single server in master process
 } else {
-  require('./instance')(config);
+  require('./instance')();
 }

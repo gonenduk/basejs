@@ -1,7 +1,6 @@
 const express = require('express');
 const Boom = require('boom');
 const router = express.Router();
-const config = express.config;
 
 // GET home page
 router.get('/', (req, res, next) => {
@@ -25,7 +24,7 @@ router.use((req, res, next) => {
 // Error handler
 router.use((err, req, res, next) => {
   const errPayload = Boom.wrap(err, err.isJoi ? 400 : 500).output.payload;
-  errPayload.stack = config.server.stackTrace ? err.stack : undefined;
+  errPayload.stack = process.config.server.stackTrace ? err.stack : undefined;
   res.status(errPayload.statusCode).render('error', {error: errPayload});
 });
 

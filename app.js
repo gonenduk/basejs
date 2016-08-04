@@ -26,3 +26,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Routes setup
 app.use('/api', api);
 app.use('/', routes);
+
+/**
+ * Page errors default handlers
+ */
+
+// Catch 404 and forward to error handler
+app.use((req, res, next) => {
+	next(Boom.notFound('Page not found'));
+});
+
+// Error handler
+app.use((err, req, res, next) => {
+	const errPayload = Boom.wrap(err, err.isJoi ? 400 : 500).output.payload;
+	errPayload.stack = process.config.server.stackTrace ? err.stack : undefined;
+	res.status(errPayload.statusCode).render('error', {error: errPayload});
+});

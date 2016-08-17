@@ -3,7 +3,7 @@ const app = require('../app');
 const http = require('http');
 
 // Get port from configuration or environment and store in express
-const port = normalizePort(process.env.PORT || process.config.server.port || '3000');
+const port = normalizePort(process.env.PORT || config.server.port || '3000');
 app.set('port', port);
 
 // Create HTTP server

@@ -4,9 +4,8 @@
 'use strict';
 require('use-strict');
 
-// Add process configuration to config module and store back on process
-const config = require('config');
-process.config = Object.assign(config, process.config);
+// Place configuration in global object
+global.config = require('config');
 
 // Use cluster - Initialize worker instances
 if (config.cluster) {

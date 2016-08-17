@@ -17,7 +17,7 @@ app.set('view engine', 'pug');
 
 // General app setup
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger(process.config.morgan.format, process.config.morgan.options));
+app.use(logger(config.morgan.format, config.morgan.options));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -39,6 +39,6 @@ app.use((req, res, next) => {
 // Error handler
 app.use((err, req, res, next) => {
 	const errPayload = Boom.wrap(err, err.isJoi ? 400 : 500).output.payload;
-	errPayload.stack = process.config.server.stackTrace ? err.stack : undefined;
+	errPayload.stack = config.server.stackTrace ? err.stack : undefined;
 	res.status(errPayload.statusCode).render('error', {error: errPayload});
 });

@@ -10,7 +10,6 @@
   },
   
   "morgan": {
-    "format": "dev",
-    "options": {}
+    "format": "dev"
   }
 }

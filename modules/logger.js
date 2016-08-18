@@ -23,3 +23,8 @@ logger.filters.push((level, msg, meta) => {
 });
 
 module.exports = logger;
+module.exports.stream = {
+  write: (message, encoding) => {
+    logger.info(message.trim());
+  }
+};

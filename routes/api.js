@@ -21,7 +21,9 @@ router.use((req, res, next) => {
 // API error handler
 router.use((err, req, res, next) => {
   const errPayload = Boom.wrap(err, err.isJoi ? 400 : 500).output.payload;
-  errPayload.stack = config.server.stackTrace ? err.stack : undefined;
+  if (errPayload.statusCode == 500) {
+    logger.error(err.stack);
+  }
   res.status(errPayload.statusCode).json(errPayload);
 });
 

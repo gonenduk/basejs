@@ -1,14 +1,12 @@
 {
   "server": {
-    "port": 3000,
-    "stackTrace": true
+    "port": 3000
   },
 
   "log": {
     "level": "debug",
     "console": true,
-    "file": "",
-    "stackTrace": true
+    "file": ""
   },
   
   "morgan": {

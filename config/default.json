@@ -6,6 +6,8 @@
 
   "log": {
     "level": "debug",
+    "console": true,
+    "file": "",
     "stackTrace": true
   },
   

@@ -4,8 +4,9 @@
 'use strict';
 require('use-strict');
 
-// Place configuration in global object
+// Place configuration and logger in global object
 global.config = require('config');
+global.logger = require('../modules/logger');
 
 // Use cluster - Initialize worker instances
 if (config.cluster) {

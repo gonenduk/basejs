@@ -36,16 +36,15 @@ function onError(error) {
   const bind = typeof port === 'string'
     ? 'Pipe ' + port
     : 'Port ' + port;
-  const id = process.worker ? `(${process.worker.id}) ` : '';
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
-      console.error(`${id}${bind} requires elevated privileges`);
+      logger.error(`${bind} requires elevated privileges`);
       process.exit(1);
       break;
     case 'EADDRINUSE':
-      console.error(`${id}${bind} is already in use`);
+      logger.error(`${bind} is already in use`);
       process.exit(1);
       break;
     default:
@@ -59,6 +58,5 @@ function onListening() {
   const bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  const id = process.worker ? `(${process.worker.id}) ` : '';
-  console.log(`${id}Listening on ${bind}`);
+  logger.info(`Listening on ${bind}`);
 }

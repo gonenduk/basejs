@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const Boom = require('boom');
 
-const routes = require('./routes/index');
+const routes = require('./routes/web');
 const api = require('./routes/api');
 
 const app = module.exports = express();

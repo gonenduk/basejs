@@ -1,12 +1,17 @@
 const express = require('express');
-const validation = require('./validations');
 const Celebrate = require('celebrate');
+const validations = require('./validations');
 const Boom = require('boom');
 const router = express.Router();
 
-// GET API listing
-router.get('/', /*Celebrate(validation.resource-name.get),*/ (req, res, next) => {
-  res.send('respond with a resource');
+// API root
+router.get('/', (req, res, next) => {
+  res.send('Respond with a list of API endpoints');
+});
+
+// User
+router.get('/users/:id', Celebrate(validations.user.get), (req, res, next) => {
+  next(Boom.notFound('User not found'));
 });
 
 /**

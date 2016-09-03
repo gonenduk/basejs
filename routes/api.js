@@ -1,35 +1,17 @@
 const express = require('express');
-const Celebrate = require('celebrate');
 const validations = require('./validations');
-const Boom = require('boom');
+const controllers = require('../controllers');
+const Celebrate = require('celebrate');
 const router = express.Router();
 
 // API root
-router.get('/', (req, res, next) => {
-  res.send('Respond with a list of API endpoints');
-});
+router.get('/', controllers.api.get);
 
 // User
-router.get('/users/:id', Celebrate(validations.user.get), (req, res, next) => {
-  next(Boom.notFound('User not found'));
-});
+router.get('/users/:id', Celebrate(validations.user.get), controllers.user.get);
 
-/**
- * API error handlers
- */
-
-// Catch 404 and forward to API error handler
-router.use((req, res, next) => {
-  next(Boom.notFound('API endpoint not found'));
-});
-
-// API error handler
-router.use((err, req, res, next) => {
-  const errPayload = Boom.wrap(err, err.isJoi ? 400 : 500).output.payload;
-  if (errPayload.statusCode == 500) {
-    logger.error(err.stack);
-  }
-  res.status(errPayload.statusCode).json(errPayload);
-});
+// Error handlers
+router.use(controllers.api.error404);
+router.use(controllers.api.error);
 
 module.exports = router;

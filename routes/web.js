@@ -1,15 +1,15 @@
 const express = require('express');
-const Boom = require('boom');
+const controllers = require('../controllers');
 const router = express.Router();
 
-// GET home page
-router.get('/', (req, res, next) => {
-  res.render('index');
-});
+// home page
+router.get('/', controllers.web.home);
 
-// GET ping
-router.get('/ping', (req, res, next) => {
-  res.send('pong');
-});
+// ping
+router.get('/ping', controllers.web.ping);
+
+// Error handlers
+router.use(controllers.web.error404);
+router.use(controllers.web.error);
 
 module.exports = router;

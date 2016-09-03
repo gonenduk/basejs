@@ -4,7 +4,6 @@ const favicon = require('serve-favicon');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const Boom = require('boom');
 
 const routes = require('./routes/web');
 const api = require('./routes/api');
@@ -26,21 +25,3 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Routes setup
 app.use('/api', api);
 app.use('/', routes);
-
-/**
- * Page errors default handlers
- */
-
-// Catch 404 and forward to error handler
-app.use((req, res, next) => {
-	next(Boom.notFound('Page not found'));
-});
-
-// Error handler
-app.use((err, req, res, next) => {
-	const errPayload = Boom.wrap(err, err.isJoi ? 400 : 500).output.payload;
-  if (errPayload.statusCode == 500) {
-    logger.error(err.stack);
-  }
-	res.status(errPayload.statusCode).render('error', {error: errPayload});
-});

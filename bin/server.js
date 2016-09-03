@@ -11,6 +11,7 @@ global.logger = require('../modules/logger');
 // Use cluster - Initialize worker instances
 if (config.cluster) {
   const cluster = require('express-cluster');
+  //config.cluster.outputStream = logger.stream;
 
   cluster(config.cluster, worker => {
     process.worker = worker;

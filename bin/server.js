@@ -4,9 +4,10 @@
 'use strict';
 require('use-strict');
 
-// Place configuration and logger in global object
+// Place configuration, logger and bluebird in global object
 global.config = require('config');
 global.logger = require('../modules/logger');
+global.Promise = require('bluebird');
 
 // Use cluster - Initialize worker instances
 if (config.cluster) {

@@ -5,10 +5,10 @@ const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
+const app = module.exports = express();
+
 const routes = require('./routes/web');
 const api = require('./routes/api');
-
-const app = module.exports = express();
 
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));

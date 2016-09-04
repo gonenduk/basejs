@@ -1,0 +1,30 @@
+doctype html
+html
+  head
+    meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
+
+  body(bgcolor='#FFFFFF', leftmargin='0', topmargin='0', marginwidth='0', marginheight='0', style='font-family:Arial;')
+    table(width='750', border='0', cellpadding='0', cellspacing='0')
+      tr
+        td(colspan='5')
+          //- Replace link to server
+          img(src='http://basejs.herokuapp.com/images/email/header.jpg', width='750', height='285', style='vertical-align:middle')
+
+      tr
+        td(width='64', bgcolor='#F3F3F3')
+        td(width='20', bgcolor='#FFFFFF')
+        td(width='598', bgcolor='#FFFFFF')
+          block content
+          block signature
+            | Thanks,
+            br
+            | The base.js Team
+        td(width='20', bgcolor='#FFFFFF')
+        td(width='48', bgcolor='#F3F3F3')
+
+      tr
+        td(colspan='5')
+          //- Replace link to server
+          img(src='http://basejs.herokuapp.com/images/email/footer.jpg', width='750', height='176', style='vertical-align:middle')
+
+    block footer

@@ -13,7 +13,8 @@ const transporter = nodemailer.createTransport({
 // Send mail
 function send(options, data) {
   // Defaults
-  options = options || {};
+  const defaultOptions = Object.assign({}, config.email);
+  options = Object.assign(defaultOptions, options);
   data = data || {};
   options.template = options.template || 'general';
 

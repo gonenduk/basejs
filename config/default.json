@@ -11,5 +11,10 @@
   
   "morgan": {
     "format": "dev"
+  },
+
+  "email": {
+    "service": "Gmail",
+    "template": "general"
   }
 }

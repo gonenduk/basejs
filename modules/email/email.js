@@ -10,7 +10,9 @@ const sendMail = Promise.promisify(transporter.sendMail, { context: transporter 
 
 // Send email
 function send(options, data) {
-  // Default template
+  // Defaults
+  options = options || {};
+  data = data || {};
   options.template = options.template || config.email.template;
 
   // Render template into html

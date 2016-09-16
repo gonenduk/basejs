@@ -1,4 +1,7 @@
-const app = require('../../app');
+// Do not load module if no configuration
+if (!config.email) return;
+
+const app = require('../app');
 const nodemailer = require('nodemailer');
 
 // Create transporter

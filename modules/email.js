@@ -1,5 +1,5 @@
 // Do not load module if no configuration
-if (!config.email) return;
+if (!config.email) return logger.warn('Email module not configured, Skipping');
 
 const app = require('../app');
 const nodemailer = require('nodemailer');

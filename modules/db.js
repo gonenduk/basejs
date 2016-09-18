@@ -1,5 +1,5 @@
 // Do not load module if no configuration
-if (!config.mongodb) return;
+if (!config.mongodb) return logger.warn('DB module not configured, Skipping');
 
 const mongoose = require('mongoose');
 

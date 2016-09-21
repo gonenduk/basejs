@@ -3,7 +3,7 @@ const Joi = require('joi');
 module.exports = {
   get: {
     params: {
-      id: Joi.number()
+      userId: Joi.number()
     }
   }
 };

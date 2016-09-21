@@ -2,11 +2,12 @@ const express = require('express');
 const controllers = require('../controllers');
 const router = express.Router();
 
-// home page
+// Pages
 router.get('/', controllers.web.home);
-
-// ping
 router.get('/ping', controllers.web.ping);
+
+// Parameter handlers
+router.param('userId', controllers.web.userId);
 
 // Error handlers
 router.use(controllers.web.error404);

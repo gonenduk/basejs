@@ -5,6 +5,17 @@ module.exports = {
     res.send('Respond with a list of API endpoints');
   },
 
+  // Replace userId set to 'me' with logged in user id
+  userId: (req, res, next, userId) => {
+    if (userId == 'me') {
+      if (!req.user || !req.user.id) {
+        return next(Boom.unauthorized('Not logged in'));
+      }
+      req.params.userId = req.user.id;
+    }
+    next();
+  },
+
   // Catch 404 and forward to error handler
   error404: (req, res, next) => {
     next(Boom.notFound('API endpoint not found'));

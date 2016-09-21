@@ -7,7 +7,8 @@ const bodyParser = require('body-parser');
 
 const app = module.exports = express();
 
-const routes = require('./routes/web');
+const all = require('./routes/all');
+const web = require('./routes/web');
 const api = require('./routes/api');
 
 // View engine setup
@@ -23,5 +24,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes setup
+app.use(all);
 app.use('/api', api);
-app.use('/', routes);
+app.use(web);

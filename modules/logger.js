@@ -1,6 +1,9 @@
 const winston = require('winston');
 const logger = new (winston.Logger)();
 
+// Default log options if not configured
+config.log = config.log || {};
+
 // Add console output
 if (config.log.console) {
   logger.add(winston.transports.Console, {

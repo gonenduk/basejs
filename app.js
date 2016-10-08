@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 
 const app = module.exports = express();
 
-const all = require('./routes/all');
+const common = require('./routes/common');
 const web = require('./routes/web');
 const api = require('./routes/api');
 
@@ -24,6 +24,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes setup
-app.use(all);
+app.use(common);
 app.use('/api', api);
 app.use(web);

@@ -6,6 +6,11 @@ router.all('*', (req, res, next) => {
   if (!req.user) {
     req.user = { role: 'guest' };
   }
+
+  // Put user and config on response object to be accessible from all templates
+  res.locals.config = config;
+  res.locals.user = req.user;
+
   next();
 });
 

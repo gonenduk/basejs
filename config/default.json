@@ -20,5 +20,9 @@
   "email": {
     "service": "Gmail",
     "template": "general"
+  },
+
+  "analytics": {
+    "google": "UA-84705052-1"
   }
 }

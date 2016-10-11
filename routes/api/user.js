@@ -22,12 +22,12 @@ const router = express.Router();
  *   User:
  *     allOf:
  *       - $ref: '#/definitions/NewUser'
- *       - required:
- *         - id
- *       - properties:
- *           id:
- *             type: integer
- *             format: int64
+ *     required:
+ *       - id
+ *     properties:
+ *       id:
+ *         type: integer
+ *         format: int64
  */
 
 /**

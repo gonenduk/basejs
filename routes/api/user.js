@@ -47,7 +47,7 @@ const router = express.Router();
  */
 router.get('/', controllers.getBulk);
 
-// Get user
+// Get user by id
 router.get('/:userId', Celebrate(validations.get), controllers.get);
 
 // Replace userId set to 'me' with logged in user id

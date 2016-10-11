@@ -1,11 +1,11 @@
 const express = require('express');
-const controllers = require('../controllers');
+const controllers = require('../controllers/web');
 const Boom = require('boom');
 const router = express.Router();
 
 // Pages
-router.get('/', controllers.web.home);
-router.get('/ping', controllers.web.ping);
+router.get('/', controllers.home);
+router.get('/ping', controllers.ping);
 
 // Catch 404 and forward to error handler
 router.use((req, res, next) => {

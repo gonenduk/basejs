@@ -1,23 +1,9 @@
 const express = require('express');
-const validations = require('./validations');
-const controllers = require('../controllers');
-const Celebrate = require('celebrate');
 const Boom = require('boom');
 const router = express.Router();
 
-// User
-router.get('/users/:userId', Celebrate(validations.user.get), controllers.user.get);
-
-// Replace userId set to 'me' with logged in user id
-router.param('userId', (req, res, next, userId) => {
-  if (userId == 'me') {
-    if (!req.user || !req.user.id) {
-      return next(Boom.unauthorized('Not logged in'));
-    }
-    req.params.userId = req.user.id;
-  }
-  next();
-});
+// Rest API - routes of resources
+router.use('/users', require('./api/user'));
 
 // API root - redirect to swagger UI
 router.get('/', (req, res, next) => {

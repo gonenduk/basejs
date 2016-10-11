@@ -19,7 +19,6 @@
     "morgan": "~1.7.0",
     "nodemailer": "^2.5.0",
     "pug": "^2.0.0-beta4",
-    "require-dir": "^0.3.0",
     "serve-favicon": "~2.3.0",
     "use-strict": "^1.0.1",
     "winston": "^2.2.0"

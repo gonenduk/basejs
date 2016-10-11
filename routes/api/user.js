@@ -25,9 +25,9 @@ const router = express.Router();
  *       - required:
  *         - id
  *       - properties:
- *         id:
- *           type: integer
- *           format: int64
+ *           id:
+ *             type: integer
+ *             format: int64
  */
 
 /**

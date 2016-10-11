@@ -10,8 +10,8 @@ router.use('/users', require('./api/user'));
 const swaggerSpec = swaggerJSDoc({
   swaggerDefinition: {
     info: {
-      title: 'Hello World', // Title (required)
-      version: '1.0.0', // Version (required)
+      title: 'basejs API',
+      version: '1.0.0',
     },
   },
   apis: ['./routes/api/user.js'], // Path to the API docs

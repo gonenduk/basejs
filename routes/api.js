@@ -1,13 +1,26 @@
 const express = require('express');
 const Boom = require('boom');
+const swaggerJSDoc = require('swagger-jsdoc');
 const router = express.Router();
 
 // Rest API - routes of resources
 router.use('/users', require('./api/user'));
 
-// API root - redirect to swagger UI
-router.get('/', (req, res, next) => {
-  res.send('Respond with a list of API endpoints');
+// Swagger JSDoc
+const swaggerSpec = swaggerJSDoc({
+  swaggerDefinition: {
+    info: {
+      title: 'Hello World', // Title (required)
+      version: '1.0.0', // Version (required)
+    },
+  },
+  apis: ['./routes/api/user.js'], // Path to the API docs
+});
+
+// GET swagger json file
+router.get('/api-docs.json', (req, res, next) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
 });
 
 // Catch 404 and forward to error handler

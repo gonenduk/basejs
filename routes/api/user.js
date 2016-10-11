@@ -5,6 +5,35 @@ const Celebrate = require('celebrate');
 const Boom = require('boom');
 const router = express.Router();
 
+/**
+ * @swagger
+ * definition:
+ *   user:
+ *     type: object
+ *     required:
+ *       - id
+ *     properties:
+ *       id:
+ *         type: integer
+ *         format: int64
+ */
+
+/**
+ * @swagger
+ * /users:
+ *   get:
+ *     description: Returns users
+ *     produces:
+ *      - application/json
+ *     responses:
+ *       200:
+ *         description: users
+ *         schema:
+ *           type: array
+ *           items:
+ *             $ref: '#/definitions/user'
+ */
+
 // Get user
 router.get('/:userId', Celebrate(validations.get), controllers.get);
 

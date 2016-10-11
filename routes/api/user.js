@@ -8,14 +8,26 @@ const router = express.Router();
 /**
  * @swagger
  * definition:
- *   user:
+ *   NewUser:
  *     type: object
  *     required:
- *       - id
+ *       - username
+ *       - password
  *     properties:
- *       id:
- *         type: integer
- *         format: int64
+ *       username:
+ *         type: string
+ *       password:
+ *         type: string
+ *         format: password
+ *   User:
+ *     allOf:
+ *       - $ref: '#/definitions/NewUser'
+ *       - required:
+ *         - id
+ *       - properties:
+ *         id:
+ *           type: integer
+ *           format: int64
  */
 
 /**
@@ -33,6 +45,7 @@ const router = express.Router();
  *           items:
  *             $ref: '#/definitions/user'
  */
+router.get('/', controllers.getBulk);
 
 // Get user
 router.get('/:userId', Celebrate(validations.get), controllers.get);

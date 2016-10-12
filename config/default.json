@@ -24,5 +24,10 @@
 
   "analytics": {
     "google": "UA-84705052-1"
+  },
+
+  "swagger": {
+    "json": true,
+    "ui": true
   }
 }

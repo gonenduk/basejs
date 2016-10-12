@@ -3,6 +3,12 @@ const Boom = require('boom');
 const swaggerJSDoc = require('swagger-jsdoc');
 const router = express.Router();
 
+// CORS support for API
+router.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  next();
+});
+
 // Rest API - routes of resources
 router.use('/users', require('./api/user'));
 
@@ -17,10 +23,14 @@ const swaggerSpec = swaggerJSDoc({
   apis: ['./routes/api/user.js'], // Path to the API docs
 });
 
-// GET swagger json file
+// api-docs serving and definition file
 router.get('/api-docs.json', (req, res, next) => {
   res.setHeader('Content-Type', 'application/json');
   res.send(swaggerSpec);
+});
+
+router.get('/api-docs', (req, res, next) => {
+  res.redirect('/api-docs');
 });
 
 // Catch 404 and forward to error handler

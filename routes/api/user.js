@@ -8,26 +8,25 @@ const router = express.Router();
 /**
  * @swagger
  * definition:
- *   NewUser:
+ *   User:
  *     type: object
  *     required:
  *       - username
  *       - password
  *     properties:
+ *       id:
+ *         type: integer
+ *         format: int64
+ *         readOnly: true
  *       username:
  *         type: string
  *       password:
  *         type: string
  *         format: password
- *   User:
- *     allOf:
- *       - $ref: '#/definitions/NewUser'
- *     required:
- *       - id
- *     properties:
- *       id:
- *         type: integer
- *         format: int64
+ *   UserList:
+ *     type: array
+ *     items:
+ *       $ref: '#/definitions/User'
  */
 
 /**
@@ -43,9 +42,7 @@ const router = express.Router();
  *       200:
  *         description: users
  *         schema:
- *           type: array
- *           items:
- *             $ref: '#/definitions/User'
+ *           $ref: '#/definitions/UserList'
  */
 router.get('/', controllers.getBulk);
 

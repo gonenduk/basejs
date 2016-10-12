@@ -34,6 +34,8 @@ const router = express.Router();
  * @swagger
  * /users:
  *   get:
+ *     tags:
+ *       - Users
  *     description: Get users
  *     produces:
  *      - application/json
@@ -51,6 +53,8 @@ router.get('/', controllers.getBulk);
  * @swagger
  * /users/{id}:
  *   get:
+ *     tags:
+ *       - Users
  *     description: Get user by ID
  *     produces:
  *      - application/json
@@ -70,8 +74,8 @@ router.get('/', controllers.getBulk);
 router.get('/:id', Celebrate(validations.get), controllers.get);
 
 // Replace id set to 'me' with logged in user id
-router.param('id', (req, res, next, userId) => {
-  if (userId == 'me') {
+router.param('id', (req, res, next, id) => {
+  if (id == 'me') {
     if (!req.user || !req.user.id) {
       return next(Boom.unauthorized('Not logged in'));
     }

@@ -73,9 +73,7 @@ router.get('/:id', Celebrate(validations.get), controllers.get);
 // Replace id set to 'me' with logged in user id
 router.param('id', (req, res, next, id) => {
   if (id == 'me') {
-    if (!req.user || !req.user.id) {
-      return next(Boom.unauthorized('Not logged in'));
-    }
+    if (!req.user || !req.user.id) return next(Boom.unauthorized('Not logged in'));
     req.params.id = req.user.id;
   }
   next();

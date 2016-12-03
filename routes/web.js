@@ -33,9 +33,7 @@ if (config.swagger) {
   }
 
   // Swagger UI
-  if (config.swagger.ui) {
-    router.use(express.static(path.join(__dirname, '../swagger')));
-  }
+  if (config.swagger.ui) router.use(express.static(path.join(__dirname, '../swagger')));
 }
 
 // Catch 404 and forward to error handler
@@ -46,9 +44,7 @@ router.use((req, res, next) => {
 // Error handler
 router.use((err, req, res, next) => {
   const errPayload = Boom.wrap(err, err.isJoi ? 400 : 500).output.payload;
-  if (errPayload.statusCode == 500) {
-    logger.error(err.stack);
-  }
+  if (errPayload.statusCode == 500) logger.error(err.stack);
   res.status(errPayload.statusCode).render('error', {error: errPayload});
 });
 

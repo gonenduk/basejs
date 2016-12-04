@@ -25,9 +25,9 @@ if (config.swagger) {
       apis: ['./routes/api/user.js'], // Path to the API docs
     });
 
-    // Swagger definition file (CORS enabled)
+    // Swagger definition file (CORS enabled by configuration)
     router.get('/api-docs.json', (req, res, next) => {
-      res.header("Access-Control-Allow-Origin", "*");
+      if (config.swagger.cors) res.header("Access-Control-Allow-Origin", "*");
       res.json(swaggerSpec);
     });
   }

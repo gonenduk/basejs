@@ -4,7 +4,7 @@ const router = express.Router();
 
 // CORS support for API
 router.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
+  if (config.api && config.api.cors) res.header("Access-Control-Allow-Origin", "*");
   next();
 });
 

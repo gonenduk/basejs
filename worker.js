@@ -1,5 +1,5 @@
 // Load app and http server
-const app = require('../app');
+const app = require('./app');
 const http = require('http');
 
 // Get port from configuration or environment and store in express

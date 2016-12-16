@@ -12,10 +12,8 @@ const render = Promise.promisify(app.render, { context: app });
 const sendMail = Promise.promisify(transporter.sendMail, { context: transporter });
 
 // Send email
-function send(options, data) {
-  // Defaults
-  options = options || {};
-  data = data || {};
+function send(options = {}, data = {}) {
+  // Default template
   options.template = options.template || config.email.template;
 
   // Render template into html

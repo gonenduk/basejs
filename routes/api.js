@@ -6,10 +6,10 @@ const routes = (app) => {
   config.api = config.api || {};
 
   // CORS support for API
-  // app.use('/api', (req, res, next) => {
-  //   if (config.api.cors) res.header("Access-Control-Allow-Origin", "*");
-  //   next();
-  // });
+  app.use('/api', (req, res, next) => {
+    if (config.api.cors) res.header("Access-Control-Allow-Origin", "*");
+    next();
+  });
 
   // Rest API - routes of resources
   app.use(swaggerize({

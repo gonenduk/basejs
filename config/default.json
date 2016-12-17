@@ -4,7 +4,9 @@
   },
 
   "api": {
-    "cors": true
+    "cors": true,
+    "docs": true,
+    "ui": true
   },
 
   "mongodb": {
@@ -28,11 +30,5 @@
 
   "analytics": {
     "google": "UA-84705052-1"
-  },
-
-  "swagger": {
-    "json": true,
-    "cors": true,
-    "ui": true
   }
 }

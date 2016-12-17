@@ -10,7 +10,6 @@
     "bluebird": "^3.4.6",
     "body-parser": "~1.15.1",
     "boom": "^4.0.0",
-    "celebrate": "^4.0.0",
     "config": "^1.21.0",
     "cookie-parser": "~1.4.3",
     "express": "~4.14.0",
@@ -21,7 +20,7 @@
     "nodemailer": "^2.5.0",
     "pug": "^2.0.0-beta6",
     "serve-favicon": "~2.3.0",
-    "swagger-jsdoc": "^1.7.0",
+    "swaggerize-express": "^4.0.5",
     "use-strict": "^1.0.1",
     "winston": "^2.2.0"
   },

@@ -42,7 +42,6 @@
             "description": "ID of user to get",
             "required": true,
             "type": "integer",
-            "format": "int64",
             "minimum": 1
           }
         ],
@@ -52,6 +51,12 @@
             "schema": {
               "$ref": "#/definitions/User"
             }
+          },
+          "400": {
+            "$ref": "#/responses/Error400Response"
+          },
+          "404": {
+            "$ref": "#/responses/Error404Response"
           }
         }
       }
@@ -67,7 +72,6 @@
       "properties": {
         "id": {
           "type": "integer",
-          "format": "int64",
           "readOnly": true
         },
         "username": {
@@ -84,10 +88,54 @@
       "items": {
         "$ref": "#/definitions/User"
       }
+    },
+    "Error": {
+      "type": "object",
+      "required": "statusCode",
+      "properties": {
+        "statusCode": {
+          "type": "integer"
+        },
+        "error": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
     }
   },
   "responses": {
-    
+    "Error400Response": {
+      "description": "Bad Request",
+      "schema": {
+        "$ref": "#/definitions/Error"
+      }
+    },
+    "Error401Response": {
+      "description": "Unauthorized",
+      "schema": {
+        "$ref": "#/definitions/Error"
+      }
+    },
+    "Error403Response": {
+      "description": "Forbidden",
+      "schema": {
+        "$ref": "#/definitions/Error"
+      }
+    },
+    "Error404Response": {
+      "description": "Not Found",
+      "schema": {
+        "$ref": "#/definitions/Error"
+      }
+    },
+    "Error500Response": {
+      "description": "Server Error",
+      "schema": {
+        "$ref": "#/definitions/Error"
+      }
+    }
   },
   "parameters": {
     

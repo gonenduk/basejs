@@ -91,7 +91,9 @@
     },
     "Error": {
       "type": "object",
-      "required": "statusCode",
+      "required": [
+        "statusCode"
+      ],
       "properties": {
         "statusCode": {
           "type": "integer"

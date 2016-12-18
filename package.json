@@ -24,7 +24,7 @@
     "winston": "^2.2.0"
   },
   "devDependencies": {
-    "jest": "^17.0.0"
+    "jest": "^18.0.0"
   },
   "jest": {
     "testEnvironment": "node"

@@ -2,6 +2,7 @@
 <html prefix="og: http://ogp.me/ns#">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="x-ua-compatible" content="IE=edge">
   <title>basejs - Swagger UI</title>
   <meta name="description" content="A visual view of the project API endpoints with the ability to test and run each endpoint.">
   <meta property="og:image" content="http://basejs.herokuapp.com/api-docs/images/logo_big.png">
@@ -76,7 +77,8 @@
         docExpansion: "list",
         jsonEditor: false,
         defaultModelRendering: 'schema',
-        showRequestHeaders: false
+        showRequestHeaders: false,
+        showOperationIds: false
       });
 
       window.swaggerUi.load();

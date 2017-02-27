@@ -15,16 +15,16 @@
     "express": "~4.14.0",
     "express-cluster": "0.0.4",
     "mongoose": "^4.6.0",
-    "morgan": "~1.7.0",
+    "morgan": "~1.8.1",
     "nodemailer": "^3.0.0",
-    "pug": "2.0.0-beta10",
-    "serve-favicon": "~2.3.0",
+    "pug": "2.0.0-beta11",
+    "serve-favicon": "~2.4.0",
     "swaggerize-express": "^4.0.5",
     "use-strict": "^1.0.1",
     "winston": "^2.2.0"
   },
   "devDependencies": {
-    "jest": "^18.0.0"
+    "jest": "^19.0.2"
   },
   "jest": {
     "testEnvironment": "node"

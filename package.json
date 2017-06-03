@@ -17,7 +17,7 @@
     "mongoose": "^4.6.0",
     "morgan": "~1.8.1",
     "nodemailer": "^4.0.1",
-    "pug": "2.0.0-rc.1",
+    "pug": "^2.0.0-rc.2",
     "serve-favicon": "~2.4.0",
     "swaggerize-express": "^4.0.5",
     "use-strict": "^1.0.1",

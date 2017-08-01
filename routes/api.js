@@ -42,7 +42,7 @@ const routes = (app) => {
 
   // Error handler
   app.use('/api', (err, req, res, next) => {
-    const errPayload = Boom.wrap(err, err.status || 500).output.payload;
+    const errPayload = Boom.boomify(err, { statusCode: err.status || 500, override: false }).output.payload;
     if (errPayload.statusCode == 500) logger.error(err.stack);
     res.status(errPayload.statusCode).json(errPayload);
   });

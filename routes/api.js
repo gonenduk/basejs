@@ -1,5 +1,6 @@
 const express = require('express');
 const swaggerize = require('swaggerize-express');
+const sui = require('swagger-ui-dist').getAbsoluteFSPath();
 const Boom = require('boom');
 
 const routes = (app) => {
@@ -32,7 +33,14 @@ const routes = (app) => {
 
   // Swagger UI
   if (config.api.ui) {
-    app.use('/api', express.static('swagger'));
+    app.get('/api/ui', function (req, res, next) {
+      if (!req.query.url) {
+        res.redirect('?url=' + req.protocol + '://' + req.get('host') + '/api/docs');
+      } else {
+        next();
+      }
+    });
+    app.use('/api/ui', express.static(sui));
   }
 
   // Catch 404 and forward to error handler

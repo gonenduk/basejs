@@ -9,12 +9,13 @@ global.config = require('config');
 global.logger = require('./modules/logger');
 global.Promise = require('bluebird');
 
-// Use cluster - Initialize worker instances
-if (config.cluster) {
-	const cluster = require('express-cluster');
-	//config.cluster.outputStream = logger.stream;
+// Cluster support
+config.server = config.server || {};
+const cluster = require('./modules/cluster');
 
-	cluster(config.cluster, worker => {
+// Use cluster - Initialize worker instances
+if (cluster.worker) {
+	cluster.workers(worker => {
 		process.worker = worker;
 		require('./worker');
 	});

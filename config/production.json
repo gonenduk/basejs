@@ -1,15 +1,10 @@
 {
 	"server": {
-		"port": 80
+		"port": 80,
+		"workers": "auto"
 	},
 
 	"log": {
 		"level": "info"
-	},
-
-	"cluster": {
-		"count": 0,
-		"respawn": true,
-		"verbose": true
 	}
 }

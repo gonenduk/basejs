@@ -1,34 +1,34 @@
 {
-  "server": {
-    "port": 3000
-  },
+	"server": {
+		"port": 3000
+	},
 
-  "api": {
-    "cors": true,
-    "docs": true,
-    "ui": true
-  },
+	"api": {
+		"cors": true,
+		"docs": true,
+		"ui": true
+	},
 
-  "mongodb": {
-    "uri": "mongodb://localhost/test"
-  },
+	"mongodb": {
+		"uri": "mongodb://localhost/test"
+	},
 
-  "log": {
-    "level": "debug",
-    "console": true,
-    "file": ""
-  },
-  
-  "morgan": {
-    "format": "dev"
-  },
+	"log": {
+		"level": "debug",
+		"console": true,
+		"file": ""
+	},
 
-  "email": {
-    "service": "Gmail",
-    "template": "general"
-  },
+	"morgan": {
+		"format": "dev"
+	},
 
-  "analytics": {
-    "google": "UA-84705052-1"
-  }
+	"email": {
+		"service": "Gmail",
+		"template": "general"
+	},
+
+	"analytics": {
+		"google": "UA-84705052-1"
+	}
 }

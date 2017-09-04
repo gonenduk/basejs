@@ -11,15 +11,15 @@ global.Promise = require('bluebird');
 
 // Use cluster - Initialize worker instances
 if (config.cluster) {
-  const cluster = require('express-cluster');
-  //config.cluster.outputStream = logger.stream;
+	const cluster = require('express-cluster');
+	//config.cluster.outputStream = logger.stream;
 
-  cluster(config.cluster, worker => {
-    process.worker = worker;
-    require('./worker');
-  });
+	cluster(config.cluster, worker => {
+		process.worker = worker;
+		require('./worker');
+	});
 
 // Don't use cluster - Initialize single server instance in master process
 } else {
-  require('./worker');
+	require('./worker');
 }

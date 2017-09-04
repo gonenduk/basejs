@@ -1,15 +1,15 @@
 {
-  "server": {
-    "port": 80
-  },
+	"server": {
+		"port": 80
+	},
 
-  "log": {
-    "level": "info"
-  },
+	"log": {
+		"level": "info"
+	},
 
-  "cluster": {
-    "count": 0,
-    "respawn": true,
-    "verbose": true
-  }
+	"cluster": {
+		"count": 0,
+		"respawn": true,
+		"verbose": true
+	}
 }

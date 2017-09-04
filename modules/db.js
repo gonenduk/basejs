@@ -15,7 +15,7 @@ mongoose.connection.on('error', err => logger.error(`DB error: ${err.message}`))
 
 // Connect to db and log success or failure
 mongoose.connect(options.uri, options)
-  .then(() => logger.info('DB connected'))
-  .catch(err => logger.error(`DB error: ${err.message}`));
+	.then(() => logger.info('DB connected'))
+	.catch(err => logger.error(`DB error: ${err.message}`));
 
 module.exports = mongoose;

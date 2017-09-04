@@ -6,28 +6,28 @@ config.log = config.log || {};
 
 // Add console output
 if (config.log.console) {
-  logger.add(winston.transports.Console, {
-    level: config.log.level
-  });
+	logger.add(winston.transports.Console, {
+		level: config.log.level
+	});
 }
 
 // Add file output
 if (config.log.file) {
-  logger.add(winston.transports.File, {
-    level: config.log.level,
-    filename: config.log.file,
-    timestamp: true
-  });
+	logger.add(winston.transports.File, {
+		level: config.log.level,
+		filename: config.log.file,
+		timestamp: true
+	});
 }
 
 // Add worker id to log messages
 logger.filters.push((level, msg, meta) => {
-  return process.worker ? `(${process.worker.id}) ${msg}` : msg;
+	return process.worker ? `(${process.worker.id}) ${msg}` : msg;
 });
 
 module.exports = logger;
 module.exports.stream = {
-  write: (message, encoding) => {
-    logger.info(message.trim());
-  }
+	write: (message, encoding) => {
+		logger.info(message.trim());
+	}
 };

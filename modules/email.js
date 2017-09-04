@@ -13,16 +13,16 @@ const sendMail = Promise.promisify(transporter.sendMail, { context: transporter 
 
 // Send email
 function send(options = {}, data = {}) {
-  // Default template
-  options.template = options.template || config.email.template;
+	// Default template
+	options.template = options.template || config.email.template;
 
-  // Render template into html
-  return render('emails/' + options.template, data).then((html) => {
-    options.html = html;
+	// Render template into html
+	return render('emails/' + options.template, data).then((html) => {
+		options.html = html;
 
-    // Send email
-    return sendMail(options);
-  });
+		// Send email
+		return sendMail(options);
+	});
 }
 
 module.exports = { send };

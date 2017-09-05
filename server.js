@@ -14,7 +14,7 @@ config.server = config.server || {};
 const cluster = require('./modules/cluster');
 
 // Use cluster - Initialize worker instances
-if (cluster.worker) {
+if (cluster.workers) {
 	cluster.workers(worker => {
 		process.worker = worker;
 		require('./worker');

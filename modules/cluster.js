@@ -8,7 +8,7 @@ if (!(workers >= 0)) return;
 
 // Configure express-cluster
 const cluster = require('express-cluster');
-const options = { count: workers, respawn: true, verbose: true /*, outputStream: logger.stream*/ };
+const options = { count: workers, respawn: true, verbose: true, outputStream: logger.stream };
 
 module.exports = {
 	workers: function(cb) {

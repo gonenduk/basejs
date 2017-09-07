@@ -14,7 +14,7 @@
     "cookie-parser": "~1.4.3",
     "express": "^4.15.4",
     "express-cluster": "^0.0.5",
-    "mongoose": "^4.11.9",
+    "mongoose": "^4.11.10",
     "morgan": "~1.8.1",
     "nodemailer": "^4.1.0",
     "pug": "^2.0.0-rc.4",

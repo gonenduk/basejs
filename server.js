@@ -5,6 +5,7 @@
 require('use-strict');
 
 // Place configuration, logger and bluebird in global object
+/* global config, logger */
 global.config = require('config');
 global.logger = require('./modules/logger');
 global.Promise = require('bluebird');

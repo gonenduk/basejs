@@ -8,24 +8,24 @@
   },
   "dependencies": {
     "bluebird": "^3.4.6",
-    "body-parser": "^1.18.0",
-    "boom": "^5.2.0",
+    "body-parser": "^1.18.2",
+    "boom": "^6.0.0",
     "config": "^1.26.2",
     "cookie-parser": "~1.4.3",
-    "express": "^4.15.4",
+    "express": "^4.16.0",
     "express-cluster": "^0.0.5",
-    "mongoose": "^4.11.10",
-    "morgan": "~1.8.1",
-    "nodemailer": "^4.1.0",
+    "mongoose": "^4.11.13",
+    "morgan": "^1.9.0",
+    "nodemailer": "^4.1.1",
     "pug": "^2.0.0-rc.4",
-    "serve-favicon": "~2.4.0",
-    "swagger-ui-dist": "^3.1.7",
+    "serve-favicon": "^2.4.5",
+    "swagger-ui-dist": "^3.2.2",
     "swaggerize-express": "^4.0.5",
     "use-strict": "^1.0.1",
     "winston": "^2.2.0"
   },
   "devDependencies": {
-    "jest": "^21.0.2"
+    "jest": "^21.2.1"
   },
   "jest": {
     "testEnvironment": "node"

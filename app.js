@@ -26,5 +26,5 @@ app.locals.config = config;
 
 // Routes setup
 app.use(common);
-api.routes(app);
+app.use(api);
 app.use(web);

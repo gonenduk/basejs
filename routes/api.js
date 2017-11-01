@@ -15,24 +15,24 @@ app.use('/api', (req, res, next) => {
 	next();
 });
 
+// Swagger UI
+if (config.api.ui) {
+    app.get('/api/ui', function (req, res, next) {
+        if (!req.query.url) {
+            res.redirect('?url=' + req.protocol + '://' + req.get('host') + '/api/docs');
+        } else {
+            next();
+        }
+    });
+    app.use('/api/ui', express.static(sui));
+}
+
 // Rest API - routes of resources
 app.use(swaggerize({
 	api: require('./api.json'),
 	docspath: config.api.docs ? 'docs' : '',
 	handlers: '../handlers'
 }));
-
-// Swagger UI
-if (config.api.ui) {
-	app.get('/api/ui', function (req, res, next) {
-		if (!req.query.url) {
-			res.redirect('?url=' + req.protocol + '://' + req.get('host') + '/api/docs');
-		} else {
-			next();
-		}
-	});
-	app.use('/api/ui', express.static(sui));
-}
 
 // Catch 404 and forward to error handler
 app.use('/api', (req, res, next) => {

@@ -31,12 +31,15 @@ if (config.api.ui) {
 app.use(swaggerize({
 	api: require('./api.json'),
 	docspath: config.api.docs ? 'docs' : '',
-	handlers: '../handlers'
+	handlers: '../handlers',
+	defaulthandler: function(req, res, next) {
+        next(Boom.notImplemented(`${req.method} ${req.path} not implemented`));
+	}
 }));
 
 // Catch 404 and forward to error handler
 app.use('/api', (req, res, next) => {
-	next(Boom.notFound('Path not found'));
+	next(Boom.notFound(`${req.method} ${req.path} does not exist`));
 });
 
 // Error handler

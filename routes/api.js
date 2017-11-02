@@ -36,7 +36,7 @@ app.use(swaggerize({
 
 // Catch 404 and forward to error handler
 app.use('/api', (req, res, next) => {
-	next(Boom.notFound(`${req.method} ${req.path} does not exist`));
+	next(Boom.notFound(`${req.method} /api${req.path} does not exist`));
 });
 
 // Error handler

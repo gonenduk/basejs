@@ -60,6 +60,110 @@
           }
         }
       }
+    },
+    "/products": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "description": "Get products",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "products",
+            "schema": {
+              "$ref": "#/definitions/ProductList"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "description": "Add product",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "product",
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Error400Response"
+          }
+        }
+      }
+    },
+    "/products/{id}": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "description": "Get product by ID",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of product to get",
+            "required": true,
+            "type": "integer",
+            "minimum": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "product",
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Error400Response"
+          },
+          "404": {
+            "$ref": "#/responses/Error404Response"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Products"
+        ],
+        "description": "Delete product by ID",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of product to delete",
+            "required": true,
+            "type": "integer",
+            "minimum": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "deleted"
+          },
+          "401": {
+            "$ref": "#/responses/Error401Response"
+          },
+          "404": {
+            "$ref": "#/responses/Error404Response"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -87,6 +191,27 @@
       "type": "array",
       "items": {
         "$ref": "#/definitions/User"
+      }
+    },
+    "Product": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "ProductList": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Product"
       }
     },
     "Error": {

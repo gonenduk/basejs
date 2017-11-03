@@ -18,10 +18,10 @@
         "tags": [
           "Users"
         ],
-        "description": "Get users",
+        "description": "Get all users",
         "responses": {
           "200": {
-            "description": "users",
+            "description": "Users",
             "schema": {
               "$ref": "#/definitions/UserList"
             }
@@ -34,7 +34,7 @@
         "tags": [
           "Users"
         ],
-        "description": "Get user by ID",
+        "description": "Get a user by ID",
         "parameters": [
           {
             "name": "id",
@@ -47,7 +47,7 @@
         ],
         "responses": {
           "200": {
-            "description": "user",
+            "description": "User",
             "schema": {
               "$ref": "#/definitions/User"
             }
@@ -66,10 +66,10 @@
         "tags": [
           "Products"
         ],
-        "description": "Get products",
+        "description": "Get all products",
         "responses": {
           "200": {
-            "description": "products",
+            "description": "Products",
             "schema": {
               "$ref": "#/definitions/ProductList"
             }
@@ -80,10 +80,21 @@
         "tags": [
           "Products"
         ],
-        "description": "Add product",
+        "description": "Create a product",
+        "parameters": [
+          {
+            "name": "product",
+            "in": "body",
+            "description": "Product to create",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          }
+        ],
         "responses": {
-          "200": {
-            "description": "product",
+          "201": {
+            "description": "New product",
             "schema": {
               "$ref": "#/definitions/Product"
             }
@@ -99,7 +110,7 @@
         "tags": [
           "Products"
         ],
-        "description": "Get product by ID",
+        "description": "Get a product by ID",
         "parameters": [
           {
             "name": "id",
@@ -112,7 +123,7 @@
         ],
         "responses": {
           "200": {
-            "description": "product",
+            "description": "Product",
             "schema": {
               "$ref": "#/definitions/Product"
             }
@@ -125,11 +136,47 @@
           }
         }
       },
+      "put": {
+        "tags": [
+          "Products"
+        ],
+        "description": "Update a product by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of product to update",
+            "required": true,
+            "type": "integer",
+            "minimum": 1
+          },
+          {
+            "name": "product",
+            "in": "body",
+            "description": "Product to update",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Updated"
+          },
+          "401": {
+            "$ref": "#/responses/Error401Response"
+          },
+          "404": {
+            "$ref": "#/responses/Error404Response"
+          }
+        }
+      },
       "delete": {
         "tags": [
           "Products"
         ],
-        "description": "Delete product by ID",
+        "description": "Delete a product by ID",
         "parameters": [
           {
             "name": "id",
@@ -141,8 +188,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "deleted"
+          "204": {
+            "description": "Deleted"
           },
           "401": {
             "$ref": "#/responses/Error401Response"

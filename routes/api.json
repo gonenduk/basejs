@@ -6,6 +6,12 @@
   },
   "basePath": "/api",
   "swagger": "2.0",
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
   "paths": {
     "/users": {
       "get": {
@@ -13,9 +19,6 @@
           "Users"
         ],
         "description": "Get users",
-        "produces": [
-          "application/json"
-        ],
         "responses": {
           "200": {
             "description": "users",
@@ -32,9 +35,6 @@
           "Users"
         ],
         "description": "Get user by ID",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "id",
@@ -67,9 +67,6 @@
           "Products"
         ],
         "description": "Get products",
-        "produces": [
-          "application/json"
-        ],
         "responses": {
           "200": {
             "description": "products",
@@ -84,9 +81,6 @@
           "Products"
         ],
         "description": "Add product",
-        "produces": [
-          "application/json"
-        ],
         "responses": {
           "200": {
             "description": "product",
@@ -106,9 +100,6 @@
           "Products"
         ],
         "description": "Get product by ID",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "id",
@@ -139,9 +130,6 @@
           "Products"
         ],
         "description": "Delete product by ID",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "id",

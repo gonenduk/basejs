@@ -27,6 +27,34 @@
             }
           }
         }
+      },
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Create a user",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User to create",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "New user",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Error400Response"
+          }
+        }
       }
     },
     "/users/{id}": {
@@ -34,12 +62,12 @@
         "tags": [
           "Users"
         ],
-        "description": "Get a user by ID",
+        "description": "Get a user by id",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "ID of user to get",
+            "description": "id of user to get",
             "required": true,
             "type": "integer",
             "minimum": 1
@@ -54,6 +82,42 @@
           },
           "400": {
             "$ref": "#/responses/Error400Response"
+          },
+          "404": {
+            "$ref": "#/responses/Error404Response"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Update a user by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of user to update",
+            "required": true,
+            "type": "integer",
+            "minimum": 1
+          },
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User to update",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Updated"
+          },
+          "401": {
+            "$ref": "#/responses/Error401Response"
           },
           "404": {
             "$ref": "#/responses/Error404Response"
@@ -110,12 +174,12 @@
         "tags": [
           "Products"
         ],
-        "description": "Get a product by ID",
+        "description": "Get a product by id",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "ID of product to get",
+            "description": "id of product to get",
             "required": true,
             "type": "integer",
             "minimum": 1
@@ -140,12 +204,12 @@
         "tags": [
           "Products"
         ],
-        "description": "Update a product by ID",
+        "description": "Update a product by id",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "ID of product to update",
+            "description": "id of product to update",
             "required": true,
             "type": "integer",
             "minimum": 1
@@ -176,12 +240,12 @@
         "tags": [
           "Products"
         ],
-        "description": "Delete a product by ID",
+        "description": "Delete a product by id",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "ID of product to delete",
+            "description": "id of product to delete",
             "required": true,
             "type": "integer",
             "minimum": 1

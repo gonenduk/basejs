@@ -11,7 +11,7 @@ const cluster = require('express-cluster');
 const options = { count: workers, respawn: true, verbose: true, outputStream: logger.stream };
 
 module.exports = {
-	workers: function(cb) {
+	workers: (cb) =>{
 		cluster(options, cb);
 	}
 };

@@ -17,7 +17,7 @@ app.use('/api', (req, res, next) => {
 
 // Swagger UI
 if (config.api.ui) {
-    app.get('/api/ui', function (req, res, next) {
+    app.get('/api/ui', (req, res, next) => {
         if (!req.query.url) {
             res.redirect('?url=' + req.protocol + '://' + req.get('host') + '/api/docs');
         } else {

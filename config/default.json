@@ -4,6 +4,7 @@
 	},
 
 	"api": {
+		"docs": true,
 		"ui": true,
 		"mock": true
 	},

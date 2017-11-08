@@ -9,14 +9,14 @@ config.api = config.api || {};
 
 // Swagger UI
 if (config.api.ui) {
-    router.get('/api-ui', (req, res, next) => {
+    router.get('/api/ui', (req, res, next) => {
         if (!req.query.url) {
-            res.redirect('?url=' + req.protocol + '://' + req.get('host') + '/api-docs');
+            res.redirect('?url=' + req.protocol + '://' + req.get('host') + '/api/docs');
         } else {
             next();
         }
     });
-    router.use('/api-ui', express.static(sui));
+    router.use('/api/ui', express.static(sui));
 }
 
 // Swagger middleware
@@ -31,7 +31,7 @@ swagger('routes/api.json', router, (err, middleware) => {
     router.use(
         middleware.metadata(),
         middleware.CORS(),
-        middleware.files(),
+        middleware.files({ useBasePath: true, apiPath: config.api.docs ? '/docs' : '' }),
         middleware.parseRequest(),
         middleware.validateRequest()
     );

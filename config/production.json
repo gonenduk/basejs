@@ -4,6 +4,10 @@
 		"workers": "auto"
 	},
 
+	"api": {
+		"mock": false
+	},
+
 	"log": {
 		"level": "info"
 	}

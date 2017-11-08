@@ -2,7 +2,7 @@
 
 // Use strict mode in all project modules
 'use strict';
-require('use-strict');
+require('auto-strict');
 
 // Place configuration, logger and bluebird in global object
 /* global config, logger */

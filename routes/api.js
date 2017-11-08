@@ -1,49 +1,58 @@
 const express = require('express');
-const swaggerize = require('swaggerize-express');
+const swagger = require('swagger-express-middleware');
 const sui = require('swagger-ui-dist').getAbsoluteFSPath();
 const Boom = require('boom');
+const router = express.Router();
 
 // Default api options if not configured
 config.api = config.api || {};
 
-// Dedicated sub app to be used by swagger
-const app = express();
-
-// CORS support for API
-app.use('/api', (req, res, next) => {
-	if (config.api.cors) res.header("Access-Control-Allow-Origin", "*");
-	next();
-});
-
 // Swagger UI
 if (config.api.ui) {
-    app.get('/api/ui', (req, res, next) => {
+    router.get('/api-ui', (req, res, next) => {
         if (!req.query.url) {
-            res.redirect('?url=' + req.protocol + '://' + req.get('host') + '/api/docs');
+            res.redirect('?url=' + req.protocol + '://' + req.get('host') + '/api-docs');
         } else {
             next();
         }
     });
-    app.use('/api/ui', express.static(sui));
+    router.use('/api-ui', express.static(sui));
 }
 
-// Rest API - routes of resources
-app.use(swaggerize({
-	api: require('./api.json'),
-	docspath: config.api.docs ? 'docs' : '',
-	handlers: '../handlers'
-}));
+// Swagger middleware
+swagger('routes/api.json', router, (err, middleware) => {
+    // Halt on errors
+    if (err) {
+        logger.error(err.message);
+        process.exit(1);
+    }
 
-// Catch 404 and forward to error handler
-app.use('/api', (req, res, next) => {
-	next(Boom.notFound(`${req.method} /api${req.path} does not exist`));
+    // Parse and validate
+    router.use(
+        middleware.metadata(),
+        middleware.CORS(),
+        middleware.files(),
+        middleware.parseRequest(),
+        middleware.validateRequest()
+    );
+
+    // Mock
+    if (config.api.mock) router.use(middleware.mock());
+
+    // Default handler
+    router.use('/api', (req, res, next) => {
+        next(Boom.notImplemented(`${req.method} /api${req.path} is not implemented`));
+    });
+
+    // Error handler
+    router.use('/api', (err, req, res, next) => {
+        const errPayload = Boom.boomify(err, {statusCode: err.status || 500, override: false}).output.payload;
+        if (errPayload.statusCode === 500) logger.error(err.stack);
+        res.status(errPayload.statusCode).json(errPayload);
+    });
+
+    // API is ready
+    logger.info('API is ready');
 });
 
-// Error handler
-app.use('/api', (err, req, res, next) => {
-	const errPayload = Boom.boomify(err, { statusCode: err.status || 500, override: false }).output.payload;
-	if (errPayload.statusCode == 500) logger.error(err.stack);
-	res.status(errPayload.statusCode).json(errPayload);
-});
-
-module.exports = app;
+module.exports = router;

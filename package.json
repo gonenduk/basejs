@@ -7,6 +7,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "auto-strict": "0.0.4",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "boom": "^7.1.0",
@@ -19,9 +20,8 @@
     "nodemailer": "^4.2.0",
     "pug": "^2.0.0-rc.4",
     "serve-favicon": "^2.4.5",
+    "swagger-express-middleware": "^1.0.0-alpha.12",
     "swagger-ui-dist": "^3.3.2",
-    "swaggerize-express": "^4.0.5",
-    "use-strict": "^1.0.1",
     "winston": "^2.4.0"
   },
   "devDependencies": {

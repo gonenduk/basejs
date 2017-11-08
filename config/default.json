@@ -4,9 +4,8 @@
 	},
 
 	"api": {
-		"cors": true,
-		"docs": true,
-		"ui": true
+		"ui": true,
+		"mock": true
 	},
 
 	"mongodb": {

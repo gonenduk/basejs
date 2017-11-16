@@ -1,6 +1,9 @@
 {
 	"server": {
-		"port": 3000
+		"ports": {
+			"http": 3000,
+			"https": false
+		}
 	},
 
 	"api": {

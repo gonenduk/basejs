@@ -1,6 +1,9 @@
 {
 	"server": {
-		"port": 80,
+		"ports": {
+			"http": 80,
+			"https": false
+		},
 		"workers": "auto"
 	},
 

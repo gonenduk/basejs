@@ -1,12 +1,8 @@
 // Load app
 const app = require('./app');
 
-// Overwrite port configuration when using service environments
-if (process.env.PORT || !config.server.ports) {
-    config.server.ports = { http: process.env.PORT };
-}
-
 // Create network listeners
+config.server.ports = config.server.ports || {};
 listen('https', app, {});
 listen('http', app);
 

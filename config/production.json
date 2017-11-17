@@ -2,7 +2,7 @@
 	"server": {
 		"ports": {
 			"http": 80,
-			"https": false
+			"https": 443
 		},
 		"workers": "auto"
 	},

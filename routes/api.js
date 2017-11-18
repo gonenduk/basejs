@@ -1,6 +1,7 @@
 const express = require('express');
 const swagger = require('swagger-express-middleware');
 const sui = require('swagger-ui-dist').getAbsoluteFSPath();
+const handlers = require('../handlers');
 const Boom = require('boom');
 const router = express.Router();
 
@@ -36,10 +37,26 @@ swagger('routes/api.json', router, (err, middleware) => {
         middleware.validateRequest()
     );
 
+    // Handlers
+    router.use('/api', (req, res, next) => {
+        // Find handler according to swagger definition
+        const handlerName = req.swagger.pathName.slice(1).replace('/', '-');
+        const method = req.method.toLowerCase();
+        const handler = handlers[handlerName];
+
+        // If handler not found continue to mock and error handling
+        if (!handler || !handler[method]) {
+            return next();
+        }
+
+        // Call handler
+        handler[method](req, res, next);
+    });
+
     // Mock
     if (config.api.mock) router.use(middleware.mock());
 
-    // Default handler
+    // Default handler (not implemented error)
     router.use('/api', (req, res, next) => {
         next(Boom.notImplemented(`${req.method} /api${req.path} is not implemented`));
     });

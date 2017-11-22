@@ -12,6 +12,11 @@
   "produces": [
     "application/json"
   ],
+  "security": [
+    {
+      "api_key": []
+    }
+  ],
   "paths": {
     "/users": {
       "get": {
@@ -33,6 +38,7 @@
           "Users"
         ],
         "description": "Create a user",
+        "security": [],
         "parameters": [
           {
             "name": "user",
@@ -63,6 +69,7 @@
           "Users"
         ],
         "description": "Get a user by id",
+        "security": [],
         "parameters": [
           {
             "name": "id",
@@ -131,6 +138,7 @@
           "Products"
         ],
         "description": "Get all products",
+        "security": [],
         "responses": {
           "200": {
             "description": "Products",
@@ -175,6 +183,7 @@
           "Products"
         ],
         "description": "Get a product by id",
+        "security": [],
         "parameters": [
           {
             "name": "id",
@@ -366,6 +375,11 @@
   "parameters": {
   },
   "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "name": "api_key",
+      "in": "header"
+    }
   },
   "tags": [
   ]

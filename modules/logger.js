@@ -25,9 +25,11 @@ logger.filters.push((level, msg, meta) => {
 	return process.worker ? `(${process.worker.id}) ${msg}` : msg;
 });
 
-module.exports = logger;
-module.exports.stream = {
+// Add general stream support
+logger.stream = {
 	write: (message, encoding) => {
 		logger.info(message.trim());
 	}
 };
+
+module.exports = logger;

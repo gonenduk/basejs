@@ -14,9 +14,10 @@
   ],
   "security": [
     {
-      "api_key": []
+      "JWT": []
     }
   ],
+  "x-security-role": "user",
   "paths": {
     "/users": {
       "get": {
@@ -375,9 +376,9 @@
   "parameters": {
   },
   "securityDefinitions": {
-    "api_key": {
+    "JWT": {
       "type": "apiKey",
-      "name": "api_key",
+      "name": "authorization",
       "in": "header"
     }
   },

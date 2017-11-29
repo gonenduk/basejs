@@ -2,6 +2,7 @@ const express = require('express');
 const swagger = require('swagger-express-middleware');
 const sui = require('swagger-ui-dist').getAbsoluteFSPath();
 const handlers = require('../handlers');
+const roles = require('../modules/roles');
 const Boom = require('boom');
 const router = express.Router();
 
@@ -36,6 +37,34 @@ swagger('routes/api.json', router, (err, middleware) => {
         middleware.parseRequest(),
         middleware.validateRequest()
     );
+
+    // Authorization
+    router.use('/api', (req, res, next) => {
+        const swagger = req.swagger;
+
+        // Extract JWT and overwrite default guest user
+        req.user.role = req.header('authorization'); // mock
+        if (!roles.exists(req.user.role)) {
+            return next(Boom.forbidden(`Unrecognized user role: '${req.user.role}'`));
+        }
+
+        // Check required role if security is defined
+        if (swagger.security.length) {
+            // Get required role and verify it is recognized
+            const role = swagger.operation['x-security-role'] || swagger.path['x-security-role'] ||
+                swagger.api['x-security-role'] || roles.default;
+            if (!roles.exists(role)) {
+                return next(Boom.forbidden(`${req.method} /api${req.path} unrecognized required user role: '${role}'`));
+            }
+
+            // Validate user role with required role
+            if (!roles.validate(req.user.role, role)) {
+                return next(Boom.forbidden('Access denied'));
+            }
+        }
+
+        next();
+    });
 
     // Handlers
     router.use('/api', (req, res, next) => {

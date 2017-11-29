@@ -15,14 +15,14 @@
     "cookie-parser": "~1.4.3",
     "express": "^4.16.2",
     "express-cluster": "^0.0.5",
-    "mongoose": "^4.13.4",
+    "mongoose": "^4.13.5",
     "morgan": "^1.9.0",
     "nodemailer": "^4.2.0",
     "pug": "^2.0.0-rc.4",
     "require-directory": "^2.1.1",
     "serve-favicon": "^2.4.5",
     "swagger-express-middleware": "^1.0.0-alpha.12",
-    "swagger-ui-dist": "^3.4.5",
+    "swagger-ui-dist": "^3.5.0",
     "winston": "^2.4.0"
   },
   "devDependencies": {

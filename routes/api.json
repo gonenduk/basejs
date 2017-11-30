@@ -40,6 +40,7 @@
         ],
         "description": "Create a user",
         "security": [],
+        "x-security-role": "",
         "parameters": [
           {
             "name": "user",
@@ -70,7 +71,8 @@
           "Users"
         ],
         "description": "Get a user by id",
-        "security": [],
+        "security": [{}, { "JWT": [] }],
+        "x-security-role": "",
         "parameters": [
           {
             "name": "id",
@@ -140,6 +142,7 @@
         ],
         "description": "Get all products",
         "security": [],
+        "x-security-role": "",
         "responses": {
           "200": {
             "description": "Products",
@@ -185,6 +188,7 @@
         ],
         "description": "Get a product by id",
         "security": [],
+        "x-security-role": "",
         "parameters": [
           {
             "name": "id",

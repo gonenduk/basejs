@@ -43,25 +43,43 @@ swagger('routes/api.json', router, (err, middleware) => {
         const swagger = req.swagger;
 
         // Extract JWT and overwrite default guest user
-        req.user.role = req.header('authorization'); // mock
-        if (!roles.exists(req.user.role)) {
-            return next(Boom.forbidden(`Unrecognized user role: '${req.user.role}'`));
+        const jwt = req.header('authorization');
+        if (jwt) {
+            const mockJWT = jwt.split(' ');
+	        req.user.role = mockJWT[0] || 'guest';
+	        req.user.id = mockJWT[1];
+	        if (!roles.exists(req.user.role)) {
+		        return next(Boom.forbidden(`Unrecognized user role: '${req.user.role}'`));
+	        }
         }
 
-        // Check required role if security is defined
-        if (swagger.security.length) {
-            // Get required role and verify it is recognized
-            const role = swagger.operation['x-security-role'] || swagger.path['x-security-role'] ||
-                swagger.api['x-security-role'] || roles.default;
-            if (!roles.exists(role)) {
-                return next(Boom.forbidden(`${req.method} /api${req.path} unrecognized required user role: '${role}'`));
-            }
+        // Roles
+        let role = swagger.operation['x-security-role'];
+        if (role === undefined) role = swagger.path['x-security-role'];
+        if (role === undefined) role = swagger.api['x-security-role'];
+        if (role === '') role = undefined;
+        if (role) {
+            // Verify required role is recognized
+	        if (!roles.exists(role)) {
+		        return next(Boom.forbidden(`${req.method} /api${req.path} unrecognized required user role: '${role}'`));
+	        }
 
-            // Validate user role with required role
-            if (!roles.validate(req.user.role, role)) {
-                return next(Boom.forbidden('Access denied'));
-            }
+	        // Validate user role with required role
+	        if (!roles.validate(req.user.role, role)) {
+		        return next(Boom.forbidden('Access denied'));
+	        }
         }
+
+        // Ownership
+        // const ownerIdParam = swagger.operation['x-security-owner-id-param'];
+        // const allowNonOwner = swagger.operation['x-security-allow-non-owner'] || false;
+        //
+        // if (ownerIdParam && req.user.id) {
+        //     req.user.isOwner = req.pathParams[ownerIdParam] == req.user.id;
+        //     if (!req.user.isOwner && !allowNonOwner) {
+        //         return next(Boom.forbidden('Not resource owner'));
+        //     }
+        // }
 
         next();
     });

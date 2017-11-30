@@ -25,6 +25,7 @@
           "Users"
         ],
         "description": "Get all users",
+        "x-security-role": "admin",
         "responses": {
           "200": {
             "description": "Users",
@@ -73,6 +74,7 @@
         "description": "Get a user by id",
         "security": [{}, { "JWT": [] }],
         "x-security-role": "",
+        "x-owner-id-param": "id",
         "parameters": [
           {
             "name": "id",
@@ -103,6 +105,8 @@
           "Users"
         ],
         "description": "Update a user by id",
+        "x-owner-id-param": "id",
+        "x-block-non-owner": true,
         "parameters": [
           {
             "name": "id",
@@ -141,8 +145,7 @@
           "Products"
         ],
         "description": "Get all products",
-        "security": [],
-        "x-security-role": "",
+        "x-security-role": "admin",
         "responses": {
           "200": {
             "description": "Products",
@@ -187,7 +190,7 @@
           "Products"
         ],
         "description": "Get a product by id",
-        "security": [],
+        "security": [{}, { "JWT": [] }],
         "x-security-role": "",
         "parameters": [
           {

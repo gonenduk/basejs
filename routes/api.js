@@ -47,7 +47,7 @@ swagger('routes/api.json', router, (err, middleware) => {
         if (jwt) {
             const mockJWT = jwt.split(' ');
 	        req.user.role = mockJWT[0] || 'guest';
-	        req.user.id = mockJWT[1];
+	        req.user.id = parseInt(mockJWT[1]);
 	        if (!roles.exists(req.user.role)) {
 		        return next(Boom.forbidden(`Unrecognized user role: '${req.user.role}'`));
 	        }
@@ -71,15 +71,16 @@ swagger('routes/api.json', router, (err, middleware) => {
         }
 
         // Ownership
-        // const ownerIdParam = swagger.operation['x-security-owner-id-param'];
-        // const allowNonOwner = swagger.operation['x-security-allow-non-owner'] || false;
-        //
-        // if (ownerIdParam && req.user.id) {
-        //     req.user.isOwner = req.pathParams[ownerIdParam] == req.user.id;
-        //     if (!req.user.isOwner && !allowNonOwner) {
-        //         return next(Boom.forbidden('Not resource owner'));
-        //     }
-        // }
+        const ownerIdParam = swagger.operation['x-owner-id-param'];
+        const blockNonOwner = swagger.operation['x-block-non-owner'];
+        // Get ownership status
+        if (ownerIdParam && req.user.id) {
+            req.user.isOwner = req.pathParams[ownerIdParam] === req.user.id;
+        }
+        // Block non owners unless admins
+        if (blockNonOwner && !req.user.isOwner && !roles.isAdmin(req.user.role)) {
+            return next(Boom.forbidden('Not resource owner'));
+        }
 
         next();
     });

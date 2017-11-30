@@ -9,6 +9,9 @@ module.exports = {
 	exists(role) {
 		return this[role] >= 0;
 	},
+	isAdmin(role) {
+		return this[role] <= this.admin;
+	},
 	validate(userRole, requiredRole) {
 		return this[userRole] <= this[requiredRole];
 	}

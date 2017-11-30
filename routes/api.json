@@ -312,7 +312,7 @@
     "Product": {
       "type": "object",
       "required": [
-        "name"
+        "name", "owner"
       ],
       "properties": {
         "id": {
@@ -321,6 +321,9 @@
         },
         "name": {
           "type": "string"
+        },
+        "owner": {
+          "type": "integer"
         }
       }
     },

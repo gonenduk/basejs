@@ -74,7 +74,6 @@
         "description": "Get a user by id",
         "security": [{}, { "JWT": [] }],
         "x-security-role": "",
-        "x-owner-id-param": "id",
         "parameters": [
           {
             "name": "id",
@@ -105,8 +104,6 @@
           "Users"
         ],
         "description": "Update a user by id",
-        "x-owner-id-param": "id",
-        "x-block-non-owner": true,
         "parameters": [
           {
             "name": "id",

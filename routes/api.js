@@ -70,18 +70,6 @@ swagger('routes/api.json', router, (err, middleware) => {
 	        }
         }
 
-        // Ownership
-        const ownerIdParam = swagger.operation['x-owner-id-param'];
-        const blockNonOwner = swagger.operation['x-block-non-owner'];
-        // Get ownership status
-        if (ownerIdParam && req.user.id) {
-            req.user.isOwner = req.pathParams[ownerIdParam] === req.user.id;
-        }
-        // Block non owners unless admins
-        if (blockNonOwner && !req.user.isOwner && !roles.isAdmin(req.user.role)) {
-            return next(Boom.forbidden('Not resource owner'));
-        }
-
         next();
     });
 

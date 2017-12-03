@@ -1,5 +1,7 @@
 module.exports = {
-	admin: 0,
+	god: 0,
+	admin: 1,
+	moderator: 2,
 	user: 5,
 	guest: 10,
 

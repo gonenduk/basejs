@@ -43,7 +43,7 @@ swagger('routes/api.json', router, (err, middleware) => {
         const swagger = req.swagger;
 
         // Extract JWT and overwrite default guest user
-        const jwt = req.header('authorization');
+        const jwt = req.header('Authorization');
         if (jwt) {
             const mockJWT = jwt.split(' ');
 	        req.user.role = mockJWT[0] || 'guest';

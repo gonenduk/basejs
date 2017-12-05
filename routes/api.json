@@ -385,7 +385,7 @@
   "securityDefinitions": {
     "JWT": {
       "type": "apiKey",
-      "name": "authorization",
+      "name": "Authorization",
       "in": "header"
     }
   },

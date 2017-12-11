@@ -61,8 +61,8 @@
               }
             }
           },
-          "400": {
-            "$ref": "#/responses/Error400Response"
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
           }
         }
       }
@@ -108,8 +108,8 @@
               "$ref": "#/definitions/User"
             }
           },
-          "400": {
-            "$ref": "#/responses/Error400Response"
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
           }
         }
       }
@@ -139,11 +139,8 @@
               "$ref": "#/definitions/User"
             }
           },
-          "400": {
-            "$ref": "#/responses/Error400Response"
-          },
-          "404": {
-            "$ref": "#/responses/Error404Response"
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
           }
         }
       },
@@ -173,13 +170,10 @@
         ],
         "responses": {
           "204": {
-            "description": "Updated"
+            "$ref": "#/responses/NoContentResponse"
           },
-          "401": {
-            "$ref": "#/responses/Error401Response"
-          },
-          "404": {
-            "$ref": "#/responses/Error404Response"
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
           }
         }
       }
@@ -223,8 +217,8 @@
               "$ref": "#/definitions/Product"
             }
           },
-          "400": {
-            "$ref": "#/responses/Error400Response"
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
           }
         }
       }
@@ -254,11 +248,8 @@
               "$ref": "#/definitions/Product"
             }
           },
-          "400": {
-            "$ref": "#/responses/Error400Response"
-          },
-          "404": {
-            "$ref": "#/responses/Error404Response"
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
           }
         }
       },
@@ -288,13 +279,10 @@
         ],
         "responses": {
           "204": {
-            "description": "Updated"
+            "$ref": "#/responses/NoContentResponse"
           },
-          "401": {
-            "$ref": "#/responses/Error401Response"
-          },
-          "404": {
-            "$ref": "#/responses/Error404Response"
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
           }
         }
       },
@@ -315,13 +303,10 @@
         ],
         "responses": {
           "204": {
-            "description": "Deleted"
+            "$ref": "#/responses/NoContentResponse"
           },
-          "401": {
-            "$ref": "#/responses/Error401Response"
-          },
-          "404": {
-            "$ref": "#/responses/Error404Response"
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
           }
         }
       }
@@ -397,32 +382,11 @@
     }
   },
   "responses": {
-    "Error400Response": {
-      "description": "Bad Request",
-      "schema": {
-        "$ref": "#/definitions/Error"
-      }
+    "NoContentResponse": {
+      "description": "OK"
     },
-    "Error401Response": {
-      "description": "Unauthorized",
-      "schema": {
-        "$ref": "#/definitions/Error"
-      }
-    },
-    "Error403Response": {
-      "description": "Forbidden",
-      "schema": {
-        "$ref": "#/definitions/Error"
-      }
-    },
-    "Error404Response": {
-      "description": "Not Found",
-      "schema": {
-        "$ref": "#/definitions/Error"
-      }
-    },
-    "Error500Response": {
-      "description": "Server Error",
+    "ErrorResponse": {
+      "description": "Error",
       "schema": {
         "$ref": "#/definitions/Error"
       }

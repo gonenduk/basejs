@@ -19,6 +19,54 @@
   ],
   "x-security-role": "user",
   "paths": {
+    "/auth/tokens": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "description": "Create a JWT token based on user credentials or a refresh token",
+        "security": [],
+        "x-security-role": "",
+        "parameters": [
+          {
+            "name": "credentials",
+            "in": "body",
+            "description": "User credentials or refresh token",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string",
+                  "format": "password"
+                },
+                "refresh": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "New generated JWT token",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "jwt": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Error400Response"
+          }
+        }
+      }
+    },
     "/users": {
       "get": {
         "tags": [

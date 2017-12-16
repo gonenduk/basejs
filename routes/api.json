@@ -80,6 +80,9 @@
             "schema": {
               "$ref": "#/definitions/UserList"
             }
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
           }
         }
       },

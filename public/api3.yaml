@@ -1,0 +1,294 @@
+openapi: 3.0.0
+servers:
+  - url: /api
+info:
+  title: basejs API
+  version: 0.0.1
+  description: Documentation of the RESTful API exposed by basejs
+security:
+  - JWT: []
+x-security-role: user
+paths:
+  /auth/tokens:
+    post:
+      tags:
+        - Authentication
+      description: Create a JWT token based on user credentials or a refresh token
+      security: []
+      x-security-role: ''
+      responses:
+        '200':
+          description: New generated JWT token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jwt:
+                    type: string
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                  format: password
+                refresh:
+                  type: string
+        description: User credentials or refresh token
+  /users:
+    get:
+      tags:
+        - Users
+      description: Get all users
+      x-security-role: admin
+      responses:
+        '200':
+          description: Users
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserList'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+    post:
+      tags:
+        - Users
+      description: Create a user
+      security: []
+      x-security-role: ''
+      responses:
+        '201':
+          description: New user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        description: User to create
+        required: true
+  '/users/{id}':
+    get:
+      tags:
+        - Users
+      description: Get a user by id
+      security:
+        - {}
+        - JWT: []
+      x-security-role: ''
+      parameters:
+        - name: id
+          in: path
+          description: id of user to get
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: User
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+    put:
+      tags:
+        - Users
+      description: Update a user by id
+      parameters:
+        - name: id
+          in: path
+          description: id of user to update
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContentResponse'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        description: User to update
+        required: true
+  /products:
+    get:
+      tags:
+        - Products
+      description: Get all products
+      x-security-role: admin
+      responses:
+        '200':
+          description: Products
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductList'
+    post:
+      tags:
+        - Products
+      description: Create a product
+      responses:
+        '201':
+          description: New product
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+        description: Product to create
+        required: true
+  '/products/{id}':
+    get:
+      tags:
+        - Products
+      description: Get a product by id
+      security:
+        - {}
+        - JWT: []
+      x-security-role: ''
+      parameters:
+        - name: id
+          in: path
+          description: id of product to get
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Product
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+    put:
+      tags:
+        - Products
+      description: Update a product by id
+      parameters:
+        - name: id
+          in: path
+          description: id of product to update
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContentResponse'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+        description: Product to update
+        required: true
+    delete:
+      tags:
+        - Products
+      description: Delete a product by id
+      parameters:
+        - name: id
+          in: path
+          description: id of product to delete
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContentResponse'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+tags: []
+components:
+  responses:
+    NoContentResponse:
+      description: OK
+    ErrorResponse:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+      bearerFormat: Bearer
+  schemas:
+    User:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+        password:
+          type: string
+          format: password
+    UserList:
+      type: array
+      items:
+        $ref: '#/components/schemas/User'
+    Product:
+      type: object
+      required:
+        - name
+        - owner
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        owner:
+          type: integer
+    ProductList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Product'
+    Error:
+      type: object
+      required:
+        - statusCode
+      properties:
+        statusCode:
+          type: integer
+        error:
+          type: string
+        message:
+          type: string

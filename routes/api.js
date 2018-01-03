@@ -85,7 +85,7 @@ swagger('routes/api.json', router, (err, middleware) => {
     // Handlers
     router.use('/api', (req, res, next) => {
         // Find handler according to swagger definition
-        const handlerName = req.swagger.pathName.slice(1).replace('/', '-');
+        const handlerName = req.swagger.pathName.slice(1).replace(/\//g, '-');
         const method = req.method.toLowerCase();
         const handler = handlers[handlerName];
 

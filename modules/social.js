@@ -1,4 +1,4 @@
-const request = require('request');
+const rp = require('request-promise');
 
 // Social providers definition
 const providers = {
@@ -17,16 +17,13 @@ const providers = {
 };
 
 module.exports = {
-	validateWithProvider(network, socialToken) {
-		return new Promise((resolve, reject) => {
-			// Send a GET request to the social provider with the token as query string
-			request({ url: providers[network].url, qs: { access_token: socialToken } }, (error, response, body) => {
-				if (!error && response.statusCode === 200) {
-					resolve(JSON.parse(body));
-				} else {
-					reject(error);
-				}
-			});
-		});
+    // Check provider is on the list of providers
+	isProviderSupported(provider) {
+		return provider in providers;
+	},
+
+	// Send a GET request to the social provider with the token as query string
+	validateWithProvider(provider, token) {
+		return rp({ url: providers[provider].url, qs: { access_token: token } }).then(body => JSON.parse(body));
 	}
 };

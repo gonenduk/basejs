@@ -21,6 +21,7 @@
     "nodemailer": "^4.2.0",
     "pug": "^2.0.0-rc.4",
     "request": "^2.83.0",
+    "request-promise": "^4.2.2",
     "require-directory": "^2.1.1",
     "serve-favicon": "^2.4.5",
     "swagger-express-middleware": "^1.0.0-alpha.12",

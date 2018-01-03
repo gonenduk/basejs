@@ -73,19 +73,19 @@
         "parameters": [
           {
             "in": "body",
-            "description": "Access token provided by social provider",
+            "description": "Social provider and its access token",
             "required": true,
             "schema": {
               "type": "object",
               "required": [
                 "provider",
-                "socialToken"
+                "token"
               ],
               "properties": {
                 "provider": {
                   "type": "string"
                 },
-                "socialToken": {
+                "token": {
                   "type": "string"
                 }
               }

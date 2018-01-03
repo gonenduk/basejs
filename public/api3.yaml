@@ -63,13 +63,13 @@ paths:
               type: object
               required:
                 - provider
-                - socialToken
+                - token
               properties:
                 provider:
                   type: string
-                socialToken:
+                token:
                   type: string
-        description: Access token provided by social provider
+        description: Social provider and its access token
         required: true
   /users:
     get:

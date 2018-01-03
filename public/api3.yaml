@@ -9,23 +9,20 @@ security:
   - JWT: []
 x-security-role: user
 paths:
-  /auth/tokens:
+  /auth/token:
     post:
       tags:
         - Authentication
-      description: Create a JWT token based on user credentials or a refresh token
+      description: Create a JWT based on user credentials or a refresh token
       security: []
       x-security-role: ''
       responses:
         '200':
-          description: New generated JWT token
+          description: New generated JWT
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  jwt:
-                    type: string
+                $ref: '#/components/schemas/JWT'
         default:
           $ref: '#/components/responses/ErrorResponse'
       requestBody:
@@ -42,6 +39,38 @@ paths:
                 refresh:
                   type: string
         description: User credentials or refresh token
+        required: true
+  /auth/social/token:
+    post:
+      tags:
+        - Authentication
+      description: Create a JWT based on social provider token
+      security: []
+      x-security-role: ''
+      responses:
+        '200':
+          description: New generated JWT
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JWT'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - provider
+                - socialToken
+              properties:
+                provider:
+                  type: string
+                socialToken:
+                  type: string
+        description: User credentials or refresh token
+        required: true
   /users:
     get:
       tags:
@@ -291,4 +320,11 @@ components:
         error:
           type: string
         message:
+          type: string
+    JWT:
+      type: object
+      required:
+        - jwt
+      properties:
+        token:
           type: string

@@ -75,7 +75,7 @@
           {
             "name": "credentials",
             "in": "body",
-            "description": "User credentials or refresh token",
+            "description": "Access token provided by social provider",
             "required": true,
             "schema": {
               "type": "object",

@@ -3,8 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node server",
-    "test": "jest"
+    "start": "node server"
   },
   "dependencies": {
     "auto-strict": "0.0.4",
@@ -15,6 +14,8 @@
     "cookie-parser": "~1.4.3",
     "express": "^4.16.2",
     "express-cluster": "^0.0.5",
+    "express-jwt": "^5.3.0",
+    "jsonwebtoken": "^8.1.0",
     "mongoose": "^4.13.7",
     "morgan": "^1.9.0",
     "nodemailer": "^4.2.0",
@@ -25,10 +26,5 @@
     "swagger-ui-dist": "^3.7.0",
     "winston": "^2.4.0"
   },
-  "devDependencies": {
-    "jest": "^22.0.3"
-  },
-  "jest": {
-    "testEnvironment": "node"
-  }
+  "devDependencies": {}
 }

@@ -1,13 +1,29 @@
 const express = require('express');
 const swagger = require('swagger-express-middleware');
+const jwt = require('express-jwt');
 const sui = require('swagger-ui-dist').getAbsoluteFSPath();
 const handlers = require('../handlers');
 const roles = require('../modules/roles');
 const Boom = require('boom');
 const router = express.Router();
 
-// Default api options if not configured
+// Default API and JWT options
 config.api = config.api || {};
+config.server.JWT = config.server.JWT || {};
+const jwtOptions = { secret: config.server.JWT.secret || 'secret', credentialsRequired: false };
+
+// Mark request as an API request
+router.use('/api', (req, res, next) => {
+    req.isApi = true;
+    next();
+});
+
+// JWT extraction
+router.use('/api', jwt(jwtOptions), (req, res, next) => {
+    // Create a default guest user if token not given
+    if (!req.user) req.user = { role: roles.default };
+    next();
+});
 
 // Swagger UI
 if (config.api.ui) {
@@ -40,28 +56,21 @@ swagger('routes/api.json', router, (err, middleware) => {
 
     // Authorization
     router.use('/api', (req, res, next) => {
-        const swagger = req.swagger;
-
-        // Extract JWT and overwrite default guest user
-        const jwt = req.header('Authorization');
-        if (jwt) {
-            const mockJWT = jwt.split(' ');
-	        req.user.role = mockJWT[0] || 'guest';
-	        req.user.id = parseInt(mockJWT[1]);
-	        if (!roles.exists(req.user.role)) {
-		        return next(Boom.forbidden(`Unrecognized user role: '${req.user.role}'`));
-	        }
+        // Verify user role is valid
+        if (!roles.exists(req.user.role)) {
+            return next(Boom.unauthorized(`Invalid user role: '${req.user.role}'`));
         }
 
         // Roles
+        const swagger = req.swagger;
         let role = swagger.operation['x-security-role'];
         if (role === undefined) role = swagger.path['x-security-role'];
         if (role === undefined) role = swagger.api['x-security-role'];
         if (role === '') role = undefined;
         if (role) {
-            // Verify required role is recognized
+            // Verify required role is valid
 	        if (!roles.exists(role)) {
-		        return next(Boom.forbidden(`${req.method} /api${req.path} unrecognized required user role: '${role}'`));
+		        return next(Boom.unauthorized(`${req.method} /api${req.path} invalid required user role: '${role}'`));
 	        }
 
 	        // Validate user role with required role
@@ -95,13 +104,6 @@ swagger('routes/api.json', router, (err, middleware) => {
     // Default handler (not implemented error)
     router.use('/api', (req, res, next) => {
         next(Boom.notImplemented(`${req.method} /api${req.path} is not implemented`));
-    });
-
-    // Error handler
-    router.use('/api', (err, req, res, next) => {
-        const errPayload = Boom.boomify(err, {statusCode: err.status || 500, override: false}).output.payload;
-        if (errPayload.statusCode === 500) logger.error(err.stack);
-        res.status(errPayload.statusCode).json(errPayload);
     });
 
     // API is ready

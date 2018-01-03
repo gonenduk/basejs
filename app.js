@@ -4,10 +4,10 @@ const favicon = require('serve-favicon');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const Boom = require('boom');
 
 const app = module.exports = express();
 
-const common = require('./routes/common');
 const web = require('./routes/web');
 const api = require('./routes/api');
 
@@ -25,6 +25,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.locals.config = config;
 
 // Routes setup
-app.use(common);
 app.use(api);
 app.use(web);
+
+// Error handler
+app.use((err, req, res, next) => {
+    const errPayload = Boom.boomify(err, {statusCode: err.status || 500, override: false}).output.payload;
+    if (errPayload.statusCode === 500) logger.error(err.stack);
+    res.status(errPayload.statusCode);
+    req.isApi ? res.json(errPayload) : res.render('error', { error: errPayload });
+});

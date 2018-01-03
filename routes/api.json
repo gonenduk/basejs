@@ -29,7 +29,6 @@
         "x-security-role": "",
         "parameters": [
           {
-            "name": "credentials",
             "in": "body",
             "description": "User credentials or refresh token",
             "required": true,
@@ -73,7 +72,6 @@
         "x-security-role": "",
         "parameters": [
           {
-            "name": "credentials",
             "in": "body",
             "description": "Access token provided by social provider",
             "required": true,
@@ -135,7 +133,6 @@
         "x-security-role": "",
         "parameters": [
           {
-            "name": "user",
             "in": "body",
             "description": "User to create",
             "required": true,
@@ -202,7 +199,6 @@
             "minimum": 1
           },
           {
-            "name": "user",
             "in": "body",
             "description": "User to update",
             "required": true,
@@ -244,7 +240,6 @@
         "description": "Create a product",
         "parameters": [
           {
-            "name": "product",
             "in": "body",
             "description": "Product to create",
             "required": true,
@@ -311,7 +306,6 @@
             "minimum": 1
           },
           {
-            "name": "product",
             "in": "body",
             "description": "Product to update",
             "required": true,

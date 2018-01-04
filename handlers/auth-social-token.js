@@ -15,6 +15,8 @@ module.exports = {
 		social.validateWithProvider(provider, token).then((profile) => {
 			// Create JWT
 			res.json({ token: 'to-do' });
-		}).catch(next);
+		}).catch((error) => {
+			next(Boom.unauthorized(error.error));
+		});
 	}
 };

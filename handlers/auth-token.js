@@ -21,7 +21,7 @@ module.exports = {
 			if (!err) {
                 res.json({ access_token: token });
             } else {
-				next(Boom.unauthorized('Failed to create user token'));
+				next(Boom.unauthorized('Failed to sign user token'));
 			}
 		});
 	}

@@ -419,11 +419,11 @@
     },
     "JWT": {
       "type": "object",
-      "required": [
-        "jwt"
-      ],
       "properties": {
-        "token": {
+        "access_token": {
+          "type": "string"
+        },
+        "refresh_token": {
           "type": "string"
         }
       }

@@ -19,7 +19,7 @@ module.exports = {
 		// Create JWT for dummy user
 		jwt.sign(user, config.server.JWT.secret || 'secret', (err, token) => {
 			if (!err) {
-                res.json({token});
+                res.json({ access_token: token });
             } else {
 				next(Boom.unauthorized('Failed to create user token'));
 			}

@@ -13,8 +13,8 @@ module.exports = {
 
 		// Verify token with provider and get user profile data
 		social.validateWithProvider(provider, token).then((profile) => {
-			// Create JWT
-			res.json({ token: 'to-do' });
+			// Create dummy JWT
+			res.json({ access_token: 'to-do' });
 		}).catch((error) => {
 			next(Boom.unauthorized(error.error));
 		});

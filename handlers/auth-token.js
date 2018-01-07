@@ -1,5 +1,5 @@
 const Boom = require('boom');
-const jwt = require('jsonwebtoken');
+const jwt = require('../modules/jwt');
 
 module.exports = {
 	post: (req, res, next) => {
@@ -17,12 +17,10 @@ module.exports = {
 		}
 
 		// Create JWT for dummy user
-		jwt.sign(user, config.server.JWT.secret || 'secret', (err, token) => {
-			if (!err) {
-                res.json({ access_token: token });
-            } else {
-				next(Boom.unauthorized('Failed to sign user token'));
-			}
+		jwt.signAccessToken(user).then((token) => {
+	        res.json({ access_token: token });
+        }).catch(() => {
+        	next(Boom.unauthorized('Failed to sign user token'));
 		});
 	}
 };

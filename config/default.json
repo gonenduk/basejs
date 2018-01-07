@@ -3,9 +3,6 @@
 		"ports": {
 			"http": 3000,
 			"https": false
-		},
-		"JWT": {
-			"secret": "secret"
 		}
 	},
 

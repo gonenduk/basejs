@@ -7,20 +7,25 @@ module.exports = {
 		const password = req.body.password;
 
 		// Create dummy user according to username
-		let user;
+		let access, refresh;
 		if (username === 'admin') {
-			user = { id: 1, role: 'admin' };
+			access = { id: 1, role: 'admin' };
+			refresh = { id: 1 };
 		} else if (username === 'user') {
-            user = { id: 2, role: 'user' };
+            access = { id: 2, role: 'user' };
+            refresh = { id: 2 };
 		} else {
             return next(Boom.unauthorized(`Invalid dummy user type '${username}'`));
 		}
 
 		// Create JWT for dummy user
-		jwt.signAccessToken(user).then((token) => {
-	        res.json({ access_token: token });
-        }).catch(() => {
-        	next(Boom.unauthorized('Failed to sign user token'));
+		Promise.all([
+			jwt.signAccessToken(access),
+			jwt.signRefreshToken(refresh)
+		]).then((tokens) => {
+			res.json({ access_token: tokens[0], refresh_token: tokens[1] });
+		}).catch(() => {
+			next(Boom.unauthorized('Failed to sign user tokens'));
 		});
 	}
 };

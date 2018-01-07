@@ -15,10 +15,13 @@ module.exports = {
 		// Verify token with provider and get user profile data
 		social.validateWithProvider(provider, token).then((profile) => {
             // Create JWT for dummy user
-			jwt.signAccessToken({ id: profile.id, role: 'user' }).then((token) => {
-				res.json({ access_token: token });
+			Promise.all([
+				jwt.signAccessToken({ id: profile.id, role: 'user' }),
+				jwt.signRefreshToken({ id: profile.id })
+			]).then((tokens) => {
+				res.json({ access_token: tokens[0], refresh_token: tokens[1] });
 			}).catch(() => {
-				next(Boom.unauthorized('Failed to sign user token'));
+				next(Boom.unauthorized('Failed to sign user tokens'));
 			});
 		}).catch((error) => {
 			next(Boom.unauthorized(error.error));

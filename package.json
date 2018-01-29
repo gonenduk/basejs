@@ -8,7 +8,6 @@
   "dependencies": {
     "auto-strict": "0.0.4",
     "bluebird": "^3.5.1",
-    "body-parser": "^1.18.2",
     "boom": "^7.1.0",
     "config": "^1.29.2",
     "cookie-parser": "~1.4.3",

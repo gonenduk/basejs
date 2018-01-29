@@ -3,7 +3,6 @@ const path = require('path');
 const favicon = require('serve-favicon');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
 const Boom = require('boom');
 
 const app = module.exports = express();
@@ -18,8 +17,8 @@ app.set('view engine', 'pug');
 // General app setup
 app.use(favicon(path.join(__dirname, 'public', 'favicon.png')));
 app.use(morgan(config.morgan.format, { stream: logger.stream }));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.locals.config = config;

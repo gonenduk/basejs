@@ -15,7 +15,7 @@
     "express-cluster": "^0.0.5",
     "express-jwt": "^5.3.0",
     "jsonwebtoken": "^8.1.1",
-    "mongoose": "^5.0.1",
+    "mongoose": "^5.0.4",
     "morgan": "^1.9.0",
     "nodemailer": "^4.4.2",
     "pug": "^2.0.0-rc.4",

@@ -1,6 +1,6 @@
 const Boom = require('boom');
-const social = require('../modules/social');
-const jwt = require('../modules/jwt');
+const social = require('../lib/social');
+const jwt = require('../lib/jwt');
 
 module.exports = {
 	post: (req, res, next) => {

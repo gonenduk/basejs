@@ -1,5 +1,5 @@
 const Boom = require('boom');
-const jwt = require('../modules/jwt');
+const jwt = require('../lib/jwt');
 
 module.exports = {
 	post: (req, res, next) => {

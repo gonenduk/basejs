@@ -3,7 +3,7 @@ const swagger = require('swagger-express-middleware');
 const jwt = require('express-jwt');
 const sui = require('swagger-ui-dist').getAbsoluteFSPath();
 const handlers = require('../handlers');
-const roles = require('../modules/roles');
+const roles = require('../lib/roles');
 const Boom = require('boom');
 const router = express.Router();
 

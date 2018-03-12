@@ -7,12 +7,12 @@ require('auto-strict');
 // Place configuration, logger and bluebird in global object
 /* global config, logger */
 global.config = require('config');
-global.logger = require('./modules/logger');
+global.logger = require('./lib/logger');
 global.Promise = require('bluebird');
 
 // Cluster support
 config.server = config.server || {};
-const cluster = require('./modules/cluster');
+const cluster = require('./lib/cluster');
 
 // Use cluster - Initialize worker instances
 if (cluster.workers) {

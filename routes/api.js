@@ -12,12 +12,6 @@ config.api = config.api || {};
 config.server.JWT = config.server.JWT || {};
 const jwtOptions = { secret: config.server.JWT.secret || 'secret', credentialsRequired: false };
 
-// Mark request as an API request
-router.use('/api', (req, res, next) => {
-    req.isApi = true;
-    next();
-});
-
 // JWT extraction
 router.use('/api', jwt(jwtOptions), (req, res, next) => {
     // Create a default guest user if token not given
@@ -104,6 +98,12 @@ swagger('routes/api.json', router, (err, middleware) => {
     // Default handler (not implemented error)
     router.use('/api', (req, res, next) => {
         next(Boom.notImplemented(`${req.method} /api${req.path} is not implemented`));
+    });
+
+    // Error handler for API
+    router.use((err, req, res, next) => {
+        const errPayload = handlers.error.payload(err);
+        res.status(errPayload.statusCode).json(errPayload);
     });
 
     // API is ready

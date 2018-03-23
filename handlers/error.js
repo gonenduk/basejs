@@ -6,7 +6,7 @@ module.exports = {
     const errPayload = Boom.boomify(err, {statusCode: err.status || 500, override: false}).output.payload;
 
     // Log stack on server errors
-    if (errPayload.statusCode === 500) console.error(err.stack);
+    if (errPayload.statusCode === 500) logger.error(err.stack);
 
     return errPayload;
   }

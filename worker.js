@@ -1,10 +1,14 @@
-// Load app
+const config = require('config');
+const logger = require('./lib/logger');
+
+// Load app and setup routes
 const app = require('./app');
 
-// Create network listeners
-config.server.ports = config.server.ports || {};
-listen('https', app, {});
-listen('http', app);
+// Create network listeners for each protocol
+const ports = config.server.ports || {};
+for (let protocol in ports) {
+  listen(protocol, app);
+}
 
 function listen(protocol, requestListener, options) {
     // Get port from configuration, ignore if not given

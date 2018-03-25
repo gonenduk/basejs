@@ -1,4 +1,6 @@
 const express = require('express');
+const config = require('config');
+const logger = require('../lib/logger');
 const swagger = require('swagger-express-middleware');
 const jwt = require('express-jwt');
 const sui = require('swagger-ui-dist').getAbsoluteFSPath();

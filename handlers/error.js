@@ -1,3 +1,4 @@
+const logger = require('../lib/logger');
 const Boom = require('boom');
 
 module.exports = {

@@ -1,4 +1,6 @@
 const express = require('express');
+const config = require('config');
+const logger = require('./lib/logger');
 const path = require('path');
 const favicon = require('serve-favicon');
 const morgan = require('morgan');

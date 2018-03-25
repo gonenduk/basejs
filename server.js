@@ -4,14 +4,11 @@
 'use strict';
 require('auto-strict');
 
-// Place configuration, logger and bluebird in global object
-/* global config, logger */
-global.config = require('config');
-global.logger = require('./lib/logger');
 global.Promise = require('bluebird');
+const config = require('config');
+config.server = config.server || {};
 
 // Cluster support
-config.server = config.server || {};
 const cluster = require('./lib/cluster');
 
 // Use cluster - Initialize worker instances

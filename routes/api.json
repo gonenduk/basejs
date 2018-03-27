@@ -157,12 +157,7 @@
     "/users/{id}": {
       "parameters": [
         {
-          "name": "id",
-          "in": "path",
-          "description": "id of user",
-          "required": true,
-          "type": "integer",
-          "minimum": 1
+          "$ref": "#/parameters/idParam"
         }
       ],
       "get": {
@@ -256,12 +251,7 @@
     "/products/{id}": {
       "parameters": [
         {
-          "name": "id",
-          "in": "path",
-          "description": "id of product",
-          "required": true,
-          "type": "integer",
-          "minimum": 1
+          "$ref": "#/parameters/idParam"
         }
       ],
       "get": {
@@ -416,6 +406,14 @@
     }
   },
   "parameters": {
+    "idParam": {
+      "name": "id",
+      "in": "path",
+      "description": "id of item",
+      "required": true,
+      "type": "integer",
+      "minimum": 1
+    }
   },
   "securityDefinitions": {
     "JWT": {

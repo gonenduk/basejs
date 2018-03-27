@@ -110,13 +110,7 @@ paths:
         required: true
   '/users/{id}':
     parameters:
-      - name: id
-        in: path
-        description: id of user
-        required: true
-        schema:
-          type: integer
-          minimum: 1
+      - $ref: '#/components/parameters/idParam'
     get:
       tags:
         - Users
@@ -185,13 +179,7 @@ paths:
         required: true
   '/products/{id}':
     parameters:
-      - name: id
-        in: path
-        description: id of product
-        required: true
-        schema:
-          type: integer
-          minimum: 1
+      - $ref: '#/components/parameters/idParam'
     get:
       tags:
         - Products
@@ -245,6 +233,15 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+  parameters:
+    idParam:
+      name: id
+      in: path
+      description: id of item
+      required: true
+      schema:
+        type: integer
+        minimum: 1
   securitySchemes:
     JWT:
       type: http

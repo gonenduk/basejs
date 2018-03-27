@@ -1,37 +1,31 @@
 {
-	"server": {
-		"ports": {
-			"http": 3000,
-			"https": false
-		}
-	},
-
-	"api": {
-		"docs": true,
-		"ui": true,
-		"mock": true
-	},
-
-	"mongodb": {
-		"uri": "mongodb://localhost/test"
-	},
-
-	"log": {
-		"level": "debug",
-		"console": true,
-		"file": ""
-	},
-
-	"morgan": {
-		"format": "dev"
-	},
-
-	"email": {
-		"service": "Gmail",
-		"template": "general"
-	},
-
-	"analytics": {
-		"google": "UA-84705052-1"
-	}
+  "server": {
+    "ports": {
+      "http": 3000,
+      "https": false
+    }
+  },
+  "api": {
+    "docs": true,
+    "ui": true,
+    "mock": true
+  },
+  "mongodb": {
+    "uri": "mongodb://localhost/test"
+  },
+  "log": {
+    "level": "debug",
+    "console": true,
+    "file": ""
+  },
+  "morgan": {
+    "format": "dev"
+  },
+  "email": {
+    "service": "Gmail",
+    "template": "general"
+  },
+  "analytics": {
+    "google": "UA-84705052-1"
+  }
 }

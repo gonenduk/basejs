@@ -13,12 +13,12 @@ const cluster = require('./lib/cluster');
 
 // Use cluster - Initialize worker instances
 if (cluster.workers) {
-	cluster.workers(worker => {
-		process.worker = worker;
-		require('./worker');
-	});
+  cluster.workers(worker => {
+    process.worker = worker;
+    require('./worker');
+  });
 
 // Don't use cluster - Initialize single server instance in master process
 } else {
-	require('./worker');
+  require('./worker');
 }

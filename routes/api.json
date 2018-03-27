@@ -379,7 +379,8 @@
     "Product": {
       "type": "object",
       "required": [
-        "name", "owner"
+        "name",
+        "owner"
       ],
       "properties": {
         "id": {

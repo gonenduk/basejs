@@ -109,6 +109,14 @@ paths:
         description: User to create
         required: true
   '/users/{id}':
+    parameters:
+      - name: id
+        in: path
+        description: id of user
+        required: true
+        schema:
+          type: integer
+          minimum: 1
     get:
       tags:
         - Users
@@ -117,14 +125,6 @@ paths:
         - {}
         - JWT: []
       x-security-role: ''
-      parameters:
-        - name: id
-          in: path
-          description: id of user to get
-          required: true
-          schema:
-            type: integer
-            minimum: 1
       responses:
         '200':
           description: User
@@ -138,14 +138,6 @@ paths:
       tags:
         - Users
       description: Update a user by id
-      parameters:
-        - name: id
-          in: path
-          description: id of user to update
-          required: true
-          schema:
-            type: integer
-            minimum: 1
       responses:
         '204':
           $ref: '#/components/responses/NoContentResponse'
@@ -192,6 +184,14 @@ paths:
         description: Product to create
         required: true
   '/products/{id}':
+    parameters:
+      - name: id
+        in: path
+        description: id of product
+        required: true
+        schema:
+          type: integer
+          minimum: 1
     get:
       tags:
         - Products
@@ -200,14 +200,6 @@ paths:
         - {}
         - JWT: []
       x-security-role: ''
-      parameters:
-        - name: id
-          in: path
-          description: id of product to get
-          required: true
-          schema:
-            type: integer
-            minimum: 1
       responses:
         '200':
           description: Product
@@ -221,14 +213,6 @@ paths:
       tags:
         - Products
       description: Update a product by id
-      parameters:
-        - name: id
-          in: path
-          description: id of product to update
-          required: true
-          schema:
-            type: integer
-            minimum: 1
       responses:
         '204':
           $ref: '#/components/responses/NoContentResponse'
@@ -245,14 +229,6 @@ paths:
       tags:
         - Products
       description: Delete a product by id
-      parameters:
-        - name: id
-          in: path
-          description: id of product to delete
-          required: true
-          schema:
-            type: integer
-            minimum: 1
       responses:
         '204':
           $ref: '#/components/responses/NoContentResponse'

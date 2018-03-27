@@ -155,6 +155,16 @@
       }
     },
     "/users/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "id of user",
+          "required": true,
+          "type": "integer",
+          "minimum": 1
+        }
+      ],
       "get": {
         "tags": [
           "Users"
@@ -162,16 +172,6 @@
         "description": "Get a user by id",
         "security": [{}, { "JWT": [] }],
         "x-security-role": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "id of user to get",
-            "required": true,
-            "type": "integer",
-            "minimum": 1
-          }
-        ],
         "responses": {
           "200": {
             "description": "User",
@@ -190,14 +190,6 @@
         ],
         "description": "Update a user by id",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "id of user to update",
-            "required": true,
-            "type": "integer",
-            "minimum": 1
-          },
           {
             "in": "body",
             "description": "User to update",
@@ -262,6 +254,16 @@
       }
     },
     "/products/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "id of product",
+          "required": true,
+          "type": "integer",
+          "minimum": 1
+        }
+      ],
       "get": {
         "tags": [
           "Products"
@@ -269,16 +271,6 @@
         "description": "Get a product by id",
         "security": [{}, { "JWT": [] }],
         "x-security-role": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "id of product to get",
-            "required": true,
-            "type": "integer",
-            "minimum": 1
-          }
-        ],
         "responses": {
           "200": {
             "description": "Product",
@@ -297,14 +289,6 @@
         ],
         "description": "Update a product by id",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "id of product to update",
-            "required": true,
-            "type": "integer",
-            "minimum": 1
-          },
           {
             "in": "body",
             "description": "Product to update",
@@ -328,16 +312,6 @@
           "Products"
         ],
         "description": "Delete a product by id",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "id of product to delete",
-            "required": true,
-            "type": "integer",
-            "minimum": 1
-          }
-        ],
         "responses": {
           "204": {
             "$ref": "#/responses/NoContentResponse"

@@ -76,7 +76,15 @@ paths:
       tags:
         - Users
       description: Get all users
-      x-security-role: admin
+      security:
+        - {}
+        - JWT: []
+      x-security-role: ''
+      parameters:
+        - $ref: '#/components/parameters/filterParam'
+        - $ref: '#/components/parameters/sortParam'
+        - $ref: '#/components/parameters/offsetParam'
+        - $ref: '#/components/parameters/limitParam'
       responses:
         '200':
           description: Users
@@ -153,6 +161,11 @@ paths:
         - {}
         - JWT: []
       x-security-role: ''
+      parameters:
+        - $ref: '#/components/parameters/filterParam'
+        - $ref: '#/components/parameters/sortParam'
+        - $ref: '#/components/parameters/offsetParam'
+        - $ref: '#/components/parameters/limitParam'
       responses:
         '200':
           description: Products
@@ -244,6 +257,34 @@ components:
       required: true
       schema:
         type: string
+    filterParam:
+      name: filter
+      in: query
+      description: 'Filter by { "field": "value", ... }'
+      schema:
+        type: string
+    sortParam:
+      name: sort
+      in: query
+      description: 'Sort by { "field": "asc/desc", "field": 1/-1, ... }'
+      schema:
+        type: string
+    offsetParam:
+      name: offset
+      in: query
+      description: Number of items to skip
+      schema:
+        type: integer
+        minimum: 0
+    limitParam:
+      name: limit
+      in: query
+      description: Number of items to return (1 - 100, default is 20)
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
   securitySchemes:
     JWT:
       type: http

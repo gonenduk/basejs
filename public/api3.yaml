@@ -149,7 +149,10 @@ paths:
       tags:
         - Products
       description: Get all products
-      x-security-role: admin
+      security:
+        - {}
+        - JWT: []
+      x-security-role: ''
       responses:
         '200':
           description: Products
@@ -240,8 +243,7 @@ components:
       description: id of item
       required: true
       schema:
-        type: integer
-        minimum: 1
+        type: string
   securitySchemes:
     JWT:
       type: http
@@ -255,7 +257,7 @@ components:
         - password
       properties:
         id:
-          type: integer
+          type: string
           readOnly: true
         username:
           type: string
@@ -273,7 +275,7 @@ components:
         - owner
       properties:
         id:
-          type: integer
+          type: string
           readOnly: true
         name:
           type: string

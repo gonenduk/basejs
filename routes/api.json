@@ -251,6 +251,9 @@
             "schema": {
               "$ref": "#/definitions/ProductList"
             }
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
           }
         }
       },

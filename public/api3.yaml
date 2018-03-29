@@ -173,6 +173,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProductList'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
     post:
       tags:
         - Products

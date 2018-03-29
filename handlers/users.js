@@ -15,7 +15,7 @@ module.exports = {
     }
 
     // Get offset and limit
-    const offset = req.body.offset;
+    const offset = req.query.offset;
     const limit = req.query.limit;
 
     // Get list of users

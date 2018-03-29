@@ -1,4 +1,5 @@
 const db = require('../lib/mongodb');
+const crud = require('./plugins/crud');
 const Schema = db.base.Schema;
 
 const productSchema = new Schema({
@@ -6,12 +7,6 @@ const productSchema = new Schema({
   title: String
 });
 
-productSchema.statics.getById = function(id) {
-  return this.findById(id).exec().catch((err) => console.log(err.message));
-};
-
-productSchema.statics.getAll = function(filter = {}, sort = {}, offset = 0, limit = 20) {
-  return this.find(filter).sort(sort).skip(offset).limit(limit).exec();
-};
+productSchema.plugin(crud);
 
 module.exports = db.model('Product', productSchema);

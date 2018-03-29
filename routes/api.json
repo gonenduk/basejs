@@ -30,6 +30,7 @@
         "parameters": [
           {
             "in": "body",
+            "name": "credentials",
             "description": "User credentials or refresh token",
             "required": true,
             "schema": {
@@ -73,6 +74,7 @@
         "parameters": [
           {
             "in": "body",
+            "name": "social token",
             "description": "Social provider and its access token",
             "required": true,
             "schema": {
@@ -149,6 +151,7 @@
         "parameters": [
           {
             "in": "body",
+            "name": "user",
             "description": "User to create",
             "required": true,
             "schema": {
@@ -202,6 +205,7 @@
         "parameters": [
           {
             "in": "body",
+            "name": "user",
             "description": "User to update",
             "required": true,
             "schema": {
@@ -258,6 +262,7 @@
         "parameters": [
           {
             "in": "body",
+            "name": "product",
             "description": "Product to create",
             "required": true,
             "schema": {
@@ -311,6 +316,7 @@
         "parameters": [
           {
             "in": "body",
+            "name": "product",
             "description": "Product to update",
             "required": true,
             "schema": {

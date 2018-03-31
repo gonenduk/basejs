@@ -22,7 +22,7 @@ module.exports = {
     Promise.all([
       jwt.signAccessToken(access),
       jwt.signRefreshToken(refresh)
-    ]).then((tokens) => {
+    ]).then(tokens => {
       res.json({ access_token: tokens[0], refresh_token: tokens[1] });
     }).catch(() => {
       next(Boom.unauthorized('Failed to sign user tokens'));

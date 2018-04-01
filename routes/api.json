@@ -262,6 +262,8 @@
           "Products"
         ],
         "description": "Create a product",
+        "security": [{}, { "JWT": [] }],
+        "x-security-role": "",
         "parameters": [
           {
             "in": "body",
@@ -279,6 +281,27 @@
             "schema": {
               "$ref": "#/definitions/Product"
             }
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Products"
+        ],
+        "description": "Delete all products",
+        "security": [{}, { "JWT": [] }],
+        "x-security-role": "",
+        "parameters": [
+          {
+            "$ref": "#/parameters/filterParam"
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/responses/NoContentResponse"
           },
           "default": {
             "$ref": "#/responses/ErrorResponse"

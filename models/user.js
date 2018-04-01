@@ -11,4 +11,7 @@ const userSchema = new Schema({
 userSchema.plugin(crud);
 userSchema.plugin(hideVersion);
 
+// Remove deleteAll
+userSchema.statics.deleteAll = undefined;
+
 module.exports = db.model('User', userSchema);

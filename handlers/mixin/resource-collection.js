@@ -28,9 +28,27 @@ module.exports = function (model, handler = {}) {
   };
 
   mixin.post = async(req, res, next) => {
-    // Add item to collection
+    // Add one item to collection
     try {
       res.status(201).json(await model.add(req.body));
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  mixin.delete = async(req, res, next) => {
+    // Get filter object (in OpenAPI 3 won't need to verify it is an object)
+    let filter;
+    try {
+      if (req.query.filter) filter = JSON.parse(req.query.filter);
+    } catch (err) {
+      return next(Boom.badRequest(`Invalid filter: ${err.message}`));
+    }
+
+    // Delete items from collection
+    try {
+      await model.deleteAll(filter);
+      res.status(204).end();
     } catch (err) {
       next(err);
     }

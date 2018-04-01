@@ -179,6 +179,10 @@ paths:
       tags:
         - Products
       description: Create a product
+      security:
+        - {}
+        - JWT: []
+      x-security-role: ''
       responses:
         '201':
           description: New product
@@ -195,6 +199,21 @@ paths:
               $ref: '#/components/schemas/Product'
         description: Product to create
         required: true
+    delete:
+      tags:
+        - Products
+      description: Delete all products
+      security:
+        - {}
+        - JWT: []
+      x-security-role: ''
+      parameters:
+        - $ref: '#/components/parameters/filterParam'
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContentResponse'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
   '/products/{id}':
     parameters:
       - $ref: '#/components/parameters/idParam'

@@ -10,4 +10,8 @@ module.exports = (schema) => {
   schema.statics.add = function (item = {}) {
     return this.create(item);
   };
+
+  schema.statics.deleteAll = function (filter = {}) {
+    return this.deleteMany(filter).exec();
+  };
 };

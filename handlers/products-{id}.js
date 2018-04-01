@@ -1,4 +1,4 @@
 const Product = require('../models/product');
-const crudItemMixin = require('./mixin/crud-item');
+const resourceItemMixin = require('./mixin/resource-item');
 
-module.exports = crudItemMixin(Product);
+module.exports = resourceItemMixin(Product);

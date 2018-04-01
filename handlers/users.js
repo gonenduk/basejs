@@ -1,4 +1,4 @@
 const User = require('../models/user');
-const crudCollectionMixin = require('./mixin/crud-collection');
+const resourceCollectionMixin = require('./mixin/resource-collection');
 
-module.exports = crudCollectionMixin(User);
+module.exports = resourceCollectionMixin(User);

@@ -1,4 +1,4 @@
 const Product = require('../models/product');
-const crudCollectionMixin = require('./mixin/crud-collection');
+const resourceCollectionMixin = require('./mixin/resource-collection');
 
-module.exports = crudCollectionMixin(Product);
+module.exports = resourceCollectionMixin(Product);

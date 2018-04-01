@@ -22,8 +22,16 @@ module.exports = function (model, handler = {}) {
     // Get list of items
     try {
       res.json(await model.getAll(filter, sort, offset, limit));
+    } catch (err) {
+      next(err);
     }
-    catch (err) {
+  };
+
+  mixin.post = async(req, res, next) => {
+    // Add item to collection
+    try {
+      res.json(await model.add(req.body));
+    } catch (err) {
       next(err);
     }
   };

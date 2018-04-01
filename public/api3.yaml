@@ -314,16 +314,16 @@ components:
     Product:
       type: object
       required:
-        - name
-        - owner
+        - title
+        - price
       properties:
         id:
           type: string
           readOnly: true
-        name:
+        title:
           type: string
-        owner:
-          type: integer
+        price:
+          type: number
     ProductList:
       type: array
       items:

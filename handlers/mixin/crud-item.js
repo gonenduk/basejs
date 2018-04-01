@@ -5,7 +5,7 @@ module.exports = function (model, handler = {}) {
 
   mixin.get =  async (req, res, next) => {
     // Get id
-    const id = req.query.limit;
+    const id = req.pathParams.id;
 
     // Get item
     try {

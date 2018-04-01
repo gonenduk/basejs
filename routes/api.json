@@ -360,7 +360,7 @@
         "password"
       ],
       "properties": {
-        "id": {
+        "_id": {
           "type": "string",
           "readOnly": true
         },
@@ -386,7 +386,7 @@
         "price"
       ],
       "properties": {
-        "id": {
+        "_id": {
           "type": "string",
           "readOnly": true
         },

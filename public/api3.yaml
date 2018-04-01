@@ -254,6 +254,10 @@ paths:
       tags:
         - Products
       description: Delete a product by id
+      security:
+        - {}
+        - JWT: []
+      x-security-role: ''
       responses:
         '204':
           $ref: '#/components/responses/NoContentResponse'

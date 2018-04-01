@@ -1,5 +1,5 @@
 module.exports = (schema) => {
-  schema.statics.getOneById = function(id) {
+  schema.statics.getOneById = function (id) {
     return this.findById(id).exec();
   };
 
@@ -9,6 +9,10 @@ module.exports = (schema) => {
 
   schema.statics.addOne = function (item = {}) {
     return this.create(item);
+  };
+
+  schema.statics.deleteOneById = function (id) {
+    return this.findByIdAndRemove(id, { select: '' }).exec();
   };
 
   schema.statics.deleteAll = function (filter = {}) {

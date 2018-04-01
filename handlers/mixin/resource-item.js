@@ -9,7 +9,7 @@ module.exports = function (model, handler = {}) {
 
     // Get item
     try {
-      const item = await model.getById(id);
+      const item = await model.getOneById(id);
       if (!item) return next(Boom.notFound(`${req.originalUrl} not found`));
       res.json(item);
     }

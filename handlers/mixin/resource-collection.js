@@ -30,7 +30,7 @@ module.exports = function (model, handler = {}) {
   mixin.post = async(req, res, next) => {
     // Add item to collection
     try {
-      res.json(await model.add(req.body));
+      res.status(201).json(await model.add(req.body));
     } catch (err) {
       next(err);
     }

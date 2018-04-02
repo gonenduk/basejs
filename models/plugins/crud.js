@@ -18,4 +18,8 @@ module.exports = (schema) => {
   schema.statics.deleteAll = function (filter = {}) {
     return this.deleteMany(filter).exec();
   };
+
+  schema.statics.updateOneById = function (id, item = {}) {
+    return this.update({ _id: id }, item).exec();
+  };
 };

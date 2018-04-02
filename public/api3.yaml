@@ -238,6 +238,10 @@ paths:
       tags:
         - Products
       description: Update a product by id
+      security:
+        - {}
+        - JWT: []
+      x-security-role: ''
       responses:
         '204':
           $ref: '#/components/responses/NoContentResponse'

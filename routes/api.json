@@ -339,6 +339,8 @@
           "Products"
         ],
         "description": "Update a product by id",
+        "security": [{}, { "JWT": [] }],
+        "x-security-role": "",
         "parameters": [
           {
             "in": "body",

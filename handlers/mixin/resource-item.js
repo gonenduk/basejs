@@ -33,5 +33,20 @@ module.exports = function (model, handler = {}) {
     }
   };
 
+  mixin.put = async (req, res, next) => {
+    // Get id
+    const id = req.pathParams.id;
+
+    // Update item
+    try {
+      const item = await model.updateOneById(id, req.body);
+      if (!item) return next(Boom.notFound(`${req.originalUrl} not found`));
+      res.status(204).end();
+    }
+    catch (err) {
+      next(err);
+    }
+  };
+
   return mixin;
 };

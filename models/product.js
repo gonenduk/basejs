@@ -1,4 +1,4 @@
-const db = require('../lib/mongodb');
+const db = require('../lib/mongoose');
 const crud = require('./plugins/crud');
 const hideVersion = require('./plugins/hide-version');
 const Schema = db.base.Schema;

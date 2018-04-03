@@ -41,7 +41,7 @@ module.exports = function (model, handler = {}) {
     try {
       const item = await model.updateOneById(id, req.body);
       if (!item) return next(Boom.notFound(`${req.originalUrl} not found`));
-      res.status(204).end();
+      res.json(item);
     }
     catch (err) {
       next(err);

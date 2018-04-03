@@ -1,4 +1,4 @@
-const MongoModel = require('./plugins/mongo-model');
+const MongoModel = require('./mongo-model');
 
 const userSchema = {
   $jsonSchema: {

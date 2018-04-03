@@ -1,12 +1,21 @@
-const logger = require('../../lib/logger');
-const connection = require('../../lib/mongodb');
+const logger = require('../lib/logger');
+const connection = require('../lib/mongodb');
 const ObjectId = require('mongodb').ObjectId;
+
+function toObjectId(id) {
+  // Invalid id should return null
+  try {
+    return new ObjectId(id);
+  } catch (err) {
+    return null;
+  }
+}
 
 class MongoModel {
   constructor (collectionName, schema) {
     connection.then(db => {
       if (db)
-        this.init(db, collectionName, schema);
+        return this.init(db, collectionName, schema);
       else
         logger.warn(`Cannot initiate '${collectionName}' collection. DB not connected`);
     });
@@ -34,16 +43,32 @@ class MongoModel {
   }
 
   getOneById(id) {
-    // Invalid id should return not found
-    let objectId;
-    try {
-      objectId = new ObjectId(id);
-    } catch (err) {
-      return null;
-    }
-
-    return this.collection.findOne({ _id: objectId });
+    const objectId = toObjectId(id);
+    return (objectId ? this.collection.findOne({ _id: objectId }) : null);
   }
+
+  async addOne(item = {}) {
+    await this.collection.insertOne(item);
+    return item;
+  }
+
+  async deleteOneById(id) {
+    const objectId = toObjectId(id);
+    if (!objectId) return null;
+    const result = await this.collection.deleteOne({ _id: objectId });
+    return (result.deletedCount === 0 ? null : result);
+  }
+
+  deleteAll(filter = {}) {
+    return this.collection.deleteMany(filter);
+  };
+
+  async updateOneById(id, item = {}) {
+    const objectId = toObjectId(id);
+    if (!objectId) return null;
+    const result = await this.collection.findOneAndReplace({ _id: objectId }, item, { returnOriginal: false });
+    return result.value;
+  };
 }
 
 module.exports = MongoModel;

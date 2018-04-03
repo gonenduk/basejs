@@ -214,8 +214,11 @@
           }
         ],
         "responses": {
-          "204": {
-            "$ref": "#/responses/NoContentResponse"
+          "200": {
+            "description": "Updated user",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
           },
           "default": {
             "$ref": "#/responses/ErrorResponse"
@@ -353,8 +356,11 @@
           }
         ],
         "responses": {
-          "204": {
-            "$ref": "#/responses/NoContentResponse"
+          "200": {
+            "description": "Updated product",
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
           },
           "default": {
             "$ref": "#/responses/ErrorResponse"

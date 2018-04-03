@@ -1,18 +1,17 @@
-const db = require('../lib/mongoose');
-const crud = require('./plugins/crud');
-const hideVersion = require('./plugins/hide-version');
-const Schema = db.base.Schema;
+const MongoModel = require('./plugins/mongo-model');
 
-const userSchema = new Schema({
-  username: String,
-  password: String
-});
+const userSchema = {
+  $jsonSchema: {
+    bsonType: "object",
+    required: ["username", "password"],
+    properties: {
+      username: { bsonType: "string" },
+      password: { bsonType: "string" }
+    }
+  }
+};
 
-userSchema.plugin(crud);
-userSchema.plugin(hideVersion);
+class User extends MongoModel {
+}
 
-// Remove delete operations
-userSchema.statics.deleteAll = undefined;
-userSchema.statics.deleteOneById = undefined;
-
-module.exports = db.model('User', userSchema);
+module.exports = new User('users', userSchema);

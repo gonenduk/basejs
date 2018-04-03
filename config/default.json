@@ -11,7 +11,8 @@
     "mock": true
   },
   "mongodb": {
-    "uri": "mongodb://localhost/test"
+    "url": "mongodb://localhost",
+    "db": "test"
   },
   "log": {
     "level": "debug",

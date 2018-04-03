@@ -1,14 +1,17 @@
-const db = require('../lib/mongoose');
-const crud = require('./plugins/crud');
-const hideVersion = require('./plugins/hide-version');
-const Schema = db.base.Schema;
+const MongoModel = require('./plugins/mongo-model');
 
-const productSchema = new Schema({
-  title: String,
-  price: Number
-});
+const productSchema = {
+  $jsonSchema: {
+    bsonType: "object",
+    required: ["title", "price"],
+    properties: {
+      title: { bsonType: "string" },
+      price: { bsonType: "number" }
+    }
+  }
+};
 
-productSchema.plugin(crud);
-productSchema.plugin(hideVersion);
+class ProductModel extends MongoModel {
+}
 
-module.exports = db.model('Product', productSchema);
+module.exports = new ProductModel('products', productSchema);

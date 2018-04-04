@@ -15,13 +15,13 @@ module.exports = function (model, handler = {}) {
       return next(Boom.badRequest(`Invalid ${operation}: ${err.message}`));
     }
 
-    // Get offset and limit
-    const offset = req.query.offset;
+    // Get skip and limit
+    const skip = req.query.skip;
     const limit = req.query.limit;
 
     // Get list of items
     try {
-      res.json(await model.getAll(filter, sort, offset, limit));
+      res.json(await model.getAll(filter, sort, skip, limit));
     } catch (err) {
       next(err);
     }

@@ -83,7 +83,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/filterParam'
         - $ref: '#/components/parameters/sortParam'
-        - $ref: '#/components/parameters/offsetParam'
+        - $ref: '#/components/parameters/skipParam'
         - $ref: '#/components/parameters/limitParam'
       responses:
         '200':
@@ -168,7 +168,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/filterParam'
         - $ref: '#/components/parameters/sortParam'
-        - $ref: '#/components/parameters/offsetParam'
+        - $ref: '#/components/parameters/skipParam'
         - $ref: '#/components/parameters/limitParam'
       responses:
         '200':
@@ -306,8 +306,8 @@ components:
       description: 'Sort by { "field": "asc/desc", "field": 1/-1, ... }'
       schema:
         type: string
-    offsetParam:
-      name: offset
+    skipParam:
+      name: skip
       in: query
       description: Number of items to skip
       schema:

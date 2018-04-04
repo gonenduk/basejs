@@ -123,7 +123,7 @@
             "$ref": "#/parameters/sortParam"
           },
           {
-            "$ref": "#/parameters/offsetParam"
+            "$ref": "#/parameters/skipParam"
           },
           {
             "$ref": "#/parameters/limitParam"
@@ -242,7 +242,7 @@
             "$ref": "#/parameters/sortParam"
           },
           {
-            "$ref": "#/parameters/offsetParam"
+            "$ref": "#/parameters/skipParam"
           },
           {
             "$ref": "#/parameters/limitParam"
@@ -497,9 +497,9 @@
       "type": "string",
       "description": "Sort by { 'field': 'asc/desc', 'field': 1/-1, ... }"
     },
-    "offsetParam": {
+    "skipParam": {
       "in": "query",
-      "name": "offset",
+      "name": "skip",
       "type": "integer",
       "minimum": 1,
       "description": "Number of items to skip"

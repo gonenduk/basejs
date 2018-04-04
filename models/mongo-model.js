@@ -40,6 +40,11 @@ class MongoModel {
     }
   }
 
+  async addOne(item = {}) {
+    await this.collection.insertOne(item);
+    return item;
+  }
+
   getAll(filter = null, sort = null, skip = 0, limit = 20, projection = null) {
     return this.collection.find(filter, { sort, skip, limit, projection }).toArray();
   }
@@ -49,10 +54,19 @@ class MongoModel {
     return (objectId ? this.collection.findOne({ _id: objectId }, { projection }) : null);
   }
 
-  async addOne(item = {}) {
-    await this.collection.insertOne(item);
-    return item;
-  }
+  async updateOneById(id, item = {}) {
+    const objectId = toObjectId(id);
+    if (!objectId) return null;
+    const result = await this.collection.findOneAndUpdate({ _id: objectId }, item);
+    return result.value;
+  };
+
+  async replaceOneById(id, item = {}) {
+    const objectId = toObjectId(id);
+    if (!objectId) return null;
+    const result = await this.collection.findOneAndReplace({ _id: objectId }, item);
+    return result.value;
+  };
 
   async deleteOneById(id) {
     const objectId = toObjectId(id);
@@ -63,13 +77,6 @@ class MongoModel {
 
   deleteAll(filter = {}) {
     return this.collection.deleteMany(filter);
-  };
-
-  async updateOneById(id, item = {}) {
-    const objectId = toObjectId(id);
-    if (!objectId) return null;
-    const result = await this.collection.findOneAndReplace({ _id: objectId }, item);
-    return result.value;
   };
 }
 

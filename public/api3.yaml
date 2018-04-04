@@ -136,10 +136,10 @@ paths:
                 $ref: '#/components/schemas/User'
         default:
           $ref: '#/components/responses/ErrorResponse'
-    put:
+    patch:
       tags:
         - Users
-      description: Update a user by id
+      description: Update user fields by id
       responses:
         '204':
           $ref: '#/components/responses/NoContentResponse'
@@ -150,7 +150,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/User'
-        description: User to update
+        description: User fields to update
         required: true
   /products:
     get:
@@ -234,10 +234,10 @@ paths:
                 $ref: '#/components/schemas/Product'
         default:
           $ref: '#/components/responses/ErrorResponse'
-    put:
+    patch:
       tags:
         - Products
-      description: Update a product by id
+      description: Update product fields by id
       security:
         - {}
         - JWT: []
@@ -252,7 +252,27 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Product'
-        description: Product to update
+        description: Product fields to update
+        required: true
+    put:
+      tags:
+        - Products
+      description: Replace a product by id
+      security:
+        - {}
+        - JWT: []
+      x-security-role: ''
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContentResponse'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+        description: Product to replace with
         required: true
     delete:
       tags:

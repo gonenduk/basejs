@@ -36,13 +36,28 @@ class ResourceItem {
     }
   }
 
+  async patch(req, res, next) {
+    // Get id
+    const id = req.pathParams.id;
+
+    // Update item fields
+    try {
+      const item = await this.model.updateOneById(id, req.body);
+      if (!item) return next(Boom.notFound(`${req.originalUrl} not found`));
+      res.status(204).end();
+    }
+    catch (err) {
+      next(err);
+    }
+  }
+
   async put(req, res, next) {
     // Get id
     const id = req.pathParams.id;
 
-    // Update item
+    // Replace item
     try {
-      const item = await this.model.updateOneById(id, req.body);
+      const item = await this.model.replaceOneById(id, req.body);
       if (!item) return next(Boom.notFound(`${req.originalUrl} not found`));
       res.status(204).end();
     }

@@ -46,11 +46,11 @@ class MongoModel {
     return item;
   }
 
-  getAll(filter = null, sort = null, skip = 0, limit = 20, projection = null) {
+  getMany(filter = null, sort = null, skip = 0, limit = 20, projection = null) {
     return this.collection.find(filter, { sort, skip, limit, projection }).toArray();
   }
 
-  deleteAll(filter = {}) {
+  deleteMany(filter = {}) {
     return this.collection.deleteMany(filter);
   };
 

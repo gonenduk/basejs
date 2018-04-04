@@ -24,7 +24,7 @@ class ResourceCollection {
 
     // Get list of items
     try {
-      res.json(await this.model.getAll(filter, sort, skip, limit, projection));
+      res.json(await this.model.getMany(filter, sort, skip, limit, projection));
     } catch (err) {
       next(err);
     }
@@ -50,7 +50,7 @@ class ResourceCollection {
 
     // Delete items from collection
     try {
-      await this.model.deleteAll(filter);
+      await this.model.deleteMany(filter);
       res.status(204).end();
     } catch (err) {
       next(err);

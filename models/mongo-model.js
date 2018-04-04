@@ -64,7 +64,7 @@ class MongoModel {
   async updateOneById(id, item = {}) {
     const objectId = toObjectId(id);
     if (!objectId) return null;
-    const result = await this.collection.updateOne({ _id: objectId }, item);
+    const result = await this.collection.updateOne({ _id: objectId }, { $set: item });
     return result.modifiedCount === 1;
   };
 

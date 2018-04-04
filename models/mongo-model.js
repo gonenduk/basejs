@@ -40,6 +40,7 @@ class MongoModel {
     }
   }
 
+  // ***** Collections
   async addOne(item = {}) {
     await this.collection.insertOne(item);
     return item;
@@ -49,35 +50,37 @@ class MongoModel {
     return this.collection.find(filter, { sort, skip, limit, projection }).toArray();
   }
 
+  deleteAll(filter = {}) {
+    return this.collection.deleteMany(filter);
+  };
+
+  // ***** Documents
   getOneById(id, projection = null) {
     const objectId = toObjectId(id);
-    return (objectId ? this.collection.findOne({ _id: objectId }, { projection }) : null);
+    if (!objectId) return null;
+    return this.collection.findOne({ _id: objectId }, { projection });
   }
 
   async updateOneById(id, item = {}) {
     const objectId = toObjectId(id);
     if (!objectId) return null;
-    const result = await this.collection.findOneAndUpdate({ _id: objectId }, item);
-    return result.value;
+    const result = await this.collection.updateOne({ _id: objectId }, item);
+    return result.modifiedCount === 1;
   };
 
   async replaceOneById(id, item = {}) {
     const objectId = toObjectId(id);
     if (!objectId) return null;
-    const result = await this.collection.findOneAndReplace({ _id: objectId }, item);
-    return result.value;
+    const result = await this.collection.replaceOne({ _id: objectId }, item);
+    return result.modifiedCount === 1;
   };
 
   async deleteOneById(id) {
     const objectId = toObjectId(id);
     if (!objectId) return null;
     const result = await this.collection.deleteOne({ _id: objectId });
-    return (result.deletedCount === 0 ? null : result);
+    return result.deletedCount === 1;
   }
-
-  deleteAll(filter = {}) {
-    return this.collection.deleteMany(filter);
-  };
 }
 
 module.exports = MongoModel;

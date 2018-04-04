@@ -46,9 +46,13 @@ class MongoModel {
     return item;
   }
 
-  getMany(filter = null, sort = null, skip = 0, limit = 20, projection = null) {
+  getMany(filter = {}, sort = null, skip = 0, limit = 20, projection = null) {
     return this.collection.find(filter, { sort, skip, limit, projection }).toArray();
   }
+
+  updateMany(filter = {}, item = {}) {
+    return this.collection.updateMany(filter, { $set: item });
+  };
 
   deleteMany(filter = {}) {
     return this.collection.deleteMany(filter);

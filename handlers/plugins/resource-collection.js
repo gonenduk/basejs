@@ -39,6 +39,24 @@ class ResourceCollection {
     }
   }
 
+  async patch(req, res, next) {
+    // Get filter object (in OpenAPI 3 won't need to verify they are objects)
+    let filter;
+    try {
+      if (req.query.filter) filter = JSON.parse(req.query.filter);
+    } catch (err) {
+      return next(Boom.badRequest(`Invalid filter: ${err.message}`));
+    }
+
+    // Update list of items
+    try {
+      await this.model.updateMany(filter, req.body);
+      res.status(204).end();
+    } catch (err) {
+      next(err);
+    }
+  }
+
   async delete(req, res, next) {
     // Get filter object (in OpenAPI 3 won't need to verify it is an object)
     let filter;

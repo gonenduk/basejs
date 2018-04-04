@@ -12,29 +12,31 @@ function toObjectId(id) {
 }
 
 class MongoModel {
-  constructor (collectionName, schema) {
+  constructor (collectionName, schema = {}) {
+    this.collectionName = collectionName;
+    this.schema = schema;
     connection.then(db => {
       if (db)
-        return this.init(db, collectionName, schema);
+        return this.init(db);
       else
         logger.warn(`Cannot initiate '${collectionName}' collection. DB not connected`);
     });
   }
 
-  async init(db, collectionName, schema = {}) {
+  async init(db) {
     // Add timestamp to schema
-    if (schema.$jsonSchema && schema.$jsonSchema.properties) {
-      schema.$jsonSchema.properties.createdAt = { bsonType: "date" };
-      schema.$jsonSchema.properties.updatedAt = { bsonType: "date" };
+    if (this.schema.$jsonSchema && this.schema.$jsonSchema.properties) {
+      this.schema.$jsonSchema.properties.createdAt = { bsonType: "date" };
+      this.schema.$jsonSchema.properties.updatedAt = { bsonType: "date" };
     }
 
     // Create collection and update latest schema
     try {
-      this.collection = await db.createCollection(collectionName);
-      await db.command({ collMod: collectionName, validator: schema });
-      logger.debug(`Successfully created '${collectionName}' collection and schema`);
+      this.collection = await db.createCollection(this.collectionName);
+      await db.command({ collMod: this.collectionName, validator: this.schema });
+      logger.debug(`Successfully created '${this.collectionName}' collection and schema`);
     } catch (err) {
-      logger.error(`Failed to create '${collectionName}' collection and schema: ${err.message}`);
+      logger.error(`Failed to create '${this.collectionName}' collection and schema: ${err.message}`);
     }
   }
 

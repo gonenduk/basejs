@@ -12,6 +12,9 @@ const userSchema = {
 };
 
 class User extends MongoModel {
+  constructor() {
+    super('users', userSchema);
+  }
 }
 
-module.exports = new User('users', userSchema);
+module.exports = new User();

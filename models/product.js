@@ -12,6 +12,9 @@ const productSchema = {
 };
 
 class ProductModel extends MongoModel {
+  constructor() {
+    super('products', productSchema);
+  }
 }
 
-module.exports = new ProductModel('products', productSchema);
+module.exports = new ProductModel();

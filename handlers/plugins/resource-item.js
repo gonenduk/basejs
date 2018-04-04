@@ -1,52 +1,54 @@
 const Boom = require('boom');
 
-module.exports = function (model, handler = {}) {
-  const mixin = Object.create(handler);
+class ResourceItem {
+  constructor(model) {
+    this.model = model;
+  }
 
-  mixin.get = async (req, res, next) => {
+  async get(req, res, next) {
     // Get id
     const id = req.pathParams.id;
 
     // Get item
     try {
-      const item = await model.getOneById(id);
+      const item = await this.model.getOneById(id);
       if (!item) return next(Boom.notFound(`${req.originalUrl} not found`));
       res.json(item);
     }
     catch (err) {
       next(err);
     }
-  };
+  }
 
-  mixin.delete = async (req, res, next) => {
+  async delete(req, res, next) {
     // Get id
     const id = req.pathParams.id;
 
     // Delete item
     try {
-      const item = await model.deleteOneById(id);
+      const item = await this.model.deleteOneById(id);
       if (!item) return next(Boom.notFound(`${req.originalUrl} not found`));
       res.status(204).end();
     }
     catch (err) {
       next(err);
     }
-  };
+  }
 
-  mixin.put = async (req, res, next) => {
+  async put(req, res, next) {
     // Get id
     const id = req.pathParams.id;
 
     // Update item
     try {
-      const item = await model.updateOneById(id, req.body);
+      const item = await this.model.updateOneById(id, req.body);
       if (!item) return next(Boom.notFound(`${req.originalUrl} not found`));
       res.json(item);
     }
     catch (err) {
       next(err);
     }
-  };
+  }
+}
 
-  return mixin;
-};
+module.exports = ResourceItem;

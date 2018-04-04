@@ -1,4 +1,10 @@
 const Product = require('../models/product');
-const resourceCollectionMixin = require('./mixin/resource-collection');
+const ResourceCollection = require('./plugins/resource-collection');
 
-module.exports = resourceCollectionMixin(Product);
+class ProductsHandler extends ResourceCollection {
+  constructor() {
+    super(Product);
+  }
+}
+
+module.exports = new ProductsHandler();

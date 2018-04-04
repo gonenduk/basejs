@@ -1,9 +1,11 @@
 const Boom = require('boom');
 
-module.exports = function (model, handler = {}) {
-  const mixin = Object.create(handler);
+class ResourceCollection {
+  constructor(model) {
+    this.model = model;
+  }
 
-  mixin.get = async (req, res, next) => {
+  async get(req, res, next) {
     // Get filter and sort objects (in OpenAPI 3 won't need to verify they are objects)
     let filter, sort, operation;
     try {
@@ -21,22 +23,22 @@ module.exports = function (model, handler = {}) {
 
     // Get list of items
     try {
-      res.json(await model.getAll(filter, sort, skip, limit));
+      res.json(await this.model.getAll(filter, sort, skip, limit));
     } catch (err) {
       next(err);
     }
-  };
+  }
 
-  mixin.post = async(req, res, next) => {
+  async post(req, res, next) {
     // Add one item to collection
     try {
-      res.status(201).json(await model.addOne(req.body));
+      res.status(201).json(await this.model.addOne(req.body));
     } catch (err) {
       next(err);
     }
-  };
+  }
 
-  mixin.delete = async(req, res, next) => {
+  async delete(req, res, next) {
     // Get filter object (in OpenAPI 3 won't need to verify it is an object)
     let filter;
     try {
@@ -47,12 +49,12 @@ module.exports = function (model, handler = {}) {
 
     // Delete items from collection
     try {
-      await model.deleteAll(filter);
+      await this.model.deleteAll(filter);
       res.status(204).end();
     } catch (err) {
       next(err);
     }
-  };
+  }
+}
 
-  return mixin;
-};
+module.exports = ResourceCollection;

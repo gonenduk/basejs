@@ -1,4 +1,10 @@
 const User = require('../models/user');
-const resourceItemMixin = require('./mixin/resource-item');
+const ResourceItem = require('./plugins/resource-item');
 
-module.exports = resourceItemMixin(User);
+class UserHandler extends ResourceItem {
+  constructor() {
+    super(User);
+  }
+}
+
+module.exports = new UserHandler();

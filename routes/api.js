@@ -86,7 +86,7 @@ swagger('routes/api.json', router, (err, middleware) => {
     const handler = handlers[handlerName];
 
     // If handler not found continue to mock and error handling
-    if (!handler || !handler[method]) {
+    if (!handler || !(method in handler)) {
       return next();
     }
 

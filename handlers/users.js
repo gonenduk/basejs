@@ -1,4 +1,10 @@
 const User = require('../models/user');
-const resourceCollectionMixin = require('./mixin/resource-collection');
+const ResourceCollection = require('./plugins/resource-collection');
 
-module.exports = resourceCollectionMixin(User);
+class UsersHandler extends ResourceCollection {
+  constructor() {
+    super(User);
+  }
+}
+
+module.exports = new UsersHandler();

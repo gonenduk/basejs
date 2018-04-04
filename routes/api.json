@@ -214,11 +214,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Updated user",
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
+          "204": {
+            "$ref": "#/responses/NoContentResponse"
           },
           "default": {
             "$ref": "#/responses/ErrorResponse"
@@ -356,11 +353,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Updated product",
-            "schema": {
-              "$ref": "#/definitions/Product"
-            }
+          "204": {
+            "$ref": "#/responses/NoContentResponse"
           },
           "default": {
             "$ref": "#/responses/ErrorResponse"
@@ -389,8 +383,7 @@
     "User": {
       "type": "object",
       "required": [
-        "username",
-        "password"
+        "username"
       ],
       "properties": {
         "_id": {

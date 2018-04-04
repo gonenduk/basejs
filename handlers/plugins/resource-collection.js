@@ -20,10 +20,11 @@ class ResourceCollection {
     // Get skip and limit
     const skip = req.query.skip;
     const limit = req.query.limit;
+    const projection = req.query.projection;
 
     // Get list of items
     try {
-      res.json(await this.model.getAll(filter, sort, skip, limit));
+      res.json(await this.model.getAll(filter, sort, skip, limit, projection));
     } catch (err) {
       next(err);
     }

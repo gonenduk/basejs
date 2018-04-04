@@ -44,7 +44,7 @@ class MongoModel {
     return this.collection.find(filter, { sort, skip, limit, projection }).toArray();
   }
 
-  getOneById(id, projection = {}) {
+  getOneById(id, projection = null) {
     const objectId = toObjectId(id);
     return (objectId ? this.collection.findOne({ _id: objectId }, { projection }) : null);
   }
@@ -68,7 +68,7 @@ class MongoModel {
   async updateOneById(id, item = {}) {
     const objectId = toObjectId(id);
     if (!objectId) return null;
-    const result = await this.collection.findOneAndReplace({ _id: objectId }, item, { returnOriginal: false });
+    const result = await this.collection.findOneAndReplace({ _id: objectId }, item);
     return result.value;
   };
 }

@@ -6,12 +6,13 @@ class ResourceItem {
   }
 
   async get(req, res, next) {
-    // Get id
+    // Get id and projection
     const id = req.pathParams.id;
+    const projection = req.query.projection;
 
     // Get item
     try {
-      const item = await this.model.getOneById(id);
+      const item = await this.model.getOneById(id, projection);
       if (!item) return next(Boom.notFound(`${req.originalUrl} not found`));
       res.json(item);
     }
@@ -43,7 +44,7 @@ class ResourceItem {
     try {
       const item = await this.model.updateOneById(id, req.body);
       if (!item) return next(Boom.notFound(`${req.originalUrl} not found`));
-      res.json(item);
+      res.status(204).end();
     }
     catch (err) {
       next(err);

@@ -3,7 +3,7 @@ const MongoModel = require('./mongo-model');
 const userSchema = {
   $jsonSchema: {
     bsonType: "object",
-    required: ["username", "password"],
+    required: ["username"],
     properties: {
       username: { bsonType: "string" },
       password: { bsonType: "string" }

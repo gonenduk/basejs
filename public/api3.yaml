@@ -141,12 +141,8 @@ paths:
         - Users
       description: Update a user by id
       responses:
-        '200':
-          description: Updated user
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
+        '204':
+          $ref: '#/components/responses/NoContentResponse'
         default:
           $ref: '#/components/responses/ErrorResponse'
       requestBody:
@@ -247,12 +243,8 @@ paths:
         - JWT: []
       x-security-role: ''
       responses:
-        '200':
-          description: Updated product
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Product'
+        '204':
+          $ref: '#/components/responses/NoContentResponse'
         default:
           $ref: '#/components/responses/ErrorResponse'
       requestBody:
@@ -332,7 +324,6 @@ components:
       type: object
       required:
         - username
-        - password
       properties:
         _id:
           type: string
@@ -342,6 +333,7 @@ components:
         password:
           type: string
           format: password
+          writeOnly: true
     UserList:
       type: array
       items:

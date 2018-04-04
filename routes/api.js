@@ -79,23 +79,26 @@ swagger('routes/api.json', router, (err, middleware) => {
   });
 
   // Handlers
-  router.use('/api', (req, res, next) => {
-    // Find handler according to swagger definition
-    const handlerName = req.swagger.pathName.slice(1).replace(/\//g, '-');
-    const method = req.method.toLowerCase();
-    const handler = handlers[handlerName];
+  if (!config.api.mock) {
+    router.use('/api', (req, res, next) => {
+      // Find handler according to swagger definition
+      const handlerName = req.swagger.pathName.slice(1).replace(/\//g, '-');
+      const method = req.method.toLowerCase();
+      const handler = handlers[handlerName];
 
-    // If handler not found continue to mock and error handling
-    if (!handler || !(method in handler)) {
-      return next();
-    }
+      // If handler not found continue to mock and error handling
+      if (!handler || !(method in handler)) {
+        return next();
+      }
 
-    // Call handler
-    handler[method](req, res, next);
-  });
-
+      // Call handler
+      handler[method](req, res, next);
+    })
   // Mock
-  if (config.api.mock) router.use(middleware.mock());
+  } else {
+    logger.info('Using mock as default handlers');
+    router.use(middleware.mock());
+  }
 
   // Default handler (not implemented error)
   router.use('/api', (req, res, next) => {

@@ -8,7 +8,7 @@
   "api": {
     "docs": true,
     "ui": true,
-    "mock": true
+    "mock": false
   },
   "mongodb": {
     "url": "mongodb://localhost",

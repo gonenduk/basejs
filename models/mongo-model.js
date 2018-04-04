@@ -38,13 +38,13 @@ class MongoModel {
     }
   }
 
-  getAll(filter = {}, sort = {}, offset = 0, limit = 20) {
-    return this.collection.find(filter).sort(sort).skip(offset).limit(limit).toArray();
+  getAll(filter = null, sort = null, skip = 0, limit = 20, projection = null) {
+    return this.collection.find(filter, { sort, skip, limit, projection }).toArray();
   }
 
-  getOneById(id) {
+  getOneById(id, projection = {}) {
     const objectId = toObjectId(id);
-    return (objectId ? this.collection.findOne({ _id: objectId }) : null);
+    return (objectId ? this.collection.findOne({ _id: objectId }, { projection }) : null);
   }
 
   async addOne(item = {}) {

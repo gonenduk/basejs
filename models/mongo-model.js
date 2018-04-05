@@ -12,32 +12,17 @@ function toObjectId(id) {
 }
 
 class MongoModel {
-  constructor (collectionName, schema = {}) {
+  constructor (collectionName) {
     this.collectionName = collectionName;
-    this.schema = schema;
     connection.then(db => {
       if (db)
-        return this.init(db);
+        db.collection(collectionName, { strict: true }, (err, collection) => {
+          this.collection = collection;
+          if (err) logger.warn(`Cannot access '${collectionName}' collection: ${err.message}`);
+        });
       else
-        logger.warn(`Cannot initiate '${collectionName}' collection. DB not connected`);
+        logger.warn(`Cannot access '${collectionName}' collection. DB not connected`);
     });
-  }
-
-  async init(db) {
-    // Add timestamp to schema
-    if (this.schema.$jsonSchema && this.schema.$jsonSchema.properties) {
-      this.schema.$jsonSchema.properties.createdAt = { bsonType: "date" };
-      this.schema.$jsonSchema.properties.updatedAt = { bsonType: "date" };
-    }
-
-    // Create collection and update latest schema
-    try {
-      this.collection = await db.createCollection(this.collectionName);
-      await db.command({ collMod: this.collectionName, validator: this.schema });
-      logger.debug(`Successfully created '${this.collectionName}' collection and schema`);
-    } catch (err) {
-      logger.error(`Failed to create '${this.collectionName}' collection and schema: ${err.message}`);
-    }
   }
 
   // ***** Collections

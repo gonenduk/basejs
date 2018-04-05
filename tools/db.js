@@ -8,6 +8,15 @@ function isUserCommandsValid() {
   return userCommands.length && userCommands.reduce((result, command) => result && (command in commands), true);
 }
 
+function getCollection(db, name) {
+  return new Promise((resolve, reject) => {
+    db.collection(name, { strict: true }, (err, collection) => {
+      if (err) reject(err);
+      resolve(collection);
+    });
+  });
+}
+
 async function dbConnected(db) {
   if (!db) {
     log('Exiting - Failed to connect to db');
@@ -19,7 +28,7 @@ async function dbConnected(db) {
       await commands[userCommands[i]](db);
       log('OK');
     } catch (err) {
-      log(`${userCommands[i]} failed: ${err.message}`);
+      log(`Command '${userCommands[i]}' failed: ${err.message}`);
       process.exit(1);
     }
   }
@@ -43,6 +52,16 @@ const commands = {
   clean(db) {
     log('Deleting DB...');
     return db.dropDatabase();
+  },
+
+  async admin(db) {
+    log('Creating admin user...');
+    const users = await getCollection(db, 'users');
+    const isExist = await users.find({ username: 'admin' }, { limit: 1 }).count();
+    if (!isExist)
+      await users.insertOne({ username: 'admin', password: 'admin'});
+    else
+      log('Admin user already exists. Skipping');
   }
 };
 
@@ -53,5 +72,6 @@ if (!isUserCommandsValid()) {
   log('\nCommands:');
   log('\tinit\tcreate collections with their schema');
   log('\tclean\tdelete all data and DB');
+  log('\tadmin\tcreate admin user');
   process.exit(0);
 }

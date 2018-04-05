@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node server"
+    "start": "node server",
+    "db": "node tools/db"
   },
   "dependencies": {
     "auto-strict": "0.0.4",
@@ -14,7 +15,7 @@
     "express": "^4.16.3",
     "express-cluster": "^0.0.5",
     "express-jwt": "^5.3.0",
-    "jsonwebtoken": "^8.2.0",
+    "jsonwebtoken": "^8.2.1",
     "mongodb": "^3.0.5",
     "morgan": "^1.9.0",
     "nodemailer": "^4.6.4",

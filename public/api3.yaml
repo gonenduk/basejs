@@ -376,6 +376,14 @@ components:
           type: string
           format: password
           writeOnly: true
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+        updatedAt:
+          type: string
+          format: date-time
+          readOnly: true
     UserList:
       type: array
       items:
@@ -393,6 +401,14 @@ components:
           type: string
         price:
           type: number
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+        updatedAt:
+          type: string
+          format: date-time
+          readOnly: true
     ProductList:
       type: array
       items:

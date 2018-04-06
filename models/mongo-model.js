@@ -37,13 +37,17 @@ class MongoModel {
 
   updateMany(filter = {}, item = {}) {
     return this.collection.updateMany(filter, { $set: item });
-  };
+  }
 
   deleteMany(filter = {}) {
     return this.collection.deleteMany(filter);
-  };
+  }
 
   // ***** Documents
+  isExist(filter = {}) {
+    return this.collection.find(filter, { limit: 1 }).count({ limit: true });
+  }
+
   getOneById(id, projection = null) {
     const objectId = toObjectId(id);
     if (!objectId) return null;

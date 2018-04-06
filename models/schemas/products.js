@@ -4,7 +4,9 @@ module.exports = {
     required: ["title", "price"],
     properties: {
       title: { bsonType: "string" },
-      price: { bsonType: "number" }
+      price: { bsonType: "number" },
+      createdAt: { bsonType: "date" },
+      updatedAt: { bsonType: "date" }
     }
   }
 };

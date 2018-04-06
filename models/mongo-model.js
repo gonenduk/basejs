@@ -27,6 +27,7 @@ class MongoModel {
 
   // ***** Collections
   async addOne(item = {}) {
+    item.updatedAt = item.createdAt = new Date();
     await this.collection.insertOne(item);
     return item;
   }
@@ -36,6 +37,7 @@ class MongoModel {
   }
 
   updateMany(filter = {}, item = {}) {
+    item.updatedAt = new Date();
     return this.collection.updateMany(filter, { $set: item });
   }
 
@@ -61,6 +63,7 @@ class MongoModel {
   async updateOneById(id, item = {}) {
     const objectId = toObjectId(id);
     if (!objectId) return null;
+    item.updatedAt = new Date();
     const result = await this.collection.updateOne({ _id: objectId }, { $set: item });
     return result.modifiedCount === 1;
   };
@@ -68,6 +71,7 @@ class MongoModel {
   async replaceOneById(id, item = {}) {
     const objectId = toObjectId(id);
     if (!objectId) return null;
+    item.updatedAt = new Date();
     const result = await this.collection.replaceOne({ _id: objectId }, item);
     return result.modifiedCount === 1;
   };

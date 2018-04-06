@@ -12,13 +12,18 @@ module.exports = {
     // Validate username/password or refresh token
     if (username || password) {
       match = await user.getOne({ username, password }, { projection: { role: 1 }});
-      if (!match) return next(Boom.unauthorized(`Incorrect username or password`));
+      if (!match) return next(Boom.unauthorized('Incorrect username or password'));
     } else if (refresh) {
-      const id = 1;
+      let id;
+      try {
+        id = (await jwt.verifyToken(refresh)).id;
+      } catch (err) {
+        return next(Boom.unauthorized(`Invalid refresh token: ${err.message}`));
+      }
       match = await user.getOneById(id, { role: 1 });
-      if (!match) return next(Boom.unauthorized(`Invalid refresh token`));
+      if (!match) return next(Boom.unauthorized('Invalid user in refresh token'));
     } else
-      return next(Boom.unauthorized(`Must provide username/password or refresh token`));
+      return next(Boom.unauthorized('Must provide username/password or refresh token'));
 
     // Create JWT with access and refresh tokens
     const accessPayload = { id: match._id, role: match.role };

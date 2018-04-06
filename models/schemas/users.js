@@ -4,7 +4,8 @@ module.exports = {
     required: ["username"],
     properties: {
       username: { bsonType: "string" },
-      password: { bsonType: "string" }
+      password: { bsonType: "string" },
+      role: {bsonType: "string"}
     }
   }
 };

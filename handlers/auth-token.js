@@ -7,22 +7,12 @@ module.exports = {
     const username = req.body.username;
     const password = req.body.password;
 
-    const match = await user.getMany({ username, password }, { limit: 1 });
-    if (match.length === 0) return next(Boom.unauthorized(`Incorrect username or password`));
-
-    // Create dummy user according to username
-    let access, refresh;
-    if (username === 'admin') {
-      access = { id: 1, role: 'admin' };
-      refresh = { id: 1 };
-    } else if (username === 'user') {
-      access = { id: 2, role: 'user' };
-      refresh = { id: 2 };
-    } else {
-      return next(Boom.unauthorized(`Invalid dummy user type '${username}'`));
-    }
+    const match = await user.getOne({ username, password }, { projection: { role: 1 }});
+    if (!match) return next(Boom.unauthorized(`Incorrect username or password`));
 
     // Create JWT for dummy user
+    const access = { id: match._id, role: match.role };
+    const refresh = { id: match._id };
     Promise.all([
       jwt.signAccessToken(access),
       jwt.signRefreshToken(refresh)

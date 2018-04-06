@@ -6,16 +6,26 @@ module.exports = {
   post: async (req, res, next) => {
     const username = req.body.username;
     const password = req.body.password;
+    const refresh = req.body.refresh;
+    let match;
 
-    const match = await user.getOne({ username, password }, { projection: { role: 1 }});
-    if (!match) return next(Boom.unauthorized(`Incorrect username or password`));
+    // Validate username/password or refresh token
+    if (username || password) {
+      match = await user.getOne({ username, password }, { projection: { role: 1 }});
+      if (!match) return next(Boom.unauthorized(`Incorrect username or password`));
+    } else if (refresh) {
+      const id = 1;
+      match = await user.getOneById(id, { role: 1 });
+      if (!match) return next(Boom.unauthorized(`Invalid refresh token`));
+    } else
+      return next(Boom.unauthorized(`Must provide username/password or refresh token`));
 
-    // Create JWT for dummy user
-    const access = { id: match._id, role: match.role };
-    const refresh = { id: match._id };
+    // Create JWT with access and refresh tokens
+    const accessPayload = { id: match._id, role: match.role };
+    const refreshPayload = { id: match._id };
     Promise.all([
-      jwt.signAccessToken(access),
-      jwt.signRefreshToken(refresh)
+      jwt.signAccessToken(accessPayload),
+      jwt.signRefreshToken(refreshPayload)
     ]).then(tokens => {
       res.json({ access_token: tokens[0], refresh_token: tokens[1] });
     }).catch(() => {

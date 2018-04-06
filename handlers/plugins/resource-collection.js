@@ -19,7 +19,7 @@ class ResourceCollection {
 
     // Get skip and limit
     const skip = req.query.skip;
-    const limit = req.query.limit;
+    const limit = req.query.limit || 20;
     const projection = req.query.projection;
 
     // Get list of items

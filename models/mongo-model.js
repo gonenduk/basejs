@@ -31,7 +31,7 @@ class MongoModel {
     return item;
   }
 
-  getMany(filter = {}, options = { limit: 20 }) {
+  getMany(filter = {}, options = {}) {
     return this.collection.find(filter, options).toArray();
   }
 
@@ -46,6 +46,10 @@ class MongoModel {
   // ***** Documents
   isExist(filter = {}) {
     return this.collection.find(filter, { limit: 1 }).count({ limit: true });
+  }
+
+  getOne(filter = {}, options = {}) {
+    return this.collection.findOne(filter, options);
   }
 
   getOneById(id, projection = null) {

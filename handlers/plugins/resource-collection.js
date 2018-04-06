@@ -24,7 +24,7 @@ class ResourceCollection {
 
     // Get list of items
     try {
-      res.json(await this.model.getMany(filter, sort, skip, limit, projection));
+      res.json(await this.model.getMany(filter, { sort, skip, limit, projection }));
     } catch (err) {
       next(err);
     }

@@ -7,7 +7,7 @@ module.exports = {
     const username = req.body.username;
     const password = req.body.password;
 
-    const match = await user.getMany({ username, password }, null, 0, 1);
+    const match = await user.getMany({ username, password }, { limit: 1 });
     if (match.length === 0) return next(Boom.unauthorized(`Incorrect username or password`));
 
     // Create dummy user according to username

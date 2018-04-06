@@ -31,8 +31,8 @@ class MongoModel {
     return item;
   }
 
-  getMany(filter = {}, sort = null, skip = 0, limit = 20, projection = null) {
-    return this.collection.find(filter, { sort, skip, limit, projection }).toArray();
+  getMany(filter = {}, options = { limit: 20 }) {
+    return this.collection.find(filter, options).toArray();
   }
 
   updateMany(filter = {}, item = {}) {

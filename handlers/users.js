@@ -1,9 +1,9 @@
-const User = require('../models/user');
+const user = require('../models/user');
 const ResourceCollection = require('./plugins/resource-collection');
 
 class UsersHandler extends ResourceCollection {
   constructor() {
-    super(User);
+    super(user);
   }
 
   // Hide password (write only)

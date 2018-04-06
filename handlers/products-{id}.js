@@ -1,9 +1,9 @@
-const Product = require('../models/product');
+const product = require('../models/product');
 const ResourceItem = require('./plugins/resource-item');
 
 class ProductHandler extends ResourceItem {
   constructor() {
-    super(Product);
+    super(product);
   }
 }
 

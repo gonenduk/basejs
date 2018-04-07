@@ -376,6 +376,15 @@ components:
           type: string
           format: password
           writeOnly: true
+        role:
+          type: string
+          default: user
+          enum:
+            - god
+            - admin
+            - moderator
+            - user
+            - guest
         createdAt:
           type: string
           format: date-time

@@ -450,6 +450,11 @@
         "username": {
           "type": "string"
         },
+        "role": {
+          "type": "string",
+          "default": "user",
+          "enum": ["god", "admin", "moderator", "user", "guest"]
+        },
         "password": {
           "type": "string",
           "format": "password"

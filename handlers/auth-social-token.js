@@ -1,3 +1,4 @@
+const user = require('../models/user');
 const Boom = require('boom');
 const social = require('../lib/social');
 const jwt = require('../lib/jwt');
@@ -19,6 +20,10 @@ module.exports = {
     } catch (err) {
       next(Boom.unauthorized(err.error));
     }
+
+    // Find user by email
+    const match = await user.getOne({ email: profile.email }, { projection: { role: 1 }});
+    if (!match) return next(Boom.unauthorized('No matching user found'));
 
     // Create JWT for dummy user
     const accessPayload = { id: match._id, role: match.role };

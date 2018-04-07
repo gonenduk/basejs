@@ -3,7 +3,7 @@ const social = require('../lib/social');
 const jwt = require('../lib/jwt');
 
 module.exports = {
-  post: (req, res, next) => {
+  post: async (req, res, next) => {
     const provider = req.body.provider;
     const token = req.body.token;
 
@@ -13,18 +13,18 @@ module.exports = {
     }
 
     // Verify token with provider and get user profile data
-    social.validateWithProvider(provider, token).then(profile => {
-      // Create JWT for dummy user
-      Promise.all([
-        jwt.signAccessToken({ id: profile.id, role: 'user' }),
-        jwt.signRefreshToken({ id: profile.id })
-      ]).then(tokens => {
-        res.json({ access_token: tokens[0], refresh_token: tokens[1] });
-      }).catch(() => {
-        next(Boom.unauthorized('Failed to sign user tokens'));
-      });
-    }).catch((error) => {
-      next(Boom.unauthorized(error.error));
-    });
+    let profile;
+    try {
+      profile = await social.validateWithProvider(provider, token);
+    } catch (err) {
+      next(Boom.unauthorized(err.error));
+    }
+
+    // Create JWT for dummy user
+    const accessPayload = { id: match._id, role: match.role };
+    const refreshPayload = { id: match._id };
+    Promise.all([jwt.signAccessToken(accessPayload), jwt.signRefreshToken(refreshPayload)])
+      .then(tokens => res.json({ access_token: tokens[0], refresh_token: tokens[1] }))
+      .catch(err => next(Boom.unauthorized(`Failed to sign user tokens: ${err.message}`)));
   }
 };

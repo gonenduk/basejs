@@ -453,7 +453,7 @@
         "role": {
           "type": "string",
           "default": "user",
-          "enum": ["god", "admin", "moderator", "user", "guest"]
+          "enum": ["god", "admin", "moderator", "user"]
         },
         "password": {
           "type": "string",

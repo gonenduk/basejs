@@ -384,7 +384,6 @@ components:
             - admin
             - moderator
             - user
-            - guest
         createdAt:
           type: string
           format: date-time

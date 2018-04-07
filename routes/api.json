@@ -36,7 +36,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "username": {
+                "email": {
                   "type": "string"
                 },
                 "password": {
@@ -440,14 +440,14 @@
     "User": {
       "type": "object",
       "required": [
-        "username"
+        "email"
       ],
       "properties": {
         "_id": {
           "type": "string",
           "readOnly": true
         },
-        "username": {
+        "email": {
           "type": "string"
         },
         "role": {

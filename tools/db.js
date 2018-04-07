@@ -57,10 +57,10 @@ const commands = {
   async admin(db) {
     log('Creating admin user...');
     const users = await getCollection(db, 'users');
-    const isExist = await users.find({ username: 'admin' }, { limit: 1 }).count({ limit: true });
+    const isExist = await users.find({ email: 'admin' }, { limit: 1 }).count({ limit: true });
     if (!isExist)
       await users.insertOne({
-        username: 'admin',
+        email: 'admin',
         password: 'admin',
         role: 'god',
         createdAt: new Date(),

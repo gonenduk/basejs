@@ -2,9 +2,9 @@ module.exports = {
   schema: {
     $jsonSchema: {
       bsonType: "object",
-      required: ["username", "role"],
+      required: ["email", "role"],
       properties: {
-        username: { bsonType: "string" },
+        email: { bsonType: "string" },
         password: { bsonType: "string" },
         role: { enum: ["god", "admin", "moderator", "user"] },
         createdAt: { bsonType: "date" },

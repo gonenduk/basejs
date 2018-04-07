@@ -32,3 +32,6 @@ npm-debug.log
 
 # WebStorm configuration (remove after first git push)
 .idea
+
+# Local configuration files
+config/local*

@@ -28,13 +28,8 @@ module.exports = {
     // Create JWT with access and refresh tokens
     const accessPayload = { id: match._id, role: match.role };
     const refreshPayload = { id: match._id };
-    Promise.all([
-      jwt.signAccessToken(accessPayload),
-      jwt.signRefreshToken(refreshPayload)
-    ]).then(tokens => {
-      res.json({ access_token: tokens[0], refresh_token: tokens[1] });
-    }).catch(() => {
-      next(Boom.unauthorized('Failed to sign user tokens'));
-    });
+    Promise.all([jwt.signAccessToken(accessPayload), jwt.signRefreshToken(refreshPayload)])
+      .then(tokens => res.json({ access_token: tokens[0], refresh_token: tokens[1] }))
+      .catch(err => next(Boom.unauthorized(`Failed to sign user tokens: ${err.message}`)));
   }
 };

@@ -3,5 +3,8 @@
     "ports": {
       "http": "PORT"
     }
+  },
+  "mongodb": {
+    "url": "MONGODB_URL"
   }
 }

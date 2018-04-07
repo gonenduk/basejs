@@ -12,7 +12,7 @@
   },
   "mongodb": {
     "url": "mongodb://localhost",
-    "db": "test"
+    "db": "basejs"
   },
   "log": {
     "level": "debug",

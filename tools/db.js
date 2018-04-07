@@ -39,13 +39,13 @@ async function dbConnected(db) {
 
 const commands = {
   async init(db) {
-    log('Creating collections with their schemas...');
+    log('Creating collections with their schema...');
 
     // Create collections and update latest schema
     for (let collectionName in schemas) {
       log(` ${collectionName}`);
       await db.createCollection(collectionName);
-      await db.command({ collMod: collectionName, validator: schemas[collectionName] });
+      await db.command({ collMod: collectionName, validator: schemas[collectionName].schema });
     }
   },
 

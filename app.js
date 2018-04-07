@@ -10,6 +10,7 @@ const app = module.exports = express();
 
 const web = require('./routes/web');
 const api = require('./routes/api');
+const common = require('./routes/common');
 
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -25,5 +26,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.locals.config = config;
 
 // Routes setup
+app.use(common);
 app.use(api);
 app.use(web);

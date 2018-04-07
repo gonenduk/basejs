@@ -2,24 +2,14 @@ const express = require('express');
 const config = require('config');
 const logger = require('../lib/logger');
 const swagger = require('swagger-express-middleware');
-const jwt = require('express-jwt');
 const sui = require('swagger-ui-dist').getAbsoluteFSPath();
 const handlers = require('../handlers');
 const roles = require('../lib/roles');
 const Boom = require('boom');
 const router = express.Router();
 
-// Default API and JWT options
+// Default API options
 config.api = config.api || {};
-config.server.JWT = config.server.JWT || {};
-const jwtOptions = { secret: config.server.JWT.secret || 'secret', credentialsRequired: false };
-
-// JWT extraction
-router.use('/api', jwt(jwtOptions), (req, res, next) => {
-  // Create a default guest user if token not given
-  if (!req.user) req.user = { role: roles.default };
-  next();
-});
 
 // Swagger UI
 if (config.api.ui) {

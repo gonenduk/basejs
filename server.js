@@ -17,7 +17,7 @@ cluster(startMaster, startWorker);
 function startMaster() {
   // Run as master only if workers configured
   if (process.worker.count >= 1)
-    logger.info(`Master Started on pid ${process.pid}`);
+    logger.info(`Master Started on pid ${process.pid}, forking ${process.worker.count} processes`);
   else
     require('./worker');
 }

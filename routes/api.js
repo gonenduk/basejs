@@ -16,6 +16,7 @@ config.api = config.api || {};
 if (config.analytics && config.analytics.api) {
   router.use('/api', (req, res, next) => {
     const visitor = ua(req.user.id);
+    if (req.ip !== '::1') visitor.set('uip', req.ip);
     visitor.pageview(req.originalUrl).send();
     next();
   });

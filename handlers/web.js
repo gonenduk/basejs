@@ -6,6 +6,6 @@ module.exports = {
   },
 
   ping: (req, res, next) => {
-    res.send(`pong to ${req.ip}`);
+    res.send(`pong to ${req.ips}`);
   }
 };

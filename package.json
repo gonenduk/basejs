@@ -26,6 +26,7 @@
     "serve-favicon": "^2.5.0",
     "swagger-express-middleware": "^1.0.0-alpha.12",
     "swagger-ui-dist": "^3.13.3",
+    "universal-analytics": "^0.4.16",
     "winston": "^2.4.0"
   },
   "devDependencies": {}

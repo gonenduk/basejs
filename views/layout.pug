@@ -5,13 +5,13 @@ html(prefix="og: http://ogp.me/ns#")
 		meta(name="description" content="Node.js server starter project. More than a boilerplate, less than a framework.")
 		meta(name="og:image" content="http://basejs.herokuapp.com/images/logo_big.png")
 		link(rel='stylesheet', href='/stylesheets/style.css')
-		if config.analytics && config.analytics.google
+		if config.analytics && config.analytics.web
 			script(type='text/javascript').
 				(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 				(i[r].q=i[r].q || []).push(arguments)},i[r].l=1 * new Date();a=s.createElement(o),
 				m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 				})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-				ga('create', '#{config.analytics.google}', 'auto');
+				ga('create', '#{config.analytics.ua}', 'auto');
 				ga('send', 'pageview');
 	body
 		block content

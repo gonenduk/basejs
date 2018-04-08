@@ -27,6 +27,8 @@
     "template": "general"
   },
   "analytics": {
-    "google": "UA-84705052-1"
+    "ua": "UA-84705052-1",
+    "web": true,
+    "api": true
   }
 }

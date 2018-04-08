@@ -3,6 +3,7 @@ const config = require('config');
 const logger = require('../lib/logger');
 const swagger = require('swagger-express-middleware');
 const sui = require('swagger-ui-dist').getAbsoluteFSPath();
+const ua = require('../lib/analytics');
 const handlers = require('../handlers');
 const roles = require('../lib/roles');
 const Boom = require('boom');
@@ -10,6 +11,15 @@ const router = express.Router();
 
 // Default API options
 config.api = config.api || {};
+
+// Google analytics
+if (config.analytics && config.analytics.api) {
+  router.use('/api', (req, res, next) => {
+    const visitor = ua(req.user.id);
+    visitor.pageview(req.originalUrl).send();
+    next();
+  });
+}
 
 // Swagger UI
 if (config.api.ui) {

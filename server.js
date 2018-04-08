@@ -4,21 +4,32 @@
 'use strict';
 require('auto-strict');
 
+// Initialize promise library, config and logger
 global.Promise = require('bluebird');
 const config = require('config');
 config.server = config.server || {};
+const logger = require('./lib/logger');
 
 // Cluster support
 const cluster = require('./lib/cluster');
+cluster(startMaster, startWorker);
 
-// Use cluster - Initialize worker instances
-if (cluster.workers) {
-  cluster.workers(worker => {
-    process.worker = worker;
+function startMaster() {
+  // Run as master only if workers configured
+  if (process.worker.count >= 1)
+    logger.info(`Master Started on pid ${process.pid}`);
+  else
     require('./worker');
+}
+
+function startWorker(id) {
+  process.worker.id = id;
+  logger.info(`Worker started`);
+
+  process.on('SIGTERM', () => {
+    logger.info(`Worker exiting...`);
+    process.exit();
   });
 
-// Don't use cluster - Initialize single server instance in master process
-} else {
   require('./worker');
 }

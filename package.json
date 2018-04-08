@@ -13,7 +13,6 @@
     "config": "^1.29.2",
     "cookie-parser": "~1.4.3",
     "express": "^4.16.3",
-    "express-cluster": "^0.0.5",
     "express-jwt": "^5.3.0",
     "jsonwebtoken": "^8.2.1",
     "mongodb": "^3.0.5",
@@ -26,6 +25,7 @@
     "serve-favicon": "^2.5.0",
     "swagger-express-middleware": "^1.0.0-alpha.12",
     "swagger-ui-dist": "^3.13.3",
+    "throng": "^4.0.0",
     "universal-analytics": "^0.4.16",
     "winston": "^2.4.0"
   },

@@ -1,5 +1,5 @@
-const logger = require('../lib/logger');
-const connection = require('../lib/mongodb');
+const logger = require('../../lib/logger');
+const connection = require('../../lib/mongodb');
 const ObjectId = require('mongodb').ObjectId;
 
 function toObjectId(id) {

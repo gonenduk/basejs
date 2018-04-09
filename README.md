@@ -37,6 +37,7 @@ root
   |    |--plugins
   |--lib
   |--models
+  |    |--plugins  
   |    |--schemas  
   |--public
   |--routes
@@ -52,12 +53,15 @@ root
 The actual business logic of end points.
 
 **handlers plugins**: Common base handlers to be used by other handlers.
-For example, handling collections and items of resources.
+For example, handling collections and items of resources, updating ownership...
 
 **lib**: Wrappers around 3rd party packages to initialize and isolate them.
 Allows required behavior and replacing of packages without changing project code.
 
 **models**: Models of resources. Does not have to have a DB collection associated with it.
+
+**models plugins**: Common base models to be used by other models.
+For example, handling collections and items, ownership, timestamps...
 
 **models schemas**: Schema and index definitions of each DB model.   
 

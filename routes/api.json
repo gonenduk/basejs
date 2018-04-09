@@ -113,8 +113,7 @@
           "Users"
         ],
         "description": "Get all users",
-        "security": [{}, { "JWT": [] }],
-        "x-security-role": "",
+        "x-security-role": "admin",
         "parameters": [
           {
             "$ref": "#/parameters/filterParam"
@@ -146,7 +145,7 @@
           "Users"
         ],
         "description": "Create a user",
-        "security": [],
+        "security": [{}, { "JWT": [] }],
         "x-security-role": "",
         "parameters": [
           {
@@ -183,8 +182,6 @@
           "Users"
         ],
         "description": "Get a user by id",
-        "security": [{}, { "JWT": [] }],
-        "x-security-role": "",
         "responses": {
           "200": {
             "description": "User",

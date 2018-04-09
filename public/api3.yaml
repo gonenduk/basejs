@@ -76,10 +76,7 @@ paths:
       tags:
         - Users
       description: Get all users
-      security:
-        - {}
-        - JWT: []
-      x-security-role: ''
+      x-security-role: 'admin'
       parameters:
         - $ref: '#/components/parameters/filterParam'
         - $ref: '#/components/parameters/sortParam'
@@ -98,7 +95,9 @@ paths:
       tags:
         - Users
       description: Create a user
-      security: []
+      security:
+        - {}
+        - JWT: []
       x-security-role: ''
       responses:
         '201':
@@ -123,10 +122,6 @@ paths:
       tags:
         - Users
       description: Get a user by id
-      security:
-        - {}
-        - JWT: []
-      x-security-role: ''
       responses:
         '200':
           description: User

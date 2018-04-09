@@ -1,7 +1,8 @@
 const product = require('../models/product');
 const ResourceCollection = require('./plugins/resource-collection');
+const CollectionOwnership = require('./plugins/collection-ownership');
 
-class ProductsHandler extends ResourceCollection {
+class ProductsHandler extends CollectionOwnership(ResourceCollection) {
   constructor() {
     super(product);
   }

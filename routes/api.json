@@ -262,8 +262,6 @@
           "Products"
         ],
         "description": "Create a product",
-        "security": [{}, { "JWT": [] }],
-        "x-security-role": "",
         "parameters": [
           {
             "in": "body",
@@ -292,8 +290,6 @@
           "Products"
         ],
         "description": "Update products fields",
-        "security": [{}, { "JWT": [] }],
-        "x-security-role": "",
         "parameters": [
           {
             "$ref": "#/parameters/filterParam"
@@ -322,8 +318,6 @@
           "Products"
         ],
         "description": "Delete all products",
-        "security": [{}, { "JWT": [] }],
-        "x-security-role": "",
         "parameters": [
           {
             "$ref": "#/parameters/filterParam"
@@ -369,8 +363,6 @@
           "Products"
         ],
         "description": "Update product fields by id",
-        "security": [{}, { "JWT": [] }],
-        "x-security-role": "",
         "parameters": [
           {
             "in": "body",
@@ -396,8 +388,6 @@
           "Products"
         ],
         "description": "Replace a product by id",
-        "security": [{}, { "JWT": [] }],
-        "x-security-role": "",
         "parameters": [
           {
             "in": "body",
@@ -423,8 +413,6 @@
           "Products"
         ],
         "description": "Delete a product by id",
-        "security": [{}, { "JWT": [] }],
-        "x-security-role": "",
         "responses": {
           "204": {
             "$ref": "#/responses/NoContentResponse"

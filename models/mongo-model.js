@@ -28,6 +28,7 @@ class MongoModel {
   // ***** Collections
   async addOne(item = {}) {
     item.updatedAt = item.createdAt = new Date();
+    if (item.ownerId) item.ownerId = toObjectId(item.ownerId);
     await this.collection.insertOne(item);
     return item;
   }

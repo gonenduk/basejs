@@ -1,7 +1,8 @@
 const product = require('../models/product');
 const ResourceItem = require('./plugins/resource-item');
+const ItemOwnership = require('./plugins/item-ownership');
 
-class ProductHandler extends ResourceItem {
+class ProductHandler extends ItemOwnership(ResourceItem) {
   constructor() {
     super(product);
   }

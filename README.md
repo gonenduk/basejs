@@ -9,7 +9,7 @@ with this one and develop on top of it.
 
 Any help would be appreciated!
 
-Feel free to fork, copy, send suggestions, issues and pull requests.
+Feel free to fork, copy, suggest, report issues and create pull requests.
 
 ## Quick Start
 
@@ -23,6 +23,8 @@ $ npm install
 $ npm run db clean init admin
 $ npm start
 ```
+
+## Project Structure
 
 ## Features
 

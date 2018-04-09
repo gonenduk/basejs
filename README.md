@@ -3,7 +3,11 @@
 My own personal taste server implementation with
 a list of features I use in most of the cases.
 Instead of developing a server from scratch each project, I start
-with this one and develop on top of it.  
+with this one and develop on top of it.
+
+A running server with the latest code can be found here:
+
+[https://basejs.herokuapp.com](https://basejs.herokuapp.com)  
 
 ## Contribution
 

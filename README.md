@@ -26,18 +26,32 @@ $ npm start
 
 ## Features
 
-### Express
-### Configuration
-### Logger
-### Protocols
-### Clustering
-### OpenAPI driven development
-### Database management
-### Resource management
-### Authentication
-### Authorization
-### User and profile management
-### Google Analytics
+#### Express
+
+Project was build on top of [express](https://www.npmjs.com/package/express)
+which is the most popular framework for Node.js.
+
+#### Configuration
+
+Configuration files located under the config directory.
+Key features:
+* configuration per node environment.
+* environment variables override for secrets support.
+* local configuration for testing while developing (not uploaded to git).
+
+
+More info about configuration in [config](https://www.npmjs.com/package/config)
+ 
+#### Logger
+#### Protocols
+#### Clustering
+#### OpenAPI driven development
+#### Database management
+#### Resource management
+#### Authentication
+#### Authorization
+#### User and profile management
+#### Google Analytics
 
 Page views and API calls can be reported to Google analytics.
 For web page views, both server side and client side reports are supported.
@@ -52,7 +66,7 @@ Configuration under 'analytics':
 
 Server side reports using [universal-analytics](https://www.npmjs.com/package/universal-analytics) 
 
-### Email management and templates
+#### Email management and templates
  
 
 ## Planned Features

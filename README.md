@@ -26,6 +26,49 @@ $ npm start
 
 ## Project Structure
 
+```
+root
+  |--config
+  |--handlers
+  |    |--plugins
+  |--lib
+  |--models
+  |    |--schemas  
+  |--public
+  |--routes
+  |--tools
+  |--views
+  |    |--emails   
+```
+**root**: Main server and app files.
+
+**config**: Configuration files.
+
+**handlers**: Handlers of routes both for API calls and web pages.
+The actual business logic of end points.
+
+**handlers plugins**: Common base handlers to be used by other handlers.
+For example, handling collections and items of resources.
+
+**lib**: Wrappers around 3rd party packages to initialize and isolate them.
+Allows required behavior and replacing of packages without changing project code.
+
+**models**: Models of resources. Does not have to have a DB collection associated with it.
+
+**models schemas**: Schema and index definitions of each DB model.   
+
+**public**: Public static files
+
+**routes**: Automatic routes builder and input verification according to OpenAPI standard.
+The OpenAPI definition file is located here. 
+
+**tools**: Project tools. For example, initializing the DB schemas and indexes
+and creating system users. 
+
+**views**: Templates of web pages.
+
+**views emails**: Templates of emails.
+
 ## Features
 
 ### Express

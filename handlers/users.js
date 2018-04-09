@@ -17,10 +17,10 @@ class UsersHandler extends ResourceCollection {
       return next(Boom.forbidden('Access denied'));
   }
 
-  // Block normal users from creating super users
+  // New users must be regular users
   post(req, res, next) {
-    if (roles.isGod(req.body.role) || !roles.isAdmin(req.user.role) && roles.isSuperUser(req.body.role))
-      return next(Boom.forbidden('Access denied'));
+    if (req.body.role !== roles.userLevel)
+      return next(Boom.forbidden(`Cannot create with '${req.body.role}' role`));
     else
       return super.post(req, res, next);
   }

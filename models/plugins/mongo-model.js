@@ -72,7 +72,8 @@ class MongoModel {
   async replaceOneById(id, item = {}) {
     const objectId = toObjectId(id);
     if (!objectId) return null;
-    item.updatedAt = new Date();
+    item.updatedAt = item.createdAt = new Date();
+    if (item.ownerId) item.ownerId = toObjectId(item.ownerId);
     const result = await this.collection.replaceOne({ _id: objectId }, item);
     return result.modifiedCount === 1;
   };

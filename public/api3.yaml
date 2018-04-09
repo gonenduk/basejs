@@ -400,7 +400,6 @@ components:
       type: object
       required:
         - title
-        - price
       properties:
         _id:
           type: string
@@ -409,6 +408,9 @@ components:
           type: string
         price:
           type: number
+        ownerId:
+          type: string
+          readOnly: true
         createdAt:
           type: string
           format: date-time

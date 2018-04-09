@@ -480,8 +480,7 @@
     "Product": {
       "type": "object",
       "required": [
-        "title",
-        "price"
+        "title"
       ],
       "properties": {
         "_id": {
@@ -493,6 +492,10 @@
         },
         "price": {
           "type": "number"
+        },
+        "ownerId": {
+          "type": "string",
+          "readOnly": true
         },
         "createdAt": {
           "type": "string",

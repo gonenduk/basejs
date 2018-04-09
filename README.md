@@ -37,6 +37,21 @@ $ npm start
 ### Authentication
 ### Authorization
 ### User and profile management
+### Google Analytics
+
+Page views and API calls can be reported to Google analytics.
+For web page views, both server side and client side reports are supported.
+
+
+Configuration under 'analytics':
+* ua: universal analytics id  
+* api: true to enable server side API calls reports.
+* web: true to enable server side web page views reports.
+* client: report from client side.
+
+
+Server side reports using [universal-analytics](https://www.npmjs.com/package/universal-analytics) 
+
 ### Email management and templates
  
 

@@ -28,7 +28,8 @@
   },
   "analytics": {
     "ua": "UA-84705052-1",
-    "web": true,
-    "api": true
+    "web": false,
+    "api": true,
+    "client": true
   }
 }

@@ -438,7 +438,7 @@
         "role": {
           "type": "string",
           "default": "user",
-          "enum": ["god", "admin", "moderator", "user"]
+          "enum": ["sysadmin", "admin", "moderator", "user"]
         },
         "password": {
           "type": "string",

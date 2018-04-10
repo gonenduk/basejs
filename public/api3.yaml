@@ -351,7 +351,7 @@ components:
           type: string
           default: user
           enum:
-            - god
+            - sysadmin
             - admin
             - moderator
             - user

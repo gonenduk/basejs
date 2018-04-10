@@ -9,7 +9,7 @@ class UserHandler extends ResourceItem {
   }
 
   // Block normal users from viewing other users and hide password (write only)
-  async get(req, res, next) {
+  get(req, res, next) {
     if (req.pathParams.id === 'me') req.pathParams.id = req.user.id;
 
     if (req.pathParams.id === req.user.id || roles.isSuperUser(req.user.role)) {

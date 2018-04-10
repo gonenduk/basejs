@@ -54,20 +54,23 @@ const commands = {
     return db.dropDatabase();
   },
 
-  async admin(db) {
-    log('Creating admin user...');
+  async users(db) {
+    async function createUser(type) {
+      log(`${type}`);
+
+      const isExist = await users.find({ email: type }, { limit: 1 }).count({ limit: true });
+      if (!isExist)
+        await users.insertOne({ email: type, password: type, role: type, createdAt: new Date(), updatedAt: new Date() });
+      else
+        log('User already exists. Skipping');
+    }
+
+    log('Creating users...');
     const users = await getCollection(db, 'users');
-    const isExist = await users.find({ email: 'admin' }, { limit: 1 }).count({ limit: true });
-    if (!isExist)
-      await users.insertOne({
-        email: 'admin',
-        password: 'admin',
-        role: 'god',
-        createdAt: new Date(),
-        updatedAt: new Date()
-      });
-    else
-      log('Admin user already exists. Skipping');
+    await createUser('sysadmin');
+    await createUser('admin');
+    await createUser('moderator');
+    await createUser('user');
   }
 };
 

@@ -96,7 +96,22 @@ Key features:
 More info about configuration in [config](https://www.npmjs.com/package/config)
  
 ### Logger
+
+Using [winston](https://www.npmjs.com/package/winston)
+
 ### Protocols
+
+What protocols and ports to listen to. Can be configured under server.ports:
+
+* http: port to listen to or false not to use
+* https: port to listen to or false not to use
+
+The list is dynamic so any other protocol which is supported by Node.js can be added to the list.
+
+In some managed servers environments, like [heroku](https://heroku.com) or [aws](https://aws.amazon.com),
+only http is used and the port is set in an environment variable. Should be set in
+custom-environment-variables.json file to overwrite the port.
+
 ### Clustering
 
 Can be configured under 'server':
@@ -106,18 +121,36 @@ auto to fork by cpu count.
 When using clustering, logger will automatically add worker id to each log message.
 
 Some managed servers, like [heroku](https://heroku.com), set an enviroment variable with
-the optimum amount of workers to use, calculated by cpu count and available memoery.
-Can be configured in custom-environment-variables config file to overwrite the value in workers configuration
+the optimum amount of workers to use, calculated by cpu count and available memory.
+Can be configured in custom-environment-variables.json config file to overwrite the configuration
 to get optimum performance.
 
 Clustering using [throng](https://www.npmjs.com/package/throng)
 
 ### OpenAPI driven development
 ### Database management
+### User management
+
+Allows management of users in the system: Adding new users, updating user info and role,
+deleting users and so on. Since user info contains sensitive data like  
+passwords, social networks tokens, contact details and more, viewing the data
+is limited to the user itself or the system admins. Any information which
+should be visible to other users, like profile picture, nickname and so on,
+should be part of the [profile](#Profile management) and not part of the user data.
+
+There are several user roles: user, moderator, admin, sysadmin. If more types     
+are requires, it can be easily done in lib/roles.js file.
+
+* user: can view and edit own account and resources, can view other users resources.
+* moderator: same as user + can view all user accounts.
+* admin: same as moderator + can edit all accounts, resources and user roles.
+* sysadmin: super admin account which cannot be changed to a regular account by other admins.
+Should be created during DB initialization. 
+  
+### Profile management
 ### Resource management
 ### Authentication
 ### Authorization
-### User and profile management
 ### Google Analytics
 
 Page views and API calls can be reported to Google analytics.

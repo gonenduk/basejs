@@ -147,6 +147,36 @@ paths:
               $ref: '#/components/schemas/User'
         description: User fields to update
         required: true
+  '/users/{id}/role':
+    parameters:
+      - $ref: '#/components/parameters/idParam'
+    put:
+      tags:
+        - Users
+      description: Update user role by id
+      x-security-role: 'admin'
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContentResponse'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - role
+              properties:
+                role:
+                  type: string
+                  enum:
+                    - user
+                    - moderator
+                    - admin
+                    - sysadmin
+        description: User role to update
+        required: true
   /products:
     get:
       tags:

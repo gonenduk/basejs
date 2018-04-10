@@ -220,6 +220,48 @@
         }
       }
     },
+    "/users/{id}/role": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/idParam"
+        }
+      ],
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Update user role by id",
+        "x-security-role": "admin",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "role",
+            "description": "User role to update",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "role"
+              ],
+              "properties": {
+                "role": {
+                  "type": "string",
+                  "enum": ["user", "moderator", "admin", "sysadmin"]
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/responses/NoContentResponse"
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      }
+    },
     "/products": {
       "get": {
         "tags": [

@@ -98,6 +98,20 @@ More info about configuration in [config](https://www.npmjs.com/package/config)
 ### Logger
 ### Protocols
 ### Clustering
+
+Can be configured under 'server':
+* workers: number of workers to fork. 0 (default) to not use clustering,
+auto to fork by cpu count. 
+
+When using clustering, logger will automatically add worker id to each log message.
+
+Some managed servers, like [heroku](https://heroku.com), set an enviroment variable with
+the optimum amount of workers to use, calculated by cpu count and available memoery.
+Can be configured in custom-environment-variables config file to overwrite the value in workers configuration
+to get optimum performance.
+
+Clustering using [throng](https://www.npmjs.com/package/throng)
+
 ### OpenAPI driven development
 ### Database management
 ### Resource management
@@ -123,6 +137,10 @@ Server side reports using [universal-analytics](https://www.npmjs.com/package/un
  
 
 ## Planned Features
+
+### ESLint
+### Unit Testing & Coverage
+### Using Travis
 
 ## License
 

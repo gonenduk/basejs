@@ -285,22 +285,6 @@ paths:
               $ref: '#/components/schemas/Product'
         description: Product fields to update
         required: true
-    put:
-      tags:
-        - Products
-      description: Replace a product by id
-      responses:
-        '204':
-          $ref: '#/components/responses/NoContentResponse'
-        default:
-          $ref: '#/components/responses/ErrorResponse'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Product'
-        description: Product to replace with
-        required: true
     delete:
       tags:
         - Products

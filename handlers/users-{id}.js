@@ -21,7 +21,11 @@ class UserHandler extends ResourceItem {
 
   patch(req, res, next) {
     if (req.pathParams.id === 'me') req.pathParams.id = req.user.id;
-    return super.patch(req, res, next);
+
+    if (req.pathParams.id === req.user.id || roles.isAdmin(req.user.role)) {
+      return super.patch(req, res, next);
+    } else
+      return next(Boom.forbidden('Access denied'));
   }
 }
 

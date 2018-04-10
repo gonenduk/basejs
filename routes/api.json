@@ -461,6 +461,46 @@
           }
         }
       }
+    },
+    "/products/{id}/owner": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/idParam"
+        }
+      ],
+      "put": {
+        "tags": [
+          "Products"
+        ],
+        "description": "Update product owner by id",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "owner",
+            "description": "Owner id to update",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "ownerId"
+              ],
+              "properties": {
+                "ownerId": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/responses/NoContentResponse"
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      }
     }
   },
   "definitions": {

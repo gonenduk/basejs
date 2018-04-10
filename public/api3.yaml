@@ -310,6 +310,30 @@ paths:
           $ref: '#/components/responses/NoContentResponse'
         default:
           $ref: '#/components/responses/ErrorResponse'
+  '/products/{id}/owner':
+    parameters:
+      - $ref: '#/components/parameters/idParam'
+    put:
+      tags:
+        - Products
+      description: Update product owner by id
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContentResponse'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - ownerId
+              properties:
+                ownerId:
+                  type: string
+        description: Owner id to update
+        required: true
 tags: []
 components:
   responses:

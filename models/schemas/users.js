@@ -6,7 +6,7 @@ module.exports = {
       properties: {
         email: { bsonType: "string" },
         password: { bsonType: "string" },
-        role: { enum: ["sysadmin", "admin", "moderator", "user"] },
+        role: { enum: ["user", "moderator", "admin", "sysadmin"] },
         createdAt: { bsonType: "date" },
         updatedAt: { bsonType: "date" }
       }

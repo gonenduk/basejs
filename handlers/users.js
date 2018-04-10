@@ -16,14 +16,6 @@ class UsersHandler extends ResourceCollection {
     } else
       return next(Boom.forbidden('Access denied'));
   }
-
-  // New users must be regular users
-  post(req, res, next) {
-    if (req.body.role !== roles.userLevel)
-      return next(Boom.forbidden("New user must have 'user' role"));
-    else
-      return super.post(req, res, next);
-  }
 }
 
 module.exports = new UsersHandler();

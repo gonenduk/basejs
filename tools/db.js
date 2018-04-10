@@ -81,6 +81,6 @@ if (!isUserCommandsValid()) {
   log('\nCommands:');
   log('\tinit\tcreate collections with their schema');
   log('\tclean\tdelete all data and DB');
-  log('\tadmin\tcreate admin user');
+  log('\tusers\tcreate sample users in different roles');
   process.exit(0);
 }

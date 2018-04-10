@@ -349,12 +349,12 @@ components:
           writeOnly: true
         role:
           type: string
-          default: user
+          readOnly: true
           enum:
-            - sysadmin
-            - admin
-            - moderator
             - user
+            - moderator
+            - admin
+            - sysadmin
         createdAt:
           type: string
           format: date-time

@@ -437,8 +437,8 @@
         },
         "role": {
           "type": "string",
-          "default": "user",
-          "enum": ["sysadmin", "admin", "moderator", "user"]
+          "readOnly": true,
+          "enum": ["user", "moderator", "admin", "sysadmin"]
         },
         "password": {
           "type": "string",

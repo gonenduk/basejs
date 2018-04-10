@@ -18,6 +18,11 @@ class UserHandler extends ResourceItem {
     } else
       return next(Boom.forbidden('Access denied'));
   }
+
+  patch(req, res, next) {
+    if (req.pathParams.id === 'me') req.pathParams.id = req.user.id;
+    return super.patch(req, res, next);
+  }
 }
 
 module.exports = new UserHandler();

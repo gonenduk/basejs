@@ -22,6 +22,6 @@ ac.grant('guest')
   .grant('moderator').extend('user')
     .readAny('user')
   .grant('admin').extend('moderator')
-  .createOwn('user').readAny('user').updateAny('user').updateAny('resource').deleteAny('resource');
+    .createOwn('user').readAny('user').updateAny('user').updateAny('resource').deleteAny('resource');
 
 module.exports = router;

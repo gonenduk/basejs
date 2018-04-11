@@ -27,7 +27,7 @@ class UsersHandler extends ResourceCollection {
       return next(Boom.forbidden(`Access denied`));
 
     // Set of role
-    if (req.body.role && permission.attributes.indexOf('!role') > -1)
+    if (req.body.role && req.body.role !== 'user' && permission.attributes.indexOf('!role') > -1)
       return next(Boom.forbidden(`Not allowed to set role`));
 
     return super.post(req, res, next);

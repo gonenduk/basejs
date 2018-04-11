@@ -97,12 +97,21 @@ More info about configuration in [config](https://www.npmjs.com/package/config)
  
 ### Logger
 
-Using [winston](https://www.npmjs.com/package/winston)
+Using [winston](https://www.npmjs.com/package/winston) logger.
+
+Can be configured under 'log':
+* level: log level
+* console: true to log to the console
+* file: file name to log to or empty to disable file logs
+
+Both console and file can be enabled together.
+
+HTTP requests are logged using [morgan](https://www.npmjs.com/package/morgan)
+and can be configured under 'morgan'.
 
 ### Protocols
 
 What protocols and ports to listen to. Can be configured under server.ports:
-
 * http: port to listen to or false not to use
 * https: port to listen to or false not to use
 
@@ -128,19 +137,30 @@ to get optimum performance.
 Clustering using [throng](https://www.npmjs.com/package/throng)
 
 ### OpenAPI driven development
+
 ### Database management
+
+All operations that require DB are done by models. Models usually represent a collection but don't
+have to. Models expose operations in their interface thus allowing to replace a DB vendor and
+keeping the code of the server unchanged.
+   
+Each DB vendor should have a wrapping lib which exposes a unified interface to connect and exchange
+data with the DB driver. Using the lib is limited to models and tools. This allows the option to
+replace DB vendors easily.
+
+Using [MongoDB driver](https://www.npmjs.com/package/mongodb)
+
 ### User management
 
 Allows management of users in the system: Adding new users, updating user info and role,
-deleting users and so on. Since user info contains sensitive data like  
-passwords, social networks tokens, contact details and more, viewing the data
-is limited to the user itself or the system admins. Any information which
-should be visible to other users, like profile picture, nickname and so on,
+deleting users and so on. Since user info contains sensitive data, i.e.
+password, social networks tokens, contact details, billing info and more, viewing the data
+it is limited to the user itself or the system admins. Any information which
+should be visible to other users, like profile picture, bio and so on,
 should be part of the [profile](#Profile management) and not part of the user data.
 
 There are several user roles: user, moderator, admin, sysadmin. If more types     
 are requires, it can be easily done in lib/roles.js file.
-
 * user: can view and edit own account and resources, can view other users resources.
 * moderator: same as user + can view all user accounts.
 * admin: same as moderator + can edit all accounts, resources and user roles.
@@ -148,7 +168,40 @@ are requires, it can be easily done in lib/roles.js file.
 Should be created during DB initialization. 
   
 ### Profile management
+
+Profiles are the representation of users in the system to other users. They include
+all personal data which can be shared between users, i.e. profile picture, name, bio and so on.
+
+In systems where profiles are being used, all other resources are owned by a profile while profiles
+are owned by users. The separation allows:
+* More secured. Personal user data is not shared between users.
+* Faster. In most cases the profile data is what required and not the account info.
+* Profiles can be transferred between accounts.
+* Can easily implement a single profile managed by several different users.
+
+Ownership of resources by profiles is managed by plugins:
+handlers/plugins/*-ownership.js
+
+ownerId is read only and gets the ownership of the profile who created it automatically by the handlers.
+Changing ownership between profiles is restricted to admins but can be changed to allow users
+to exchange resources between themselves - but should be kept as a seperate process than
+updating the resource ownerId. 
+
+In systems where there is no user representation and profiles are not being used,
+all resources can be owned directly by users. Since ownership of resources is done in a
+plugin, it can be easily changed from using profileId to userId.
+  
 ### Resource management
+
+Most collections and models, except system data, users and profiles will be resources owned by
+profiles. Resource logic is easily made from several plugins and may have its own extra logic.
+Plugins can be done in model level, like the timestamp plugin on, or in API level like the ownership
+plugin that limits each user to manage its own resources.
+
+Operations on resource collections will automatically be filtered to resources owned by the active user.
+This is done for safety reason to block users from making mass updates on the system. Only admins can
+update resources of other users. 
+
 ### Authentication
 ### Authorization
 ### Google Analytics

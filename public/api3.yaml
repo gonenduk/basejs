@@ -7,7 +7,6 @@ info:
   description: Documentation of the RESTful API exposed by basejs
 security:
   - JWT: []
-x-security-role: user
 paths:
   /auth/token:
     post:
@@ -15,7 +14,6 @@ paths:
         - Authentication
       description: Create a JWT based on user credentials or a refresh token
       security: []
-      x-security-role: ''
       responses:
         '200':
           description: New generated JWT
@@ -46,7 +44,6 @@ paths:
         - Authentication
       description: Create a JWT based on social provider token
       security: []
-      x-security-role: ''
       responses:
         '200':
           description: New generated JWT
@@ -76,7 +73,6 @@ paths:
       tags:
         - Users
       description: Get all users
-      x-security-role: 'admin'
       parameters:
         - $ref: '#/components/parameters/filterParam'
         - $ref: '#/components/parameters/sortParam'
@@ -98,7 +94,6 @@ paths:
       security:
         - {}
         - JWT: []
-      x-security-role: ''
       responses:
         '201':
           description: New user
@@ -147,36 +142,6 @@ paths:
               $ref: '#/components/schemas/User'
         description: User fields to update
         required: true
-  '/users/{id}/role':
-    parameters:
-      - $ref: '#/components/parameters/idParam'
-    put:
-      tags:
-        - Users
-      description: Update user role by id
-      x-security-role: 'admin'
-      responses:
-        '204':
-          $ref: '#/components/responses/NoContentResponse'
-        default:
-          $ref: '#/components/responses/ErrorResponse'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - role
-              properties:
-                role:
-                  type: string
-                  enum:
-                    - user
-                    - moderator
-                    - admin
-                    - sysadmin
-        description: User role to update
-        required: true
   /products:
     get:
       tags:
@@ -185,7 +150,6 @@ paths:
       security:
         - {}
         - JWT: []
-      x-security-role: ''
       parameters:
         - $ref: '#/components/parameters/filterParam'
         - $ref: '#/components/parameters/sortParam'
@@ -259,7 +223,6 @@ paths:
       security:
         - {}
         - JWT: []
-      x-security-role: ''
       responses:
         '200':
           description: Product
@@ -294,30 +257,6 @@ paths:
           $ref: '#/components/responses/NoContentResponse'
         default:
           $ref: '#/components/responses/ErrorResponse'
-  '/products/{id}/owner':
-    parameters:
-      - $ref: '#/components/parameters/idParam'
-    put:
-      tags:
-        - Products
-      description: Update product owner by id
-      responses:
-        '204':
-          $ref: '#/components/responses/NoContentResponse'
-        default:
-          $ref: '#/components/responses/ErrorResponse'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - ownerId
-              properties:
-                ownerId:
-                  type: string
-        description: Owner id to update
-        required: true
 tags: []
 components:
   responses:
@@ -387,12 +326,10 @@ components:
           writeOnly: true
         role:
           type: string
-          readOnly: true
           enum:
             - user
             - moderator
             - admin
-            - sysadmin
         createdAt:
           type: string
           format: date-time

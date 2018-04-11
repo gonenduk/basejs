@@ -5,7 +5,6 @@ const swagger = require('swagger-express-middleware');
 const sui = require('swagger-ui-dist').getAbsoluteFSPath();
 const ua = require('../lib/analytics');
 const handlers = require('../handlers');
-const roles = require('../lib/roles');
 const Boom = require('boom');
 const router = express.Router();
 
@@ -52,34 +51,6 @@ swagger('routes/api.json', router, (err, middleware) => {
     middleware.validateRequest()
   );
 
-  // Authorization
-  router.use('/api', (req, res, next) => {
-    // Verify user role is valid
-    if (!roles.exists(req.user.role)) {
-      return next(Boom.unauthorized(`Invalid user role: '${req.user.role}'`));
-    }
-
-    // Roles
-    const swagger = req.swagger;
-    let role = swagger.operation['x-security-role'];
-    if (role === undefined) role = swagger.path['x-security-role'];
-    if (role === undefined) role = swagger.api['x-security-role'];
-    if (role === '') role = undefined;
-    if (role) {
-      // Verify required role is valid
-      if (!roles.exists(role)) {
-        return next(Boom.unauthorized(`${req.method} /api${req.path} invalid required user role: '${role}'`));
-      }
-
-      // Validate user role with required role
-      if (!roles.validate(req.user.role, role)) {
-        return next(Boom.forbidden('Access denied'));
-      }
-    }
-
-    next();
-  });
-
   // Handlers
   if (!config.api.mock) {
     router.use('/api', (req, res, next) => {
@@ -96,8 +67,9 @@ swagger('routes/api.json', router, (err, middleware) => {
       // Call handler
       handler[method](req, res, next);
     })
+  }
   // Mock
-  } else {
+  else {
     logger.info('Using mock as default handlers');
     router.use(middleware.mock());
   }

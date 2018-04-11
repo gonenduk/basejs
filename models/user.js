@@ -1,6 +1,5 @@
 const MongoModel = require('./plugins/mongo-model');
 const Timestamps = require('./plugins/timestamps');
-const roles = require('../lib/roles');
 
 class User extends Timestamps(MongoModel) {
   constructor() {
@@ -9,7 +8,7 @@ class User extends Timestamps(MongoModel) {
 
   addOne(item = {}) {
     // Default user role
-    if (!item.role) item.role = roles.userLevel;
+    //if (!item.role) item.role = roles.userLevel;
     return super.addOne(item);
   }
 }

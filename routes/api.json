@@ -17,7 +17,6 @@
       "JWT": []
     }
   ],
-  "x-security-role": "user",
   "paths": {
     "/auth/token": {
       "post": {
@@ -26,7 +25,6 @@
         ],
         "description": "Create a JWT based on user credentials or a refresh token",
         "security": [],
-        "x-security-role": "",
         "parameters": [
           {
             "in": "body",
@@ -70,7 +68,6 @@
         ],
         "description": "Create a JWT based on social provider token",
         "security": [],
-        "x-security-role": "",
         "parameters": [
           {
             "in": "body",
@@ -113,7 +110,6 @@
           "Users"
         ],
         "description": "Get all users",
-        "x-security-role": "admin",
         "parameters": [
           {
             "$ref": "#/parameters/filterParam"
@@ -146,7 +142,6 @@
         ],
         "description": "Create a user",
         "security": [{}, { "JWT": [] }],
-        "x-security-role": "",
         "parameters": [
           {
             "in": "body",
@@ -220,48 +215,6 @@
         }
       }
     },
-    "/users/{id}/role": {
-      "parameters": [
-        {
-          "$ref": "#/parameters/idParam"
-        }
-      ],
-      "put": {
-        "tags": [
-          "Users"
-        ],
-        "description": "Update user role by id",
-        "x-security-role": "admin",
-        "parameters": [
-          {
-            "in": "body",
-            "name": "role",
-            "description": "User role to update",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "required": [
-                "role"
-              ],
-              "properties": {
-                "role": {
-                  "type": "string",
-                  "enum": ["user", "moderator", "admin", "sysadmin"]
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "$ref": "#/responses/NoContentResponse"
-          },
-          "default": {
-            "$ref": "#/responses/ErrorResponse"
-          }
-        }
-      }
-    },
     "/products": {
       "get": {
         "tags": [
@@ -269,7 +222,6 @@
         ],
         "description": "Get all products",
         "security": [{}, { "JWT": [] }],
-        "x-security-role": "",
         "parameters": [
           {
             "$ref": "#/parameters/filterParam"
@@ -384,7 +336,6 @@
         ],
         "description": "Get a product by id",
         "security": [{}, { "JWT": [] }],
-        "x-security-role": "",
         "responses": {
           "200": {
             "description": "Product",
@@ -436,46 +387,6 @@
           }
         }
       }
-    },
-    "/products/{id}/owner": {
-      "parameters": [
-        {
-          "$ref": "#/parameters/idParam"
-        }
-      ],
-      "put": {
-        "tags": [
-          "Products"
-        ],
-        "description": "Update product owner by id",
-        "parameters": [
-          {
-            "in": "body",
-            "name": "owner",
-            "description": "Owner id to update",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "required": [
-                "ownerId"
-              ],
-              "properties": {
-                "ownerId": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "$ref": "#/responses/NoContentResponse"
-          },
-          "default": {
-            "$ref": "#/responses/ErrorResponse"
-          }
-        }
-      }
     }
   },
   "definitions": {
@@ -494,8 +405,7 @@
         },
         "role": {
           "type": "string",
-          "readOnly": true,
-          "enum": ["user", "moderator", "admin", "sysadmin"]
+          "enum": ["user", "moderator", "admin"]
         },
         "password": {
           "type": "string",

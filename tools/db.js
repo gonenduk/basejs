@@ -34,7 +34,7 @@ async function dbConnected(db) {
   }
 
   log('Done');
-  process.exit(0);
+  process.exit();
 }
 
 const commands = {
@@ -67,7 +67,6 @@ const commands = {
 
     log('Creating users...');
     const users = await getCollection(db, 'users');
-    await createUser('sysadmin');
     await createUser('admin');
     await createUser('moderator');
     await createUser('user');

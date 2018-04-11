@@ -1,5 +1,5 @@
 const user = require('../models/user');
-const roles = require('../lib/roles');
+const ac = require('../lib/acl');
 const ResourceItem = require('./plugins/resource-item');
 const Boom = require('boom');
 
@@ -8,24 +8,37 @@ class UserHandler extends ResourceItem {
     super(user);
   }
 
-  // Block normal users from viewing other users and hide password (write only)
   get(req, res, next) {
     if (req.pathParams.id === 'me') req.pathParams.id = req.user.id;
 
-    if (req.pathParams.id === req.user.id || roles.isSuperUser(req.user.role)) {
-      req.query.projection = { password: false };
-      return super.get(req, res, next);
-    } else
-      return next(Boom.forbidden('Access denied'));
+    // Access control
+    const permission = (req.user.id === req.pathParams.id)
+      ? ac.can(req.user.role).readOwn('user')
+      : ac.can(req.user.role).readAny('user');
+    if (!permission.granted)
+      return next(Boom.forbidden(`Access denied`));
+
+    // Hide password (write only)
+    req.query.projection = { password: false };
+
+    return super.get(req, res, next);
   }
 
   patch(req, res, next) {
     if (req.pathParams.id === 'me') req.pathParams.id = req.user.id;
 
-    if (req.pathParams.id === req.user.id || roles.isAdmin(req.user.role)) {
-      return super.patch(req, res, next);
-    } else
-      return next(Boom.forbidden('Access denied'));
+    // Access control
+    const permission = (req.user.id === req.pathParams.id)
+      ? ac.can(req.user.role).updateOwn('user')
+      : ac.can(req.user.role).updateAny('user');
+    if (!permission.granted)
+      return next(Boom.forbidden(`Access denied`));
+
+    // Change of role
+    if (req.body.role && permission.attributes.indexOf('!role') > -1)
+      return next(Boom.forbidden(`Not allowed to change role`));
+
+    return super.patch(req, res, next);
   }
 }
 

@@ -1,5 +1,5 @@
 const user = require('../models/user');
-const roles = require('../lib/roles');
+const ac = require('../lib/acl');
 const ResourceCollection = require('./plugins/resource-collection');
 const Boom = require('boom');
 
@@ -8,13 +8,29 @@ class UsersHandler extends ResourceCollection {
     super(user);
   }
 
-  // Block non super users and hide password (write only)
   get(req, res, next) {
-    if (roles.isSuperUser(req.user.role)) {
-      req.query.projection = { password: false };
-      return super.get(req, res, next);
-    } else
-      return next(Boom.forbidden('Access denied'));
+    // Access control
+    const permission = ac.can(req.user.role).readAny('user');
+    if (!permission.granted)
+      return next(Boom.forbidden(`Access denied`));
+
+    // Hide password (write only)
+    req.query.projection = { password: false };
+
+    return super.get(req, res, next);
+  }
+
+  post(req, res, next) {
+    // Access control
+    const permission = ac.can(req.user.role).createOwn('user');
+    if (!permission.granted)
+      return next(Boom.forbidden(`Access denied`));
+
+    // Set of role
+    if (req.body.role && permission.attributes.indexOf('!role') > -1)
+      return next(Boom.forbidden(`Not allowed to set role`));
+
+    return super.post(req, res, next);
   }
 }
 

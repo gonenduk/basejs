@@ -138,6 +138,21 @@ Clustering using [throng](https://www.npmjs.com/package/throng)
 
 ### OpenAPI driven development
 
+API routes are built and exposed in runtime according to the provided OpenAPI definition file.
+Input is verified and errors are sent back to clients on invalid data.
+Handlers are the last part of the routes chain and they are called only after validation and
+authentication have passed successfully. Handlers is where the actual business logic of the route
+is done.
+
+Can be configured under 'api':
+* docs: true to expose a route with the OpenAPI definition
+* ui: true to expose a route with the swagger ui tool
+* mock: true to use a mock instead of teh handlers
+
+Building routes using [swagger-express-middleware](https://www.npmjs.com/package/swagger-express-middleware)
+
+OpenAPI definition file can be built using [Swagger Tools](https://swagger.io/)
+
 ### Database management
 
 All operations that require DB are done by models. Models usually represent a collection but don't
@@ -150,60 +165,49 @@ replace DB vendors easily.
 
 Using [MongoDB driver](https://www.npmjs.com/package/mongodb)
 
-### User management
+### Authentication and authorization
 
-Allows management of users in the system: Adding new users, updating user info and role,
-deleting users and so on. Since user info contains sensitive data, i.e.
-password, social networks tokens, contact details, billing info and more, viewing the data
-it is limited to the user itself or the system admins. Any information which
-should be visible to other users, like profile picture, bio and so on,
-should be part of the [profile](#Profile management) and not part of the user data.
+Using JWT to authenticate and authorize users. All calls to the server must contain the token
+or will be considered as a guest. Secrets and TTL can be configured under server.JWT:
+* secret: secret to use to sign and verify the token
+* accessTTL: life time of access token, default 1 hour
+* refreshTTL: life time of refresh token, default to 1 week
 
-There are several user roles: user, moderator, admin, sysadmin. If more types     
-are requires, it can be easily done in lib/roles.js file.
-* user: can view and edit own account and resources, can view other users resources.
-* moderator: same as user + can view all user accounts.
-* admin: same as moderator + can edit all accounts, resources and user roles.
-* sysadmin: super admin account which cannot be changed to a regular account by other admins.
-Should be created during DB initialization. 
-  
-### Profile management
+Authentication can be done by:
+* user credentials
+* refresh token
+* social login: facebook, google, github and windows
 
-Profiles are the representation of users in the system to other users. They include
-all personal data which can be shared between users, i.e. profile picture, name, bio and so on.
+Once authenticated the user will get its user id, profile id and user role for access control. 
 
-In systems where profiles are being used, all other resources are owned by a profile while profiles
-are owned by users. The separation allows:
-* More secured. Personal user data is not shared between users.
-* Faster. In most cases the profile data is what required and not the account info.
-* Profiles can be transferred between accounts.
-* Can easily implement a single profile managed by several different users.
+### User and profile management
 
-Ownership of resources by profiles is managed by plugins:
-handlers/plugins/*-ownership.js
+User is the identity of a real person. It usually contains credentials, token, contact details,
+billing info and such. Profile is the identity of a user in the system and is visible
+to other users. Profiles are owned by users. All other resources in the system are owned by profiles.
 
-ownerId is read only and gets the ownership of the profile who created it automatically by the handlers.
-Changing ownership between profiles is restricted to admins but can be changed to allow users
-to exchange resources between themselves - but should be kept as a seperate process than
-updating the resource ownerId. 
+Users have roles. Each role defines a set of permissions and restrictions. By default the
+following roles are defined and can be easily changed:
+* guest: unidentified user, can register as a new user and view any resource. 
+* user: can update its own account and resources and view any resource.
+* moderator: same as user + can view any account.
+* admin: same as moderator + can update any account and resource.     
 
-In systems where there is no user representation and profiles are not being used,
-all resources can be owned directly by users. Since ownership of resources is done in a
-plugin, it can be easily changed from using profileId to userId.
-  
+Only admin can change user role.
+
+Both the user id and the profile id of the current user will be kept in memory and in the jwt token
+sent on successful login.
+
+Access control is done using [accesscontrol](https://www.npmjs.com/package/accesscontrol)
+
 ### Resource management
 
-Most collections and models, except system data, users and profiles will be resources owned by
-profiles. Resource logic is easily made from several plugins and may have its own extra logic.
+Most collections and models, except system data, users accounts and profiles will be resources owned by
+user profiles. Resource logic is easily made from several plugins and may have its own extra logic.
 Plugins can be done in model level, like the timestamp plugin on, or in API level like the ownership
 plugin that limits each user to manage its own resources.
+All resources share teh same access control rules by default, but each can be overwritten.
 
-Operations on resource collections will automatically be filtered to resources owned by the active user.
-This is done for safety reason to block users from making mass updates on the system. Only admins can
-update resources of other users. 
-
-### Authentication
-### Authorization
 ### Google Analytics
 
 Page views and API calls can be reported to Google analytics.
@@ -219,7 +223,7 @@ Configuration under 'analytics':
 
 Server side reports using [universal-analytics](https://www.npmjs.com/package/universal-analytics) 
 
-### Email management and templates
+### Email delivery and templates
  
 
 ## Planned Features

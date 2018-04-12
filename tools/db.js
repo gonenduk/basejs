@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt-nodejs');
 const schemas = require('../models/schemas');
 require('../lib/mongodb').then(dbConnected);
 
@@ -60,7 +61,13 @@ const commands = {
 
       const isExist = await users.find({ email: type }, { limit: 1 }).count({ limit: true });
       if (!isExist)
-        await users.insertOne({ email: type, password: type, role: type, createdAt: new Date(), updatedAt: new Date() });
+        await users.insertOne({
+          email: type,
+          password: bcrypt.hashSync(type),
+          role: type,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        });
       else
         log('User already exists. Skipping');
     }

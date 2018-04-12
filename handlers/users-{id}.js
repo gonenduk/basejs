@@ -1,7 +1,9 @@
 const user = require('../models/user');
 const ac = require('../lib/acl');
+const bcrypt = require('bcrypt-nodejs');
 const ItemHandler = require('./plugins/item-handler');
 const Boom = require('boom');
+const hashAsync = Promise.promisify(bcrypt.hash);
 
 class UserHandler extends ItemHandler {
   constructor() {
@@ -24,7 +26,7 @@ class UserHandler extends ItemHandler {
     return super.get(req, res, next);
   }
 
-  patch(req, res, next) {
+  async patch(req, res, next) {
     if (req.pathParams.id === 'me') req.pathParams.id = req.user.id;
 
     // Access control
@@ -37,6 +39,15 @@ class UserHandler extends ItemHandler {
     // Change of role
     if (req.body.role && permission.attributes.indexOf('!role') > -1)
       return next(Boom.forbidden(`Not allowed to change role`));
+
+    // Hash password
+    if (req.body.password) {
+      try {
+        req.body.password = await hashAsync(req.body.password, null, null);
+      } catch (err) {
+        return next(Boom.internal(err.message));
+      }
+    }
 
     return super.patch(req, res, next);
   }

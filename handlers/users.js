@@ -1,7 +1,9 @@
 const user = require('../models/user');
 const ac = require('../lib/acl');
+const bcrypt = require('bcrypt-nodejs');
 const CollectionHandler = require('./plugins/collection-handler');
 const Boom = require('boom');
+const hashAsync = Promise.promisify(bcrypt.hash);
 
 class UsersHandler extends CollectionHandler {
   constructor() {
@@ -20,7 +22,7 @@ class UsersHandler extends CollectionHandler {
     return super.get(req, res, next);
   }
 
-  post(req, res, next) {
+  async post(req, res, next) {
     // Access control
     const permission = ac.can(req.user.role).createOwn('user');
     if (!permission.granted)
@@ -29,6 +31,13 @@ class UsersHandler extends CollectionHandler {
     // Set of role
     if (req.body.role && req.body.role !== 'user' && permission.attributes.indexOf('!role') > -1)
       return next(Boom.forbidden(`Not allowed to set role`));
+
+    // Hash password
+    try {
+      req.body.password = await hashAsync(req.body.password, null, null);
+    } catch (err) {
+      return next(Boom.internal(err.message));
+    }
 
     return super.post(req, res, next);
   }

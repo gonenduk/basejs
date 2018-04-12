@@ -24,6 +24,7 @@ module.exports = ModelClass => {
     }
 
     updateOneById(id, item = {}, filter = {}) {
+      if (item.ownerId) item.ownerId = toObjectId(item.ownerId);
       if (filter.ownerId) filter.ownerId = toObjectId(filter.ownerId);
       return super.updateOneById(id, item, filter);
     }

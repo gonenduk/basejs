@@ -21,7 +21,7 @@ module.exports = ModelClass => {
         ? ac.can(req.user.role).createOwn('resource')
         : ac.can(req.user.role).createAny('resource');
       if (!permission.granted)
-        return next(Boom.forbidden(`Access denied`));
+        return next(Boom.forbidden(`Not allowed to set owner`));
 
       return super.post(req, res, next);
     }

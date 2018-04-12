@@ -3,11 +3,13 @@ const connection = require('../../lib/mongodb');
 const ObjectId = require('mongodb').ObjectId;
 
 function toObjectId(id) {
-  // Invalid id should return null
+  // Invalid id should rethrow with status 400
   try {
     return new ObjectId(id);
   } catch (err) {
-    return null;
+    err.message = `id: ${err.message}`;
+    err.status = 400;
+    throw err;
   }
 }
 
@@ -54,28 +56,23 @@ class MongoModel {
 
   getOneById(id, projection = null) {
     const objectId = toObjectId(id);
-    if (!objectId) return null;
     return this.collection.findOne({ _id: objectId }, { projection });
   }
 
   async updateOneById(id, item = {}) {
     const objectId = toObjectId(id);
-    if (!objectId) return null;
     const result = await this.collection.updateOne({ _id: objectId }, { $set: item });
     return result.modifiedCount === 1;
   };
 
   async replaceOneById(id, item = {}) {
     const objectId = toObjectId(id);
-    if (!objectId) return null;
-    if (item.ownerId) item.ownerId = toObjectId(item.ownerId);
     const result = await this.collection.replaceOne({ _id: objectId }, item);
     return result.modifiedCount === 1;
   };
 
   async deleteOneById(id) {
     const objectId = toObjectId(id);
-    if (!objectId) return null;
     const result = await this.collection.deleteOne({ _id: objectId });
     return result.deletedCount === 1;
   }

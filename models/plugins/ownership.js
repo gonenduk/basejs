@@ -17,5 +17,10 @@ module.exports = ModelClass => {
       item.ownerId = toObjectId(item.ownerId);
       return super.addOne(item);
     }
+
+    getOneById(id, projection, filter = {}) {
+      if (filter.ownerId) filter.ownerId = toObjectId(filter.ownerId);
+      return super.getOneById(id, projection, filter)
+    }
   };
 };

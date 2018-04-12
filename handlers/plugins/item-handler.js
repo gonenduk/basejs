@@ -6,13 +6,14 @@ class ItemHandler {
   }
 
   async get(req, res, next) {
-    // Get id and projection
+    // Get id, projection and filter
     const id = req.pathParams.id;
     const projection = req.query.projection;
+    const filter = req.query.filter;
 
     // Get item
     try {
-      const item = await this.model.getOneById(id, projection);
+      const item = await this.model.getOneById(id, projection, filter);
       if (!item) return next(Boom.notFound(`${req.originalUrl} not found`));
       res.json(item);
     }

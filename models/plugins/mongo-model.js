@@ -54,20 +54,15 @@ class MongoModel {
     return this.collection.findOne(filter, options);
   }
 
-  getOneById(id, projection = null) {
+  getOneById(id, projection = null, filter = {}) {
     const objectId = toObjectId(id);
-    return this.collection.findOne({ _id: objectId }, { projection });
+    const query = Object.assign({ _id: objectId }, filter);
+    return this.collection.findOne(query, { projection });
   }
 
   async updateOneById(id, item = {}) {
     const objectId = toObjectId(id);
     const result = await this.collection.updateOne({ _id: objectId }, { $set: item });
-    return result.modifiedCount === 1;
-  };
-
-  async replaceOneById(id, item = {}) {
-    const objectId = toObjectId(id);
-    const result = await this.collection.replaceOne({ _id: objectId }, item);
     return result.modifiedCount === 1;
   };
 

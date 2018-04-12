@@ -1,9 +1,9 @@
 const user = require('../models/user');
 const ac = require('../lib/acl');
-const ResourceCollection = require('./plugins/resource-collection');
+const CollectionHandler = require('./plugins/collection-handler');
 const Boom = require('boom');
 
-class UsersHandler extends ResourceCollection {
+class UsersHandler extends CollectionHandler {
   constructor() {
     super(user);
   }

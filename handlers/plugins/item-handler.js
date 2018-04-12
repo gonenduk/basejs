@@ -1,6 +1,6 @@
 const Boom = require('boom');
 
-class ResourceItem {
+class ItemHandler {
   constructor(model) {
     this.model = model;
   }
@@ -67,4 +67,4 @@ class ResourceItem {
   }
 }
 
-module.exports = ResourceItem;
+module.exports = ItemHandler;

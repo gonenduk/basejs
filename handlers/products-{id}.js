@@ -1,8 +1,8 @@
 const product = require('../models/product');
-const ResourceItem = require('./plugins/resource-item');
+const ItemHandler = require('./plugins/item-handler');
 const AccessControl = require('./plugins/accesscontrol');
 
-class ProductHandler extends AccessControl(ResourceItem) {
+class ProductHandler extends AccessControl(ItemHandler) {
   constructor() {
     super(product);
   }

@@ -1,9 +1,9 @@
 const user = require('../models/user');
 const ac = require('../lib/acl');
-const ResourceItem = require('./plugins/resource-item');
+const ItemHandler = require('./plugins/item-handler');
 const Boom = require('boom');
 
-class UserHandler extends ResourceItem {
+class UserHandler extends ItemHandler {
   constructor() {
     super(user);
   }

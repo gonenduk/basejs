@@ -15,5 +15,31 @@ module.exports = ModelClass => {
 
       return super.get(req, res, next);
     }
+
+    patch(req, res, next) {
+      // Access control
+      let permission = ac.can(req.user.role).updateAny('resource');
+      if (!permission.granted) {
+        permission = ac.can(req.user.role).updateOwn('resource');
+        if (!permission.granted)
+          return next(Boom.forbidden(`Access denied`));
+        req.query.filter = { ownerId: req.user.id }
+      }
+
+      return super.patch(req, res, next);
+    }
+
+    delete(req, res, next) {
+      // Access control
+      let permission = ac.can(req.user.role).deleteAny('resource');
+      if (!permission.granted) {
+        permission = ac.can(req.user.role).deleteOwn('resource');
+        if (!permission.granted)
+          return next(Boom.forbidden(`Access denied`));
+        req.query.filter = { ownerId: req.user.id }
+      }
+
+      return super.delete(req, res, next);
+    }
   };
 };

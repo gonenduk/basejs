@@ -22,5 +22,15 @@ module.exports = ModelClass => {
       if (filter.ownerId) filter.ownerId = toObjectId(filter.ownerId);
       return super.getOneById(id, projection, filter)
     }
+
+    updateOneById(id, item = {}, filter = {}) {
+      if (filter.ownerId) filter.ownerId = toObjectId(filter.ownerId);
+      return super.updateOneById(id, item, filter);
+    }
+
+    deleteOneById(id, filter = {}) {
+      if (filter.ownerId) filter.ownerId = toObjectId(filter.ownerId);
+      return super.deleteOneById(id, filter);
+    }
   };
 };

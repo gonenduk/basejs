@@ -5,19 +5,14 @@ module.exports = ModelClass => {
       return super.addOne(item);
     }
 
-    updateMany(item = {}) {
+    updateMany(filter, item = {}) {
       item.updatedAt = new Date();
-      return super.updateMany(item);
+      return super.updateMany(filter, item);
     }
 
-    updateOneById(id, item = {}) {
+    updateOneById(id, item = {}, filter) {
       item.updatedAt = new Date();
-      return super.updateOneById(id, item);
-    }
-
-    replaceOneById(id, item = {}) {
-      item.updatedAt = item.createdAt = new Date();
-      return super.replaceOneById(id, item);
+      return super.updateOneById(id, item, filter);
     }
   };
 };

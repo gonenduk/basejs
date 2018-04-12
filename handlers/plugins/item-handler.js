@@ -23,12 +23,13 @@ class ItemHandler {
   }
 
   async delete(req, res, next) {
-    // Get id
+    // Get id and filter
     const id = req.pathParams.id;
+    const filter = req.query.filter;
 
     // Delete item
     try {
-      const item = await this.model.deleteOneById(id);
+      const item = await this.model.deleteOneById(id, filter);
       if (!item) return next(Boom.notFound(`${req.originalUrl} not found`));
       res.status(204).end();
     }
@@ -38,27 +39,13 @@ class ItemHandler {
   }
 
   async patch(req, res, next) {
-    // Get id
+    // Get id and filter
     const id = req.pathParams.id;
+    const filter = req.query.filter;
 
     // Update item fields
     try {
-      const item = await this.model.updateOneById(id, req.body);
-      if (!item) return next(Boom.notFound(`${req.originalUrl} not found`));
-      res.status(204).end();
-    }
-    catch (err) {
-      next(err);
-    }
-  }
-
-  async put(req, res, next) {
-    // Get id
-    const id = req.pathParams.id;
-
-    // Replace item
-    try {
-      const item = await this.model.replaceOneById(id, req.body);
+      const item = await this.model.updateOneById(id, req.body, filter);
       if (!item) return next(Boom.notFound(`${req.originalUrl} not found`));
       res.status(204).end();
     }

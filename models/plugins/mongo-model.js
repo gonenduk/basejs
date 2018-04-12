@@ -60,15 +60,17 @@ class MongoModel {
     return this.collection.findOne(query, { projection });
   }
 
-  async updateOneById(id, item = {}) {
+  async updateOneById(id, item = {}, filter = {}) {
     const objectId = toObjectId(id);
-    const result = await this.collection.updateOne({ _id: objectId }, { $set: item });
+    const query = Object.assign({ _id: objectId }, filter);
+    const result = await this.collection.updateOne(query, { $set: item });
     return result.modifiedCount === 1;
   };
 
-  async deleteOneById(id) {
+  async deleteOneById(id, filter = {}) {
     const objectId = toObjectId(id);
-    const result = await this.collection.deleteOne({ _id: objectId });
+    const query = Object.assign({ _id: objectId }, filter);
+    const result = await this.collection.deleteOne(query);
     return result.deletedCount === 1;
   }
 }

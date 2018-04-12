@@ -184,35 +184,6 @@ paths:
               $ref: '#/components/schemas/Product'
         description: Product to create
         required: true
-    patch:
-      tags:
-        - Products
-      description: Update products fields
-      parameters:
-        - $ref: '#/components/parameters/filterParam'
-      responses:
-        '204':
-          $ref: '#/components/responses/NoContentResponse'
-        default:
-          $ref: '#/components/responses/ErrorResponse'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Product'
-        description: Product fields to update
-        required: true
-    delete:
-      tags:
-        - Products
-      description: Delete all products
-      parameters:
-        - $ref: '#/components/parameters/filterParam'
-      responses:
-        '204':
-          $ref: '#/components/responses/NoContentResponse'
-        default:
-          $ref: '#/components/responses/ErrorResponse'
   '/products/{id}':
     parameters:
       - $ref: '#/components/parameters/idParam'
@@ -356,7 +327,6 @@ components:
           type: number
         ownerId:
           type: string
-          readOnly: true
         createdAt:
           type: string
           format: date-time

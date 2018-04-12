@@ -275,53 +275,6 @@
             "$ref": "#/responses/ErrorResponse"
           }
         }
-      },
-      "patch": {
-        "tags": [
-          "Products"
-        ],
-        "description": "Update products fields",
-        "parameters": [
-          {
-            "$ref": "#/parameters/filterParam"
-          },
-          {
-            "in": "body",
-            "name": "product",
-            "description": "Product fields to update",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Product"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "$ref": "#/responses/NoContentResponse"
-          },
-          "default": {
-            "$ref": "#/responses/ErrorResponse"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Products"
-        ],
-        "description": "Delete all products",
-        "parameters": [
-          {
-            "$ref": "#/parameters/filterParam"
-          }
-        ],
-        "responses": {
-          "204": {
-            "$ref": "#/responses/NoContentResponse"
-          },
-          "default": {
-            "$ref": "#/responses/ErrorResponse"
-          }
-        }
       }
     },
     "/products/{id}": {
@@ -446,8 +399,7 @@
           "type": "number"
         },
         "ownerId": {
-          "type": "string",
-          "readOnly": true
+          "type": "string"
         },
         "createdAt": {
           "type": "string",

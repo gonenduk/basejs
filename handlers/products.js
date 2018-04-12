@@ -1,6 +1,6 @@
 const product = require('../models/product');
 const CollectionHandler = require('./plugins/collection-handler');
-const AccessControl = require('./plugins/accesscontrol');
+const AccessControl = require('./plugins/collection-acl');
 
 class ProductsHandler extends AccessControl(CollectionHandler) {
   constructor() {

@@ -16,12 +16,15 @@ router.use('/', jwtExtraction(jwtOptions), (req, res, next) => {
 
 // Access control
 ac.grant('guest')
-    .createOwn('user', ['*', '!role']).readAny('resource')
+    .createOwn('user', ['*', '!role'])
+    .readAny('resource')
   .grant('user').extend('guest')
-    .readOwn('user').updateOwn('user', ['*', '!role']).createOwn('resource').updateOwn('resource').deleteOwn('resource')
+    .readOwn('user').updateOwn('user', ['*', '!role'])
+    .createOwn('resource').updateOwn('resource', ['*', '!ownerId']).deleteOwn('resource')
   .grant('moderator').extend('user')
     .readAny('user')
   .grant('admin').extend('moderator')
-    .createOwn('user').readAny('user').updateAny('user').updateAny('resource').deleteAny('resource');
+    .updateAny('user')
+    .createAny('resource').updateAny('resource').deleteAny('resource');
 
 module.exports = router;

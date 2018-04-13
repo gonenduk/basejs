@@ -11,6 +11,7 @@ const app = module.exports = express();
 const web = require('./routes/web');
 const api = require('./routes/api');
 const common = require('./routes/common');
+const error = require('./routes/error');
 
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -29,3 +30,6 @@ app.locals.config = config;
 app.use(common);
 app.use(api);
 app.use(web);
+
+// Error handler
+app.use(error);

@@ -25,10 +25,4 @@ router.use((req, res, next) => {
   next(Boom.notFound('Page not found'));
 });
 
-// Error handler for web pages
-router.use((err, req, res, next) => {
-  const errPayload = handlers.error.payload(err);
-  res.status(errPayload.statusCode).render('error', { error: errPayload });
-});
-
 module.exports = router;

@@ -79,12 +79,6 @@ swagger('routes/api.json', router, (err, middleware) => {
     next(Boom.notImplemented(`${req.method} /api${req.path} is not implemented`));
   });
 
-  // Error handler for API
-  router.use((err, req, res, next) => {
-    const errPayload = handlers.error.payload(err);
-    res.status(errPayload.statusCode).json(errPayload);
-  });
-
   // API is ready
   logger.info('API is ready');
 });

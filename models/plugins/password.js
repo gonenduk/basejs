@@ -9,7 +9,7 @@ module.exports = ModelClass => {
       try {
         return hashAsync(password, null, null);
       } catch (err) {
-        logger.error(`Cannot validate password: ${err.message}`);
+        logger.warn(`Cannot hash password: ${err.message}`);
         return false;
       }
     }
@@ -18,7 +18,7 @@ module.exports = ModelClass => {
       try {
         return compareAsync(password, hash);
       } catch (err) {
-        logger.error(`Cannot validate password: ${err.message}`);
+        logger.warn(`Cannot validate password: ${err.message}`);
         return false;
       }
     }

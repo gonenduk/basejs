@@ -23,16 +23,20 @@
         "tags": [
           "Authentication"
         ],
-        "description": "Create a JWT based on user credentials or a refresh token",
+        "description": "Create a JWT based on user credentials",
         "security": [],
         "parameters": [
           {
             "in": "body",
             "name": "credentials",
-            "description": "User credentials or refresh token",
+            "description": "User credentials",
             "required": true,
             "schema": {
               "type": "object",
+              "required": [
+                "email",
+                "password"
+              ],
               "properties": {
                 "email": {
                   "type": "string"
@@ -40,8 +44,44 @@
                 "password": {
                   "type": "string",
                   "format": "password"
-                },
-                "refresh": {
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "New generated JWT",
+            "schema": {
+              "$ref": "#/definitions/JWT"
+            }
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/auth/refresh/token": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "description": "Create a JWT based on a refresh token",
+        "security": [],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "token",
+            "description": "refresh token",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "token"
+              ],
+              "properties": {
+                "token": {
                   "type": "string"
                 }
               }

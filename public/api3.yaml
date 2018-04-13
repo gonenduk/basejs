@@ -12,7 +12,7 @@ paths:
     post:
       tags:
         - Authentication
-      description: Create a JWT based on user credentials or a refresh token
+      description: Create a JWT based on user credentials
       security: []
       responses:
         '200':
@@ -28,15 +28,43 @@ paths:
           application/json:
             schema:
               type: object
+              required:
+                - email
+                - password
               properties:
                 email:
                   type: string
                 password:
                   type: string
                   format: password
-                refresh:
+        description: User credentials
+        required: true
+  /auth/refresh/token:
+    post:
+      tags:
+        - Authentication
+      description: Create a JWT based on a refresh token
+      security: []
+      responses:
+        '200':
+          description: New generated JWT
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JWT'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - token
+              properties:
+                token:
                   type: string
-        description: User credentials or refresh token
+        description: refresh token
         required: true
   /auth/social/token:
     post:

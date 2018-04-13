@@ -4,14 +4,17 @@ const jwt = require('../lib/jwt');
 
 module.exports = {
   post: async (req, res, next) => {
-    const email = req.body.email;
-    const password = req.body.password;
+    // Verify refresh token
+    let id;
+    try {
+      id = (await jwt.verifyToken(req.body.token)).id;
+    } catch (err) {
+      return next(Boom.unauthorized(`Invalid refresh token: ${err.message}`));
+    }
 
-    // Validate email/password
-    const match = await user.getOne({ email }, { projection: { password: 1, role: 1 }});
-    if (!match) return next(Boom.unauthorized('Incorrect email or password'));
-    if (!(await user.validatePassword(password, match.password)))
-      return next(Boom.unauthorized('Incorrect email or password'));
+    // Find related user
+    const match = await user.getOneById(id, { role: 1 });
+    if (!match) return next(Boom.unauthorized('Invalid user in refresh token'));
 
     // Create JWT with access and refresh tokens
     const accessPayload = { id: match._id, role: match.role };

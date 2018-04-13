@@ -33,10 +33,10 @@ class UsersHandler extends CollectionHandler {
       return next(Boom.forbidden(`Not allowed to set role`));
 
     // Hash password
-    try {
-      req.body.password = await hashAsync(req.body.password, null, null);
-    } catch (err) {
-      return next(Boom.internal(err.message));
+    if (req.body.password) {
+      req.body.password = await user.hashPassword(req.body.password);
+      if (!req.body.password)
+        return next(Boom.internal('Failed to hash password'));
     }
 
     return super.post(req, res, next);

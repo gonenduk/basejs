@@ -1,8 +1,6 @@
 const user = require('../models/user');
 const Boom = require('boom');
 const jwt = require('../lib/jwt');
-const bcrypt = require('bcrypt-nodejs');
-const compareAsync = Promise.promisify(bcrypt.compare);
 
 module.exports = {
   post: async (req, res, next) => {
@@ -15,12 +13,8 @@ module.exports = {
     if (email || password) {
       match = await user.getOne({ email }, { projection: { password: 1, role: 1 }});
       if (!match) return next(Boom.unauthorized('Incorrect email or password'));
-      try {
-        if (!(await compareAsync(password, match.password)))
-          return next(Boom.unauthorized('Incorrect email or password'));
-      } catch (err) {
+      if (!(await user.validatePassword(password, match.password)))
         return next(Boom.unauthorized('Incorrect email or password'));
-      }
     } else if (refresh) {
       let id;
       try {

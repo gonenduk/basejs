@@ -1,9 +1,7 @@
 const user = require('../models/user');
 const ac = require('../lib/acl');
-const bcrypt = require('bcrypt-nodejs');
 const ItemHandler = require('./plugins/item-handler');
 const Boom = require('boom');
-const hashAsync = Promise.promisify(bcrypt.hash);
 
 class UserHandler extends ItemHandler {
   constructor() {
@@ -42,11 +40,9 @@ class UserHandler extends ItemHandler {
 
     // Hash password
     if (req.body.password) {
-      try {
-        req.body.password = await hashAsync(req.body.password, null, null);
-      } catch (err) {
-        return next(Boom.internal(err.message));
-      }
+      req.body.password = await user.hashPassword(req.body.password);
+      if (!req.body.password)
+        return next(Boom.internal('Failed to hash password'));
     }
 
     return super.patch(req, res, next);

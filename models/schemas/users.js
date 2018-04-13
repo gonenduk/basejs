@@ -12,5 +12,7 @@ module.exports = {
       }
     }
   },
-  indexes: []
+  indexes: [
+    { fields: { "email": 1 }, options: { unique: true } }
+  ]
 };

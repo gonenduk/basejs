@@ -40,13 +40,16 @@ async function dbConnected(db) {
 
 const commands = {
   async init(db) {
-    log('Creating collections with their schema...');
+    log('Creating collections with their schema and indexes...');
 
     // Create collections and update latest schema
     for (let collectionName in schemas) {
       log(` ${collectionName}`);
       await db.createCollection(collectionName);
       await db.command({ collMod: collectionName, validator: schemas[collectionName].schema });
+      for (let index of schemas[collectionName].indexes ) {
+        await db.createIndex(collectionName, index.fields, index.options);
+      }
     }
   },
 

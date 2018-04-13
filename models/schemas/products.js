@@ -13,5 +13,7 @@ module.exports = {
       }
     }
   },
-  indexes: []
+  indexes: [
+    { fields: { "ownerId": 1 }, options: {} }
+  ]
 };

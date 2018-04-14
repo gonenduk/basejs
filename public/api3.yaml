@@ -170,6 +170,22 @@ paths:
               $ref: '#/components/schemas/User'
         description: User fields to update
         required: true
+  '/profiles/{id}':
+    parameters:
+      - $ref: '#/components/parameters/idParam'
+    get:
+      tags:
+        - Users
+      description: Get a user profile by id
+      responses:
+        '200':
+          description: Profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
   /products:
     get:
       tags:
@@ -341,6 +357,13 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/User'
+    Profile:
+      type: object
+      properties:
+        _id:
+          type: string
+        username:
+          type: string
     Product:
       type: object
       required:

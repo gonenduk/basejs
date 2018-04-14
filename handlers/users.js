@@ -17,7 +17,7 @@ class UsersHandler extends CollectionHandler {
       return next(Boom.forbidden(`Access denied`));
 
     // Hide password (write only)
-    req.query.projection = { password: false };
+    req.query.projection = { password: 0 };
 
     return super.get(req, res, next);
   }

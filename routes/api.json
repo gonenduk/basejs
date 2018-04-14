@@ -255,6 +255,31 @@
         }
       }
     },
+    "/profiles/{id}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/idParam"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Get a user profile by id",
+        "security": [{}, { "JWT": [] }],
+        "responses": {
+          "200": {
+            "description": "Profile",
+            "schema": {
+              "$ref": "#/definitions/Profile"
+            }
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      }
+    },
     "/products": {
       "get": {
         "tags": [
@@ -420,6 +445,17 @@
       "type": "array",
       "items": {
         "$ref": "#/definitions/User"
+      }
+    },
+    "Profile": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        }
       }
     },
     "Product": {

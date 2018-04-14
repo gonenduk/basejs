@@ -17,6 +17,7 @@ router.use('/', jwtExtraction(jwtOptions), (req, res, next) => {
 // Access control
 ac.grant('guest')
     .createOwn('user', ['*', '!role'])
+    .readAny('profile')
     .readAny('resource')
   .grant('user').extend('guest')
     .readOwn('user').updateOwn('user', ['*', '!role'])

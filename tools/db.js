@@ -43,7 +43,7 @@ const commands = {
     log('Creating collections with their schema and indexes...');
 
     // Create collections and update latest schema
-    for (let collectionName in schemas) {
+    for (let collectionName of Object.keys(schemas)) {
       log(` ${collectionName}`);
       await db.createCollection(collectionName);
       await db.command({ collMod: collectionName, validator: schemas[collectionName].schema });

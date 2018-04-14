@@ -182,9 +182,9 @@ Once authenticated the user will get its user id, profile id and user role for a
 
 ### User and profile management
 
-User is the identity of a real person. It usually contains credentials, token, contact details,
-billing info and such. Profile is the identity of a user in the system and is visible
-to other users. Profiles are owned by users. All other resources in the system are owned by profiles.
+User is the identity of a real person. It usually contains credentials, tokens, contact details,
+billing info and such. Profile is the how the user is seen to other users in the system.
+The profile contains a virtual sub set of the user information.
 
 Users have roles. Each role defines a set of permissions and restrictions. By default the
 following roles are defined and can be easily changed:
@@ -195,15 +195,12 @@ following roles are defined and can be easily changed:
 
 Only admin can change user role.
 
-Both the user id and the profile id of the current user will be kept in memory and in the jwt token
-sent on successful login.
-
 Access control is done using [accesscontrol](https://www.npmjs.com/package/accesscontrol)
 
 ### Resource management
 
-Most collections and models, except system data, users accounts and profiles will be resources owned by
-user profiles. Resource logic is easily made from several plugins and may have its own extra logic.
+Most collections and models, except system data and users will be resources owned by users.
+Resource logic is easily made from several plugins and may have its own extra logic.
 Plugins can be done in model level, like the timestamp plugin on, or in API level like the ownership
 plugin that limits each user to manage its own resources.
 All resources share teh same access control rules by default, but each can be overwritten.

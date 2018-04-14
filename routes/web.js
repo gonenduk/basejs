@@ -1,5 +1,6 @@
 const express = require('express');
 const config = require('config');
+const ac = require('../lib/acl');
 const ua = require('../lib/analytics');
 const handlers = require('../handlers');
 const Boom = require('boom');
@@ -15,6 +16,15 @@ if (config.analytics && config.analytics.web) {
     next();
   });
 }
+
+// Access control
+router.use('/', (req, res, next) => {
+  // Access control
+  const permission = ac.can(req.user.role).readAny('webpage');
+  if (!permission.granted)
+    return next(Boom.forbidden(`Access denied`));
+  next();
+});
 
 // Pages
 router.get('/', handlers.web.home);

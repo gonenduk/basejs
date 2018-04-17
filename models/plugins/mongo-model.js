@@ -1,5 +1,5 @@
 const logger = require('../../lib/logger');
-const connection = require('../../lib/mongodb');
+const mongo = require('../../lib/mongodb');
 const ObjectId = require('mongodb').ObjectId;
 
 function toObjectId(id) {
@@ -16,14 +16,13 @@ function toObjectId(id) {
 class MongoModel {
   constructor (collectionName) {
     this.collectionName = collectionName;
-    connection.then(db => {
-      if (db)
-        db.collection(collectionName, { strict: true }, (err, collection) => {
-          this.collection = collection;
-          if (err) logger.warn(`Cannot access '${collectionName}' collection: ${err.message}`);
-        });
-      else
-        logger.warn(`Cannot access '${collectionName}' collection. DB not connected`);
+    mongo.then(db => {
+      db.collection(collectionName, { strict: true }, (err, collection) => {
+        this.collection = collection;
+        if (err) logger.warn(`Cannot access '${collectionName}' collection: ${err.message}`);
+      });
+    }).catch(() => {
+      logger.warn(`Cannot access '${collectionName}' collection. DB not connected`);
     });
   }
 

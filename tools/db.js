@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt-nodejs');
 const schemas = require('../models/schemas');
-require('../lib/mongodb').then(dbConnected);
+const mongo = require('../lib/mongodb');
 
 const log = console.log;
 const userCommands = process.argv.slice(2);
@@ -16,26 +16,6 @@ function getCollection(db, name) {
       resolve(collection);
     });
   });
-}
-
-async function dbConnected(db) {
-  if (!db) {
-    log('Exiting - Failed to connect to db');
-    process.exit(1);
-  }
-
-  for (let i = 0; i < userCommands.length; i++) {
-    try {
-      await commands[userCommands[i]](db);
-      log('OK');
-    } catch (err) {
-      log(`Command '${userCommands[i]}' failed: ${err.message}`);
-      process.exit(1);
-    }
-  }
-
-  log('Done');
-  process.exit();
 }
 
 const commands = {
@@ -83,6 +63,25 @@ const commands = {
   }
 };
 
+// On DB connection
+mongo.then(async db => {
+  for (let i = 0; i < userCommands.length; i++) {
+    try {
+      await commands[userCommands[i]](db);
+      log('OK');
+    } catch (err) {
+      log(`Command '${userCommands[i]}' failed: ${err.message}`);
+      process.exit(1);
+    }
+  }
+
+  log('Done');
+  process.exit();
+}).catch(() => {
+  log('Exiting - Failed to connect to db');
+  process.exit(1);
+});
+
 // Validate user commands and print usage on error
 if (!isUserCommandsValid()) {
   log('\nInitialize the DB with collections and create schemas.');
@@ -91,5 +90,5 @@ if (!isUserCommandsValid()) {
   log('\tinit\tcreate collections with their schema');
   log('\tclean\tdelete all data and DB');
   log('\tusers\tcreate sample users in different roles');
-  process.exit(0);
+  process.exit();
 }

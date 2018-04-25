@@ -1,6 +1,6 @@
 const logger = require('../../lib/logger');
 const mongo = require('../../lib/mongodb');
-const ObjectId = require('mongodb').ObjectId;
+const ObjectId = mongo.driver.ObjectId;
 
 function toObjectId(id) {
   // Invalid id should rethrow with status 400
@@ -16,8 +16,8 @@ function toObjectId(id) {
 class MongoModel {
   constructor (collectionName) {
     this.collectionName = collectionName;
-    mongo.then(db => {
-      db.collection(collectionName, { strict: true }, (err, collection) => {
+    mongo.getReady.then(() => {
+      mongo.db.collection(collectionName, { strict: true }, (err, collection) => {
         this.collection = collection;
         if (err) logger.warn(`Cannot access '${collectionName}' collection: ${err.message}`);
       });

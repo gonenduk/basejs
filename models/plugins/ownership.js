@@ -1,4 +1,5 @@
-const ObjectId = require('mongodb').ObjectId;
+const mongo = require('../../lib/mongodb');
+const ObjectId = mongo.driver.ObjectId;
 
 function toObjectId(id) {
   // Invalid id should rethrow with status 400

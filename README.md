@@ -163,7 +163,8 @@ Each DB vendor should have a wrapping lib which exposes a unified interface to c
 data with the DB driver. Using the lib is limited to models and tools. This allows the option to
 replace DB vendors easily.
 
-Using [MongoDB driver](https://www.npmjs.com/package/mongodb)
+Support for [MongoDB](https://www.npmjs.com/package/mongodb)
+and [Redis](https://www.npmjs.com/package/redis)
 
 ### Authentication and authorization
 
@@ -221,7 +222,10 @@ Configuration under 'analytics':
 Server side reports using [universal-analytics](https://www.npmjs.com/package/universal-analytics) 
 
 ### Email delivery and templates
- 
+
+### Extras
+
+Checksum calculation and validation and generating uuid.
 
 ## Planned Features
 

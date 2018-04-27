@@ -179,7 +179,10 @@ Authentication can be done by:
 * refresh token
 * social login: facebook, google, github and windows
 
-Once authenticated the user will get its user id, profile id and user role for access control. 
+Once authenticated the user will get its user id and user role for access control.
+To log out a user from a device, clients need just to delete the token they got and not use it anymore.
+A change of password, or calling the logout API will log out the user from all devices: Existing refresh
+tokens will be expired. Existing access tokens will continue to work even after logout.
 
 ### User and profile management
 

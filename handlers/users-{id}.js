@@ -38,13 +38,6 @@ class UserHandler extends ItemHandler {
     if (req.body.role && permission.attributes.indexOf('!role') > -1)
       return next(Boom.forbidden(`Not allowed to change role`));
 
-    // Hash password
-    if (req.body.password) {
-      req.body.password = await user.hashPassword(req.body.password);
-      if (!req.body.password)
-        return next(Boom.internal('Failed to hash password'));
-    }
-
     return super.patch(req, res, next);
   }
 }

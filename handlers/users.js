@@ -32,13 +32,6 @@ class UsersHandler extends CollectionHandler {
     if (req.body.role && req.body.role !== 'user' && permission.attributes.indexOf('!role') > -1)
       return next(Boom.forbidden(`Not allowed to set role`));
 
-    // Hash password
-    if (req.body.password) {
-      req.body.password = await user.hashPassword(req.body.password);
-      if (!req.body.password)
-        return next(Boom.internal('Failed to hash password'));
-    }
-
     return super.post(req, res, next);
   }
 }

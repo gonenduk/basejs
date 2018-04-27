@@ -5,15 +5,6 @@ const compareAsync = Promise.promisify(bcrypt.compare);
 
 module.exports = ModelClass => {
   return class extends ModelClass {
-    hashPassword(password) {
-      try {
-        return hashAsync(password, null, null);
-      } catch (err) {
-        logger.warn(`Cannot hash password: ${err.message}`);
-        return false;
-      }
-    }
-
     validatePassword(password, hash) {
       try {
         return compareAsync(password, hash);
@@ -21,6 +12,18 @@ module.exports = ModelClass => {
         logger.warn(`Cannot validate password: ${err.message}`);
         return false;
       }
+    }
+
+    async addOne(item = {}) {
+      // Hash password
+      if (item.password) item.password = await hashAsync(item.password, null, null);
+      return super.addOne(item);
+    }
+
+    async updateOneById(id, item = {}, filter) {
+      // Hash password
+      if (item.password) item.password = await hashAsync(item.password, null, null);
+      return super.updateOneById(id, item, filter);
     }
   };
 };

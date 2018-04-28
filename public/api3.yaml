@@ -39,6 +39,15 @@ paths:
                   format: password
         description: User credentials
         required: true
+    delete:
+      tags:
+        - Authentication
+      description: Log out a user to invalidate existing refresh tokens
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContentResponse'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
   /auth/refresh/token:
     post:
       tags:
@@ -350,6 +359,10 @@ components:
           format: date-time
           readOnly: true
         updatedAt:
+          type: string
+          format: date-time
+          readOnly: true
+        logoutAt:
           type: string
           format: date-time
           readOnly: true

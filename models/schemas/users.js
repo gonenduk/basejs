@@ -8,7 +8,8 @@ module.exports = {
         password: { bsonType: "string" },
         role: { enum: ["user", "moderator", "admin"] },
         createdAt: { bsonType: "date" },
-        updatedAt: { bsonType: "date" }
+        updatedAt: { bsonType: "date" },
+        logoutAt: { bsonType: "date" }
       }
     }
   },

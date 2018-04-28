@@ -19,5 +19,15 @@ module.exports = {
     Promise.all([jwt.signAccessToken(accessPayload), jwt.signRefreshToken(refreshPayload)])
       .then(tokens => res.json({ access_token: tokens[0], refresh_token: tokens[1] }))
       .catch(err => next(Boom.unauthorized(`Failed to sign user tokens: ${err.message}`)));
+  },
+
+  delete: async (req, res, next) => {
+    try {
+      await user.logout(req.user.id);
+      res.status(204).end();
+    }
+    catch (err) {
+      next(err);
+    }
   }
 };

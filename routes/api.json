@@ -60,6 +60,20 @@
             "$ref": "#/responses/ErrorResponse"
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "Authentication"
+        ],
+        "description": "Log out a user to invalidate existing refresh tokens",
+        "responses": {
+          "204": {
+            "$ref": "#/responses/NoContentResponse"
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
       }
     },
     "/auth/refresh/token": {
@@ -435,6 +449,11 @@
           "readOnly": true
         },
         "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "logoutAt": {
           "type": "string",
           "format": "date-time",
           "readOnly": true

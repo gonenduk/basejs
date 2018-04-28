@@ -21,8 +21,12 @@ module.exports = ModelClass => {
     }
 
     async updateOneById(id, item = {}, filter) {
-      // Hash password
-      if (item.password) item.password = await hashAsync(item.password, null, null);
+      if (item.password) {
+        // Hash password
+        item.password = await hashAsync(item.password, null, null);
+        // Logout user to force use of new password on all devices
+        item.logoutAt = new Date();
+      }
       return super.updateOneById(id, item, filter);
     }
   };

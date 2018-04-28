@@ -6,12 +6,20 @@ module.exports = ModelClass => {
     }
 
     updateMany(filter, item = {}) {
-      item.updatedAt = new Date();
+      // Check if timestamp should be updated
+      if (item.updatedAt !== null)
+        item.updatedAt = new Date();
+      else
+        delete item.updatedAt;
       return super.updateMany(filter, item);
     }
 
     updateOneById(id, item = {}, filter) {
-      item.updatedAt = new Date();
+      // Check if timestamp should be updated
+      if (item.updatedAt !== null)
+        item.updatedAt = new Date();
+      else
+        delete item.updatedAt;
       return super.updateOneById(id, item, filter);
     }
   };

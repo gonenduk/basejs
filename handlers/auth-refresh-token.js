@@ -5,16 +5,19 @@ const jwt = require('../lib/jwt');
 module.exports = {
   post: async (req, res, next) => {
     // Verify refresh token
-    let id;
+    let token;
     try {
-      id = (await jwt.verifyToken(req.body.token)).id;
+      token = await jwt.verifyToken(req.body.token);
     } catch (err) {
       return next(Boom.unauthorized(`Invalid refresh token: ${err.message}`));
     }
 
     // Find related user
-    const match = await user.getOneById(id, { role: 1 });
+    const match = await user.getOneById(token.id, { role: 1, logoutAt: 1 });
     if (!match) return next(Boom.unauthorized('Invalid user in refresh token'));
+
+    // Validate user did not log off after refresh token was created
+    if (token.iat * 1000 < match.logoutAt.getTime()) return next(Boom.unauthorized('Refresh token expired'));
 
     // Create JWT with access and refresh tokens
     const accessPayload = { id: match._id, role: match.role };

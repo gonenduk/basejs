@@ -64,10 +64,10 @@ const commands = {
 };
 
 // On DB connection
-mongo.then(async db => {
+mongo.getReady.then(async connection => {
   for (let i = 0; i < userCommands.length; i++) {
     try {
-      await commands[userCommands[i]](db);
+      await commands[userCommands[i]](connection.db);
       log('OK');
     } catch (err) {
       log(`Command '${userCommands[i]}' failed: ${err.message}`);

@@ -33,7 +33,8 @@ class CollectionHandler {
   async post(req, res, next) {
     // Add one item to collection
     try {
-      res.status(201).json(await this.model.addOne(req.body));
+      const item = await this.model.addOne(req.body);
+      res.status(201).location(`${req.originalUrl}/${item._id}`).json(item);
     } catch (err) {
       next(err);
     }

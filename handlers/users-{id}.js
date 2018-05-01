@@ -24,7 +24,7 @@ class UserHandler extends ItemHandler {
     return super.get(req, res, next);
   }
 
-  async patch(req, res, next) {
+  patch(req, res, next) {
     if (req.pathParams.id === 'me') req.pathParams.id = req.user.id;
 
     // Access control

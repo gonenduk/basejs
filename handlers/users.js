@@ -22,7 +22,7 @@ class UsersHandler extends CollectionHandler {
     return super.get(req, res, next);
   }
 
-  async post(req, res, next) {
+  post(req, res, next) {
     // Access control
     const permission = ac.can(req.user.role).createOwn('user');
     if (!permission.granted)

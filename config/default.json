@@ -17,7 +17,9 @@
   "log": {
     "level": "debug",
     "console": true,
-    "file": ""
+    "file": "",
+    "http": true,
+    "https": true
   },
   "morgan": {
     "format": "dev"

@@ -1,5 +1,6 @@
 const config = require('config');
 const logger = require('./lib/logger');
+require('./lib/logger-http');
 
 // Load app and setup routes
 const app = require('./app');

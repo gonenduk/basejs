@@ -121,7 +121,7 @@ In some managed servers environments, like [heroku](https://heroku.com) or [aws]
 only http is used and the port is set in an environment variable. Should be set in
 custom-environment-variables.json file to overwrite the port.
 
-To breakdown and log outgoing network operations, enable the relevant protocol in under log:
+To breakdown and log outgoing network operations, enable the relevant protocol under log:
 * http: true to enable breakdown logs for outgoing http calls
 * https: true to enable breakdown logs for outgoing https calls
 

@@ -1,13 +1,15 @@
 const express = require('express');
-const config = require('config');
 const ac = require('../lib/acl');
 const ua = require('../lib/analytics');
 const handlers = require('../handlers');
 const Boom = require('boom');
+const options = require('../lib/options');
 const router = express.Router();
 
+const analyticsOptions = options('analytics');
+
 // Google analytics (server side)
-if (config.analytics && config.analytics.web) {
+if (analyticsOptions.web) {
   router.use('/', (req, res, next) => {
     const visitor = ua(req.user.id);
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;

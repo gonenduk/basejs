@@ -1,18 +1,18 @@
 const express = require('express');
-const config = require('config');
 const logger = require('../lib/logger');
 const swagger = require('swagger-express-middleware');
 const sui = require('swagger-ui-dist').getAbsoluteFSPath();
 const ua = require('../lib/analytics');
 const handlers = require('../handlers');
 const Boom = require('boom');
+const options = require('../lib/options');
 const router = express.Router();
 
-// Default API options
-config.api = config.api || {};
+const apiOptions = options('api');
+const analyticsOptions = options('analytics');
 
 // Google analytics
-if (config.analytics && config.analytics.api) {
+if (analyticsOptions.api) {
   router.use('/api', (req, res, next) => {
     const visitor = ua(req.user.id);
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
@@ -23,7 +23,7 @@ if (config.analytics && config.analytics.api) {
 }
 
 // Swagger UI
-if (config.api.ui) {
+if (apiOptions.ui) {
   router.get('/api/ui', (req, res, next) => {
     if (!req.query.url) {
       res.redirect('?url=' + req.protocol + '://' + req.get('host') + '/api/docs');
@@ -46,13 +46,13 @@ swagger('routes/api.json', router, (err, middleware) => {
   router.use(
     middleware.metadata(),
     middleware.CORS(),
-    middleware.files({ useBasePath: true, apiPath: config.api.docs ? '/docs' : '' }),
+    middleware.files({ useBasePath: true, apiPath: apiOptions.docs ? '/docs' : '' }),
     middleware.parseRequest(),
     middleware.validateRequest()
   );
 
   // Handlers
-  if (!config.api.mock) {
+  if (!apiOptions.mock) {
     router.use('/api', (req, res, next) => {
       // Find handler according to swagger definition
       const handlerName = req.swagger.pathName.slice(1).replace(/\//g, '-');

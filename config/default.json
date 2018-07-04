@@ -3,6 +3,12 @@
     "ports": {
       "http": 3000,
       "https": false
+    },
+    "workers": 0,
+    "JWT": {
+      "secret": "secret",
+      "accessTTL": "1h",
+      "refreshTTL": "7d"
     }
   },
   "api": {
@@ -18,8 +24,8 @@
     "level": "debug",
     "console": true,
     "file": "",
-    "http": true,
-    "https": true
+    "http": false,
+    "https": false
   },
   "morgan": {
     "format": "dev"

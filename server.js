@@ -12,14 +12,10 @@ const logger = require('./lib/logger');
 
 // Cluster support
 const cluster = require('./lib/cluster');
-cluster(startMaster, startWorker);
+cluster(startMaster, startWorker, startNoCluster);
 
 function startMaster() {
-  // Run as master only if workers configured
-  if (process.worker.count >= 1)
-    logger.info(`Master Started on pid ${process.pid}, forking ${process.worker.count} processes`);
-  else
-    require('./worker');
+  logger.info(`Master Started on pid ${process.pid}, forking ${process.worker.count} processes`);
 }
 
 function startWorker(id) {
@@ -31,5 +27,9 @@ function startWorker(id) {
     process.exit();
   });
 
+  require('./worker');
+}
+
+function startNoCluster() {
   require('./worker');
 }

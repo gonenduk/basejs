@@ -23,21 +23,13 @@ class CollectionHandler {
     const projection = req.query.projection;
 
     // Get list of items
-    try {
-      res.json(await this.model.getMany(filter, { sort, skip, limit, projection }));
-    } catch (err) {
-      next(err);
-    }
+    res.json(await this.model.getMany(filter, { sort, skip, limit, projection }));
   }
 
   async post(req, res, next) {
     // Add one item to collection
-    try {
-      const item = await this.model.addOne(req.body);
-      res.status(201).location(`${req.originalUrl}/${item._id}`).json(item);
-    } catch (err) {
-      next(err);
-    }
+    const item = await this.model.addOne(req.body);
+    res.status(201).location(`${req.originalUrl}/${item._id}`).json(item);
   }
 
   async patch(req, res, next) {
@@ -50,12 +42,8 @@ class CollectionHandler {
     }
 
     // Update list of items
-    try {
-      await this.model.updateMany(filter, req.body);
-      res.status(204).end();
-    } catch (err) {
-      next(err);
-    }
+    await this.model.updateMany(filter, req.body);
+    res.status(204).end();
   }
 
   async delete(req, res, next) {
@@ -68,12 +56,8 @@ class CollectionHandler {
     }
 
     // Delete items from collection
-    try {
-      await this.model.deleteMany(filter);
-      res.status(204).end();
-    } catch (err) {
-      next(err);
-    }
+    await this.model.deleteMany(filter);
+    res.status(204).end();
   }
 }
 

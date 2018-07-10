@@ -12,14 +12,9 @@ class ItemHandler {
     const filter = req.query.filter;
 
     // Get item
-    try {
-      const item = await this.model.getOneById(id, projection, filter);
-      if (!item) return next(Boom.notFound(`${req.originalUrl} not found`));
-      res.json(item);
-    }
-    catch (err) {
-      next(err);
-    }
+    const item = await this.model.getOneById(id, projection, filter);
+    if (!item) return next(Boom.notFound(`${req.originalUrl} not found`));
+    res.json(item);
   }
 
   async delete(req, res, next) {
@@ -28,14 +23,10 @@ class ItemHandler {
     const filter = req.query.filter;
 
     // Delete item
-    try {
-      const item = await this.model.deleteOneById(id, filter);
-      if (!item) return next(Boom.notFound(`${req.originalUrl} not found`));
-      res.status(204).end();
-    }
-    catch (err) {
-      next(err);
-    }
+
+    const item = await this.model.deleteOneById(id, filter);
+    if (!item) return next(Boom.notFound(`${req.originalUrl} not found`));
+    res.status(204).end();
   }
 
   async patch(req, res, next) {
@@ -44,14 +35,9 @@ class ItemHandler {
     const filter = req.query.filter;
 
     // Update item fields
-    try {
-      const item = await this.model.updateOneById(id, req.body, filter);
-      if (!item) return next(Boom.notFound(`${req.originalUrl} not found`));
-      res.status(204).end();
-    }
-    catch (err) {
-      next(err);
-    }
+    const item = await this.model.updateOneById(id, req.body, filter);
+    if (!item) return next(Boom.notFound(`${req.originalUrl} not found`));
+    res.status(204).end();
   }
 }
 

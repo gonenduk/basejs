@@ -64,8 +64,10 @@ swagger('routes/api.json', router, (err, middleware) => {
         return next();
       }
 
-      // Call handler
-      handler[method](req, res, next);
+      // Call handler and send any error caught to the error route
+      handler[method](req, res, next).catch(err => {
+        return next(err);
+      });
     })
   }
   // Mock

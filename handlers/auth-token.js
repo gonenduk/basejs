@@ -22,12 +22,7 @@ module.exports = {
   },
 
   delete: async (req, res, next) => {
-    try {
-      await user.logout(req.user.id);
-      res.status(204).end();
-    }
-    catch (err) {
-      next(err);
-    }
+    await user.logout(req.user.id);
+    res.status(204).end();
   }
 };

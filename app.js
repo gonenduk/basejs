@@ -21,7 +21,7 @@ app.set('view engine', 'pug');
 
 // General app setup
 app.use(favicon(path.join(__dirname, 'public', 'favicon.png')));
-app.use(morgan(config.morgan.format, { stream: logger.stream }));
+app.use(morgan(config.get('morgan').format, { stream: logger.stream }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());

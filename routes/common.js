@@ -1,6 +1,7 @@
 const express = require('express');
 const jwtExtraction = require('express-jwt');
 const jwt = require('../lib/jwt');
+
 const router = express.Router();
 
 // Define access control

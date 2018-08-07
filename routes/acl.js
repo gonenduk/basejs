@@ -1,5 +1,7 @@
 const ac = require('../lib/acl');
 
+/* eslint newline-per-chained-call: "off" */
+
 // Access control definitions
 ac.grant('guest')
   .createOwn('user', ['*', '!role'])

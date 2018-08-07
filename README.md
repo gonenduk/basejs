@@ -111,15 +111,9 @@ and can be configured under 'morgan'.
 
 ### Protocols
 
-What protocols and ports to listen to. Can be configured under server.ports:
-* http: port to listen to or false not to use
-* https: port to listen to or false not to use
-
-The list is dynamic so any other protocol which is supported by Node.js can be added to the list.
-
-In some managed servers environments, like [heroku](https://heroku.com) or [aws](https://aws.amazon.com),
+In most managed servers environments, like [heroku](https://heroku.com) or [aws](https://aws.amazon.com),
 only http is used and the port is set in an environment variable. Should be set in
-custom-environment-variables.json file to overwrite the port.
+custom-environment-variables.json file to overwrite the port setting under the server configuration.
 
 To breakdown and log outgoing network operations, enable the relevant protocol under log:
 * http: true to enable breakdown logs for outgoing http calls
@@ -228,6 +222,12 @@ Configuration under 'analytics':
 
 Server side reports using [universal-analytics](https://www.npmjs.com/package/universal-analytics) 
 
+### ESLint
+
+ESLint is used with the super strict airbnb coding style. The
+only exception is line length which is set to 120 charcaters
+instead of 80. 
+
 ### Email delivery and templates
 
 ### Extras
@@ -236,7 +236,6 @@ Checksum calculation and validation and generating uuid.
 
 ## Planned Features
 
-### ESLint
 ### Unit Testing & Coverage
 ### Using Travis
 

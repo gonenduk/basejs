@@ -1,9 +1,6 @@
 {
   "server": {
-    "ports": {
-      "http": 3000,
-      "https": false
-    },
+    "port": 3000,
     "workers": 0,
     "JWT": {
       "secret": "secret",

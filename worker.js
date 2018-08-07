@@ -1,74 +1,64 @@
-const config = require('config');
+const http = require('http');
+const options = require('./lib/options')('server');
 const logger = require('./lib/logger');
 require('./lib/logger-http');
 
 // Load app and setup routes
 const app = require('./app');
 
-// Create network listeners for each protocol
-const ports = config.server.ports || {};
-for (let protocol in ports) {
-  listen(protocol, app);
+// Normalize a port into a number, string, or false
+function normalizePort(val) {
+  const port = parseInt(val, 10);
+
+  if (Number.isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
 }
 
-function listen(protocol, requestListener, options) {
-  // Get port from configuration, ignore if not given
-  const port = normalizePort(config.server.ports[protocol]);
-  if (!port) return;
+// Get port from configuration, ignore if not given
+const port = normalizePort(options.port);
+if (port) {
+  // Create server
+  const server = http.createServer(app)
 
-  // Create network server
-  const network = require(protocol);
-  const server = options ? network.createServer(options, requestListener) : network.createServer(requestListener);
+    // Listen to port
+    .listen(port)
 
-  // Listen on provided port, on all network interfaces
-  server.listen(port);
-  server.on('error', onError);
-  server.on('listening', onListening);
+    // Event listener for server "error" event
+    .on('error', (error) => {
+      const bind = typeof port === 'string'
+        ? `Pipe ${port}`
+        : `Port ${port}`;
 
-  // Normalize a port into a number, string, or false
-  function normalizePort(val) {
-    const port = parseInt(val, 10);
+      // handle specific listen errors with friendly messages
+      switch (error.code) {
+        case 'EACCES':
+          logger.error(`${bind} requires elevated privileges`);
+          process.exit(1);
+          break;
+        case 'EADDRINUSE':
+          logger.error(`${bind} is already in use`);
+          process.exit(1);
+          break;
+        default:
+          throw error;
+      }
+    })
 
-    if (isNaN(port)) {
-      // named pipe
-      return val;
-    }
-
-    if (port >= 0) {
-      // port number
-      return port;
-    }
-
-    return false;
-  }
-
-  // Event listener for server "error" event
-  function onError(error) {
-    const bind = typeof port === 'string'
-      ? 'Pipe ' + port
-      : 'Port ' + port;
-
-    // handle specific listen errors with friendly messages
-    switch (error.code) {
-      case 'EACCES':
-        logger.error(`${bind} requires elevated privileges`);
-        process.exit(1);
-        break;
-      case 'EADDRINUSE':
-        logger.error(`${bind} is already in use`);
-        process.exit(1);
-        break;
-      default:
-        throw error;
-    }
-  }
-
-  // Event listener for server "listening" event
-  function onListening() {
-    const addr = server.address();
-    const bind = typeof addr === 'string'
-      ? 'pipe ' + addr
-      : 'port ' + addr.port;
-    logger.info(`Listening for ${protocol} on ${bind}`);
-  }
+    // Event listener for server "listening" event
+    .on('listening', () => {
+      const addr = server.address();
+      const bind = typeof addr === 'string'
+        ? `pipe ${addr}`
+        : `port ${addr.port}`;
+      logger.info(`Listening for http on ${bind}`);
+    });
 }

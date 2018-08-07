@@ -1,29 +1,24 @@
 #!/usr/bin/env node
 
 // Use strict mode in all project modules
-'use strict';
 require('auto-strict');
 
-// Initialize promise library, config and logger
+// Initialize promise library, config, logger and cluster
 global.Promise = require('bluebird');
-const config = require('config');
-config.server = config.server || {};
 const logger = require('./lib/logger');
-
-// Cluster support
 const cluster = require('./lib/cluster');
-cluster(startMaster, startWorker, startNoCluster);
 
+// Cluster callback functions
 function startMaster() {
-  logger.info(`Master Started on pid ${process.pid}, forking ${process.worker.count} processes`);
+  logger.info(`Master started on pid ${process.pid}, forking ${process.worker.count} processes`);
 }
 
 function startWorker(id) {
   process.worker.id = id;
-  logger.info(`Worker started`);
+  logger.info('Worker started');
 
   process.on('SIGTERM', () => {
-    logger.info(`Worker exiting...`);
+    logger.info('Worker exiting...');
     process.exit();
   });
 
@@ -33,3 +28,6 @@ function startWorker(id) {
 function startNoCluster() {
   require('./worker');
 }
+
+// Start cluster support
+cluster(startMaster, startWorker, startNoCluster);

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint global-require: "off" */
 
 // Use strict mode in all project modules
 require('auto-strict');

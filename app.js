@@ -1,12 +1,14 @@
 const express = require('express');
 const config = require('config');
-const logger = require('./lib/logger');
 const path = require('path');
 const favicon = require('serve-favicon');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
+const logger = require('./lib/logger');
 
-const app = module.exports = express();
+// Create express app and export it before requiring routes
+const app = express();
+module.exports = app;
 
 const web = require('./routes/web');
 const api = require('./routes/api');

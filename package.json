@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node server",
-    "db": "node tools/db"
+    "db": "node tools/db",
+    "lint": "node_modules/.bin/eslint ."
   },
   "dependencies": {
     "accesscontrol": "^2.2.1",
@@ -32,5 +33,9 @@
     "uuid": "^3.3.2",
     "winston": "^3.0.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-plugin-import": "^2.13.0"
+  }
 }

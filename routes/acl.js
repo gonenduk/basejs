@@ -1,6 +1,5 @@
-const ac = require('../lib/acl');
-
 /* eslint newline-per-chained-call: "off" */
+const ac = require('../lib/acl');
 
 // Access control definitions
 ac.grant('guest')

@@ -1,5 +1,6 @@
-const user = require('../models/user');
+/* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
 const Boom = require('boom');
+const user = require('../models/user');
 const jwt = require('../lib/jwt');
 
 module.exports = {
@@ -22,8 +23,8 @@ module.exports = {
     // Create JWT with access and refresh tokens
     const accessPayload = { id: match._id, role: match.role };
     const refreshPayload = { id: match._id };
-    Promise.all([jwt.signAccessToken(accessPayload), jwt.signRefreshToken(refreshPayload)])
+    return Promise.all([jwt.signAccessToken(accessPayload), jwt.signRefreshToken(refreshPayload)])
       .then(tokens => res.json({ access_token: tokens[0], refresh_token: tokens[1] }))
       .catch(err => next(Boom.unauthorized(`Failed to sign user tokens: ${err.message}`)));
-  }
+  },
 };

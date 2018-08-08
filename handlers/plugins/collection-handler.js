@@ -1,3 +1,4 @@
+/* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
 const Boom = require('boom');
 
 class CollectionHandler {
@@ -7,7 +8,9 @@ class CollectionHandler {
 
   async get(req, res, next) {
     // Get filter and sort objects (in OpenAPI 3 won't need to verify they are objects)
-    let filter, sort, operation;
+    let filter;
+    let sort;
+    let operation;
     try {
       operation = 'filter';
       if (req.query.filter) filter = JSON.parse(req.query.filter);
@@ -18,15 +21,15 @@ class CollectionHandler {
     }
 
     // Get skip and limit
-    const skip = req.query.skip;
-    const limit = req.query.limit || 20;
-    const projection = req.query.projection;
+    const { skip, limit = 20, projection } = req.query;
 
     // Get list of items
-    res.json(await this.model.getMany(filter, { sort, skip, limit, projection }));
+    return res.json(await this.model.getMany(filter, {
+      sort, skip, limit, projection,
+    }));
   }
 
-  async post(req, res, next) {
+  async post(req, res) {
     // Add one item to collection
     const item = await this.model.addOne(req.body);
     res.status(201).location(`${req.originalUrl}/${item._id}`).json(item);
@@ -43,7 +46,7 @@ class CollectionHandler {
 
     // Update list of items
     await this.model.updateMany(filter, req.body);
-    res.status(204).end();
+    return res.status(204).end();
   }
 
   async delete(req, res, next) {
@@ -57,7 +60,7 @@ class CollectionHandler {
 
     // Delete items from collection
     await this.model.deleteMany(filter);
-    res.status(204).end();
+    return res.status(204).end();
   }
 }
 

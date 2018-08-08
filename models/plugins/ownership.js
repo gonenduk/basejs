@@ -1,5 +1,7 @@
+/* eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["item", "filter"] }] */
 const mongo = require('../../lib/mongodb');
-const ObjectId = mongo.driver.ObjectId;
+
+const { ObjectId } = mongo.driver;
 
 function toObjectId(id) {
   // Invalid id should rethrow with status 400
@@ -12,27 +14,25 @@ function toObjectId(id) {
   }
 }
 
-module.exports = ModelClass => {
-  return class extends ModelClass {
-    addOne(item = {}) {
-      item.ownerId = toObjectId(item.ownerId);
-      return super.addOne(item);
-    }
+module.exports = ModelClass => class extends ModelClass {
+  addOne(item = {}) {
+    item.ownerId = toObjectId(item.ownerId);
+    return super.addOne(item);
+  }
 
-    getOneById(id, projection, filter = {}) {
-      if (filter.ownerId) filter.ownerId = toObjectId(filter.ownerId);
-      return super.getOneById(id, projection, filter)
-    }
+  getOneById(id, projection, filter = {}) {
+    if (filter.ownerId) filter.ownerId = toObjectId(filter.ownerId);
+    return super.getOneById(id, projection, filter);
+  }
 
-    updateOneById(id, item = {}, filter = {}) {
-      if (item.ownerId) item.ownerId = toObjectId(item.ownerId);
-      if (filter.ownerId) filter.ownerId = toObjectId(filter.ownerId);
-      return super.updateOneById(id, item, filter);
-    }
+  updateOneById(id, item = {}, filter = {}) {
+    if (item.ownerId) item.ownerId = toObjectId(item.ownerId);
+    if (filter.ownerId) filter.ownerId = toObjectId(filter.ownerId);
+    return super.updateOneById(id, item, filter);
+  }
 
-    deleteOneById(id, filter = {}) {
-      if (filter.ownerId) filter.ownerId = toObjectId(filter.ownerId);
-      return super.deleteOneById(id, filter);
-    }
-  };
+  deleteOneById(id, filter = {}) {
+    if (filter.ownerId) filter.ownerId = toObjectId(filter.ownerId);
+    return super.deleteOneById(id, filter);
+  }
 };

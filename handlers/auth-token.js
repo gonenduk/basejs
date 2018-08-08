@@ -12,7 +12,7 @@ module.exports = {
     if (!match) {
       return next(Boom.unauthorized('Incorrect email or password'));
     }
-    if (!(await user.validatePassword(password, match.password))) {
+    if (!(await user.constructor.validatePassword(password, match.password))) {
       return next(Boom.unauthorized('Incorrect email or password'));
     }
 

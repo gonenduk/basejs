@@ -1,6 +1,7 @@
 const logger = require('../../lib/logger');
 const mongo = require('../../lib/mongodb');
-const ObjectId = mongo.driver.ObjectId;
+
+const { ObjectId } = mongo.driver;
 
 function toObjectId(id) {
   // Invalid id should rethrow with status 400
@@ -14,7 +15,7 @@ function toObjectId(id) {
 }
 
 class MongoModel {
-  constructor (collectionName) {
+  constructor(collectionName) {
     this.collectionName = collectionName;
     mongo.getReady.then(() => {
       mongo.db.collection(collectionName, { strict: true }, (err, collection) => {
@@ -64,7 +65,7 @@ class MongoModel {
     const query = Object.assign({ _id: objectId }, filter);
     const result = await this.collection.updateOne(query, { $set: item });
     return result.modifiedCount === 1;
-  };
+  }
 
   async deleteOneById(id, filter = {}) {
     const objectId = toObjectId(id);

@@ -1,8 +1,6 @@
 {
   "server": {
-    "ports": {
-      "http": "PORT"
-    },
+    "port": "PORT",
     "JWT": {
       "secret": "JWT_SECRET"
     },

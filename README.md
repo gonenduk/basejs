@@ -227,7 +227,7 @@ Server side reports using [universal-analytics](https://www.npmjs.com/package/un
 ### ESLint
 
 ESLint is used with the super strict airbnb coding style. The
-only exception is line length which is set to 120 charcaters
+only exception is line length which is set to 120 characters
 instead of 80. 
 
 ### Using travis-ci

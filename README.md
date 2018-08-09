@@ -5,6 +5,8 @@ a list of features I use in most of the cases.
 Instead of developing a server from scratch each project, I start
 with this one and develop on top of it.
 
+[![Build Status](https://travis-ci.org/gonenduk/basejs.svg?branch=master)](https://travis-ci.org/gonenduk/basejs)
+
 A running server with the latest code can be found here:
 
 [https://basejs.herokuapp.com](https://basejs.herokuapp.com)  
@@ -228,6 +230,13 @@ ESLint is used with the super strict airbnb coding style. The
 only exception is line length which is set to 120 charcaters
 instead of 80. 
 
+### Using travis-ci
+
+The GitHub repository is hooked with travis-ci. Every pull
+request to master or commit on master will create a new build
+and run both lint and tests. A successful build will be
+deployed to heroku.
+
 ### Email delivery and templates
 
 ### Extras
@@ -237,7 +246,6 @@ Checksum calculation and validation and generating uuid.
 ## Planned Features
 
 ### Unit Testing & Coverage
-### Using Travis
 
 ## License
 

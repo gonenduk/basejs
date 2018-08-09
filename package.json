@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node server",
     "db": "node tools/db",
-    "lint": "node_modules/.bin/eslint ."
+    "lint": "node_modules/.bin/eslint .",
+    "test": "node_modules/.bin/mocha"
   },
   "dependencies": {
     "accesscontrol": "^2.2.1",
@@ -36,6 +37,7 @@
   "devDependencies": {
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^13.0.0",
-    "eslint-plugin-import": "^2.13.0"
+    "eslint-plugin-import": "^2.13.0",
+    "mocha": "^5.2.0"
   }
 }

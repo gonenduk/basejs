@@ -46,7 +46,7 @@ const commands = {
       const isExist = await users.find({ email: type }, { limit: 1 }).count({ limit: true });
       if (!isExist)
         await users.insertOne({
-          email: type,
+          username: type,
           password: bcrypt.hashSync(type),
           role: type,
           createdAt: new Date(),

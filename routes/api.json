@@ -34,11 +34,11 @@
             "schema": {
               "type": "object",
               "required": [
-                "email",
+                "username",
                 "password"
               ],
               "properties": {
-                "email": {
+                "username": {
                   "type": "string"
                 },
                 "password": {
@@ -458,12 +458,15 @@
     "User": {
       "type": "object",
       "required": [
-        "email"
+        "username"
       ],
       "properties": {
         "_id": {
           "type": "string",
           "readOnly": true
+        },
+        "username": {
+          "type": "string"
         },
         "email": {
           "type": "string"

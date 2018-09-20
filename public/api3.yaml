@@ -29,10 +29,10 @@ paths:
             schema:
               type: object
               required:
-                - email
+                - username
                 - password
               properties:
-                email:
+                username:
                   type: string
                 password:
                   type: string
@@ -356,11 +356,13 @@ components:
     User:
       type: object
       required:
-        - email
+        - username
       properties:
         _id:
           type: string
           readOnly: true
+        username:
+          type: string
         email:
           type: string
         password:

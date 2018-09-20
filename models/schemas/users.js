@@ -2,8 +2,9 @@ module.exports = {
   schema: {
     $jsonSchema: {
       bsonType: 'object',
-      required: ['email', 'role'],
+      required: ['username', 'role'],
       properties: {
+        username: { bsonType: 'string' },
         email: { bsonType: 'string' },
         password: { bsonType: 'string' },
         role: { enum: ['user', 'moderator', 'admin'] },
@@ -14,6 +15,7 @@ module.exports = {
     },
   },
   indexes: [
-    { fields: { email: 1 }, options: { unique: true } },
+    { fields: { username: 1 }, options: { unique: true } },
+    { fields: { email: 1 }, options: { unique: true, partialFilterExpression: { email: { $exists: true } } } },
   ],
 };

@@ -26,7 +26,6 @@ module.exports = ModelClass => class extends ModelClass {
   }
 
   updateOneById(id, item = {}, filter = {}) {
-    if (item.ownerId) item.ownerId = toObjectId(item.ownerId);
     if (filter.ownerId) filter.ownerId = toObjectId(filter.ownerId);
     return super.updateOneById(id, item, filter);
   }
@@ -34,5 +33,10 @@ module.exports = ModelClass => class extends ModelClass {
   deleteOneById(id, filter = {}) {
     if (filter.ownerId) filter.ownerId = toObjectId(filter.ownerId);
     return super.deleteOneById(id, filter);
+  }
+
+  replaceOwnerById(id, ownerId, filter = {}) {
+    const item = { ownerId: toObjectId(ownerId) };
+    return this.updateOneById(id, item, filter);
   }
 };

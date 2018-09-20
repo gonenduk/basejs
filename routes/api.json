@@ -419,6 +419,39 @@
           }
         }
       }
+    },
+    "/products/{id}/owner": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/idParam"
+        }
+      ],
+      "put": {
+        "tags": [
+          "Products"
+        ],
+        "description": "Replace owner of product",
+        "consumes": "text/plain",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "Owner id",
+            "description": "New owner id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/responses/NoContentResponse"
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -494,7 +527,8 @@
           "type": "number"
         },
         "ownerId": {
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         },
         "createdAt": {
           "type": "string",

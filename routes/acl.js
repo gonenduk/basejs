@@ -9,9 +9,9 @@ ac.grant('guest')
   .readAny('webpage')
   .grant('user').extend('guest')
   .readOwn('user').updateOwn('user', ['*', '!role'])
-  .createOwn('resource').updateOwn('resource', ['*', '!ownerId']).deleteOwn('resource')
+  .createOwn('resource').updateOwn('resource').deleteOwn('resource')
   .grant('moderator').extend('user')
   .readAny('user')
   .grant('admin').extend('moderator')
   .updateAny('user')
-  .createAny('resource').updateAny('resource').deleteAny('resource');
+  .updateAny('resource').deleteAny('resource').updateAny('resource-owner');

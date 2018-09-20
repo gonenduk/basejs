@@ -23,11 +23,6 @@ module.exports = ModelClass => class extends ModelClass {
       req.query.filter = { ownerId: req.user.id };
     }
 
-    // Change of ownerId
-    if (req.body.ownerId && permission.attributes.indexOf('!ownerId') > -1) {
-      return next(Boom.forbidden('Not allowed to change ownerId'));
-    }
-
     return super.patch(req, res, next);
   }
 

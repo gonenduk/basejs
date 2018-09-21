@@ -24,10 +24,8 @@ class UsersHandler extends CollectionHandler {
     const permission = ac.can(req.user.role).createOwn('user');
     if (!permission.granted) return next(Boom.forbidden('Access denied'));
 
-    // Set of role
-    if (req.body.role && req.body.role !== 'user' && permission.attributes.indexOf('!role') > -1) {
-      return next(Boom.forbidden('Not allowed to set role'));
-    }
+    // New user role is always set to user
+    req.body.role = 'user';
 
     return super.post(req, res, next);
   }

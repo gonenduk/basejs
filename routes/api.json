@@ -473,7 +473,8 @@
         },
         "role": {
           "type": "string",
-          "enum": ["user", "moderator", "admin"]
+          "enum": ["user", "moderator", "admin"],
+          "readOnly": true
         },
         "password": {
           "type": "string",

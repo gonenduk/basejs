@@ -375,6 +375,7 @@ components:
             - user
             - moderator
             - admin
+          readOnly: true
         createdAt:
           type: string
           format: date-time

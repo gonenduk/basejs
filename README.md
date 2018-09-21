@@ -207,7 +207,8 @@ Most collections and models, except system data and users will be resources owne
 Resource logic is easily made from several plugins and may have its own extra logic.
 Plugins can be done in model level, like the timestamp plugin on, or in API level like the ownership
 plugin that limits each user to manage its own resources.
-All resources share teh same access control rules by default, but each can be overwritten.
+All resources share the same access control rules by default, but each can be overwritten.
+Managing ownership of resources is also available by default and can be removed for resources that should not be movable.
 
 ### Google Analytics
 

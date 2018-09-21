@@ -196,6 +196,10 @@ paths:
           text/plain:
             schema:
               type: string
+              enum:
+                - user
+                - moderator
+                - admin
         description: New role
         required: true
   /profiles/{id}:

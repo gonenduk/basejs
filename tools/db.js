@@ -47,6 +47,7 @@ const commands = {
       if (!isExist)
         await users.insertOne({
           username: type,
+          email: `${type}@example.com`,
           password: bcrypt.hashSync(type),
           role: type,
           createdAt: new Date(),

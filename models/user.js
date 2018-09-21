@@ -11,6 +11,11 @@ class User extends Password(Timestamps(MongoModel)) {
     const item = { logoutAt: new Date(), updatedAt: null };
     return super.updateOneById(id, item);
   }
+
+  setRole(id, role) {
+    const item = { role };
+    return super.updateOneById(id, item);
+  }
 }
 
 module.exports = new User();

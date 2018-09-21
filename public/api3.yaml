@@ -179,6 +179,25 @@ paths:
               $ref: '#/components/schemas/User'
         description: User fields to update
         required: true
+  /users/{id}/role:
+    parameters:
+    - $ref: '#/components/parameters/idParam'
+    put:
+      tags:
+      - Users
+      description: Set user role
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContentResponse'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              type: string
+        description: New role
+        required: true
   /profiles/{id}:
     parameters:
       - $ref: '#/components/parameters/idParam'

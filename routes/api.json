@@ -269,6 +269,39 @@
         }
       }
     },
+    "/users/{id}/role": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/idParam"
+        }
+      ],
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Set user role",
+        "consumes": "text/plain",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "User role",
+            "description": "New role",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/responses/NoContentResponse"
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      }
+    },
     "/profiles/{id}": {
       "parameters": [
         {

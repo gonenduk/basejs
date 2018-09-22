@@ -137,7 +137,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                allOf:
+                - $ref: '#/components/schemas/User'
+                - required:
+                  - username
+                  - email
         default:
           $ref: '#/components/responses/ErrorResponse'
       requestBody:
@@ -250,7 +254,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Product'
+                allOf:
+                - $ref: '#/components/schemas/Product'
+                - required:
+                  - title
         default:
           $ref: '#/components/responses/ErrorResponse'
       requestBody:
@@ -378,8 +385,6 @@ components:
   schemas:
     User:
       type: object
-      required:
-        - username
       properties:
         _id:
           type: string
@@ -424,8 +429,6 @@ components:
           type: string
     Product:
       type: object
-      required:
-        - title
       properties:
         _id:
           type: string

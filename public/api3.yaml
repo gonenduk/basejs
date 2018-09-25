@@ -137,18 +137,18 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                - $ref: '#/components/schemas/User'
-                - required:
-                  - username
-                  - email
+                $ref: '#/components/schemas/User'
         default:
           $ref: '#/components/responses/ErrorResponse'
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              allOf:
+                - $ref: '#/components/schemas/User'
+                - required:
+                  - username
+                  - email
         description: User to create
         required: true
   /users/{id}:
@@ -188,7 +188,7 @@ paths:
     - $ref: '#/components/parameters/idParam'
     put:
       tags:
-      - Users
+        - Users
       description: Set user role
       responses:
         '204':
@@ -254,17 +254,17 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                - $ref: '#/components/schemas/Product'
-                - required:
-                  - title
+                $ref: '#/components/schemas/Product'
         default:
           $ref: '#/components/responses/ErrorResponse'
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Product'
+              allOf:
+                - $ref: '#/components/schemas/Product'
+                - required:
+                  - title
         description: Product to create
         required: true
   /products/{id}:

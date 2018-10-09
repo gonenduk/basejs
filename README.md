@@ -6,6 +6,7 @@ Instead of developing a server from scratch each project, I start
 with this one and develop on top of it.
 
 [![Build Status](https://travis-ci.org/gonenduk/basejs.svg?branch=master)](https://travis-ci.org/gonenduk/basejs)
+[![Dependencies](https://david-dm.org/gonenduk/basejs.svg)](https://david-dm.org/gonenduk/basejs)
 
 A running server with the latest code can be found here:
 

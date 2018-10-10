@@ -280,7 +280,7 @@
           "Users"
         ],
         "description": "Set user role",
-        "consumes": "text/plain",
+        "consumes": ["text/plain"],
         "parameters": [
           {
             "in": "body",
@@ -465,7 +465,7 @@
           "Products"
         ],
         "description": "Replace owner of product",
-        "consumes": "text/plain",
+        "consumes": ["text/plain"],
         "parameters": [
           {
             "in": "body",

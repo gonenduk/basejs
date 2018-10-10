@@ -6,7 +6,8 @@
     "start": "node server",
     "db": "node tools/db",
     "lint": "node_modules/.bin/eslint .",
-    "test": "node_modules/.bin/mocha"
+    "test": "node_modules/.bin/mocha",
+    "swagger": "node_modules/.bin/swagger-cli validate routes/api.json"
   },
   "dependencies": {
     "accesscontrol": "^2.2.1",
@@ -38,6 +39,7 @@
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-import": "^2.13.0",
-    "mocha": "^5.2.0"
+    "mocha": "^5.2.0",
+    "swagger-cli": "^2.1.2"
   }
 }

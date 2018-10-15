@@ -1,26 +1,41 @@
 /* eslint-disable */
 const bcrypt = require('bcrypt-nodejs');
+const program = require('commander');
 const schemas = require('../models/schemas');
 const mongo = require('../lib/mongodb');
 
 const log = console.log;
-const userCommands = process.argv.slice(2);
 
-function isUserCommandsValid() {
-  return userCommands.length && userCommands.reduce((result, command) => result && (command in commands), true);
-}
-
-function getCollection(db, name) {
-  return new Promise((resolve, reject) => {
-    db.collection(name, { strict: true }, (err, collection) => {
-      if (err) reject(err);
-      resolve(collection);
-    });
+function connect() {
+  return mongo.getReady.catch(() => {
+    log('Exiting - Failed to connect to db');
+    process.exit(1);
   });
 }
 
+async function run(command) {
+  try {
+    await commands[command]();
+  } catch (err) {
+    log(`error: ${err.message}`);
+    process.exit(1);
+  }
+}
+
+function done() {
+  log('Done!');
+  process.exit();
+}
+
 const commands = {
-  async init(db) {
+  async clean() {
+    const db = (await connect()).db;
+    log('Deleting DB...');
+    return db.dropDatabase();
+  },
+
+  async init() {
+    const db = (await connect()).db;
     log('Creating collections with their schema and indexes...');
 
     // Create collections and update latest schema
@@ -34,14 +49,18 @@ const commands = {
     }
   },
 
-  clean(db) {
-    log('Deleting DB...');
-    return db.dropDatabase();
-  },
+  async users() {
+    function getCollection(db, name) {
+      return new Promise((resolve, reject) => {
+        db.collection(name, { strict: true }, (err, collection) => {
+          if (err) reject(err);
+          resolve(collection);
+        });
+      });
+    }
 
-  async users(db) {
     async function createUser(type) {
-      log(`${type}`);
+      log(` ${type}`);
 
       const isExist = await users.find({ email: type }, { limit: 1 }).count({ limit: true });
       if (!isExist)
@@ -57,40 +76,49 @@ const commands = {
         log('User already exists. Skipping');
     }
 
+    const db = (await connect()).db;
     log('Creating users...');
-    const users = await getCollection(db, 'users');
-    await createUser('admin');
-    await createUser('moderator');
-    await createUser('user');
+
+    const users = await
+    getCollection(db, 'users');
+    await
+    createUser('admin');
+    await
+    createUser('moderator');
+    await
+    createUser('user');
+  },
+
+  async all() {
+    await commands.clean();
+    await commands.init();
+    await commands.users();
   }
 };
 
-// On DB connection
-mongo.getReady.then(async connection => {
-  for (let i = 0; i < userCommands.length; i++) {
-    try {
-      await commands[userCommands[i]](connection.db);
-      log('OK');
-    } catch (err) {
-      log(`Command '${userCommands[i]}' failed: ${err.message}`);
-      process.exit(1);
-    }
-  }
+// Command line options
+program
+  .command('clean')
+  .description('delete all data and DB')
+  .action(() => { run('clean').then(done) });
 
-  log('Done');
-  process.exit();
-}).catch(() => {
-  log('Exiting - Failed to connect to db');
-  process.exit(1);
-});
+program
+  .command('init')
+  .description('create collections with their schema')
+  .action(() => { run('init').then(done) });
 
-// Validate user commands and print usage on error
-if (!isUserCommandsValid()) {
-  log('\nInitialize the DB with collections and create schemas.');
-  log('\nUsage: node tools/db [command] [command] ...');
-  log('\nCommands:');
-  log('\tinit\tcreate collections with their schema');
-  log('\tclean\tdelete all data and DB');
-  log('\tusers\tcreate sample users in different roles');
-  process.exit();
-}
+program
+  .command('users')
+  .description('create sample users in different roles')
+  .action(() => { run('users').then(done) });
+
+program
+  .command('all')
+  .description('clean, init and create sample users')
+  .action(() => { run('all').then(done) });
+
+program
+  .parse(process.argv);
+
+// Display help whe no input
+if (process.argv.length <= 2) program.help();

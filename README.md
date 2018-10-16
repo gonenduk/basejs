@@ -27,7 +27,7 @@ delete the features you don't require and add your own logic on top of it.
 $ git clone https://www.github.com/gonenduk/basejs
 $ cd basejs
 $ npm install
-$ npm run db clean init admin
+$ npm run db all
 $ npm start
 ```
 

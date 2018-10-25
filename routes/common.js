@@ -8,7 +8,7 @@ const router = express.Router();
 require('./acl');
 
 // Default JWT extraction options
-const jwtOptions = { secret: jwt.options.secret, credentialsRequired: false };
+const jwtOptions = { secret: jwt.secret, credentialsRequired: false };
 
 // JWT extraction
 router.use('/', jwtExtraction(jwtOptions), (req, res, next) => {

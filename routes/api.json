@@ -14,7 +14,7 @@
   ],
   "security": [
     {
-      "JWT": []123
+      "JWT": []
     }
   ],
   "paths": {

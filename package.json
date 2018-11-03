@@ -14,7 +14,7 @@
     "auto-strict": "0.0.4",
     "bcrypt-nodejs": "0.0.3",
     "bluebird": "^3.5.2",
-    "boom": "^7.2.0",
+    "boom": "^7.2.2",
     "commander": "^2.19.0",
     "config": "^2.0.0",
     "cookie-parser": "~1.4.3",

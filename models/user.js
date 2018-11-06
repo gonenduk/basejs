@@ -2,7 +2,7 @@ const MongoModel = require('./plugins/mongo-model');
 const Timestamps = require('./plugins/timestamps');
 const Password = require('./plugins/password');
 
-class User extends Password(Timestamps(MongoModel)) {
+class UserModel extends Password(Timestamps(MongoModel)) {
   constructor() {
     super('users');
   }
@@ -18,4 +18,4 @@ class User extends Password(Timestamps(MongoModel)) {
   }
 }
 
-module.exports = new User();
+module.exports = new UserModel();

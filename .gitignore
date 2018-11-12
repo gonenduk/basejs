@@ -36,3 +36,6 @@ npm-debug.log
 
 # Local configuration files
 config/local*
+
+# OSX trash
+.DS_Store

@@ -1,0 +1,26 @@
+version: "2"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    working_dir: /app
+    networks:
+      - app-network
+    links:
+      - mongodb
+
+  mongodb:
+    image: mongo
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

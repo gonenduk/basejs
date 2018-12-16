@@ -30,7 +30,7 @@
     "require-directory": "^2.1.1",
     "serve-favicon": "^2.5.0",
     "swagger-express-middleware": "^1.2.0",
-    "swagger-ui-dist": "^3.20.2",
+    "swagger-ui-dist": "^3.20.3",
     "throng": "^4.0.0",
     "universal-analytics": "^0.4.20",
     "uuid": "^3.3.2",
@@ -40,7 +40,7 @@
     "eslint": "^5.10.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
-    "husky": "^1.2.0",
+    "husky": "^1.2.1",
     "mocha": "^5.2.0",
     "nyc": "^13.1.0",
     "swagger-cli": "^2.2.0"

@@ -6,7 +6,7 @@
     "start": "node server",
     "db": "node tools/db",
     "lint": "node_modules/.bin/eslint .",
-    "test": "node_modules/.bin/mocha",
+    "test": "node_modules/.bin/nyc node_modules/.bin/mocha --reporter mochawesome",
     "swagger": "node_modules/.bin/swagger-cli validate routes/api.json"
   },
   "dependencies": {
@@ -23,7 +23,7 @@
     "jsonwebtoken": "^8.4.0",
     "mongodb": "^3.1.10",
     "morgan": "^1.9.0",
-    "nodemailer": "^4.7.0",
+    "nodemailer": "^5.0.0",
     "pug": "^2.0.3",
     "request": "^2.87.0",
     "request-promise": "^4.2.2",
@@ -37,11 +37,12 @@
     "winston": "^3.1.0"
   },
   "devDependencies": {
-    "eslint": "^5.11.0",
+    "eslint": "^5.11.1",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
-    "husky": "^1.3.0",
+    "husky": "^1.3.1",
     "mocha": "^5.2.0",
+    "mochawesome": "^3.1.1",
     "nyc": "^13.1.0",
     "swagger-cli": "^2.2.0"
   }

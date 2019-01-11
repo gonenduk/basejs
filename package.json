@@ -23,7 +23,7 @@
     "jsonwebtoken": "^8.4.0",
     "mongodb": "^3.1.10",
     "morgan": "^1.9.0",
-    "nodemailer": "^5.1.0",
+    "nodemailer": "^5.1.1",
     "pug": "^2.0.3",
     "request": "^2.87.0",
     "request-promise": "^4.2.2",
@@ -44,6 +44,6 @@
     "mocha": "^5.2.0",
     "mochawesome": "^3.1.1",
     "nyc": "^13.1.0",
-    "swagger-cli": "^2.2.0"
+    "swagger-cli": "^2.2.1"
   }
 }

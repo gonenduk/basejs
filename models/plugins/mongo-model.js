@@ -17,13 +17,9 @@ function toObjectId(id) {
 class MongoModel {
   constructor(collectionName) {
     this.collectionName = collectionName;
-    mongo.getReady.then(() => {
-      mongo.db.collection(collectionName, { strict: true }, (err, collection) => {
-        this.collection = collection;
-        if (err) logger.warn(`Cannot access '${collectionName}' collection: ${err.message}`);
-      });
-    }).catch(() => {
-      logger.warn(`Cannot access '${collectionName}' collection. DB not connected`);
+    mongo.db.collection(collectionName, { strict: true }, (err, collection) => {
+      this.collection = collection;
+      if (err) logger.warn(`Cannot access '${collectionName}' collection: ${err.message}`);
     });
   }
 

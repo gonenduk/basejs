@@ -29,7 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.locals.config = config;
 
 // Wait for routes to be defined (order is important)
-Promise.all([common, api, web, error])
+app.locals.isReady = Promise.all([common, api, web, error])
   .then((routers) => {
     // Routes setup
     routers.forEach((router) => {
@@ -38,5 +38,4 @@ Promise.all([common, api, web, error])
 
     // Message routes are ready
     logger.info('Routes are ready');
-    app.emit('routes:ready');
   });

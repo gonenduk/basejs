@@ -28,10 +28,15 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.locals.config = config;
 
-// Routes setup
-app.use(common);
-app.use(api);
-app.use(web);
+// Wait for routes to be defined (order is important)
+Promise.all([common, api, web, error])
+  .then((routers) => {
+    // Routes setup
+    routers.forEach((router) => {
+      app.use(router);
+    });
 
-// Error handler
-app.use(error);
+    // Message routes are ready
+    logger.info('Routes are ready');
+    app.emit('routes:ready');
+  });

@@ -38,7 +38,7 @@ function listen(app) {
     // Create server
     const server = http.createServer(app)
 
-    // Listen to port
+      // Listen to port
       .listen(port)
 
       // Event listener for server "error" event

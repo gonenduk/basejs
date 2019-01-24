@@ -75,7 +75,7 @@ module.exports = new Promise((resolve, reject) => {
 
     // Default handler (not implemented error)
     router.use('/api', (req, res, next) => {
-      next(Boom.notImplemented(`${req.method} /api${req.path} is not implemented`));
+      next(Boom.notImplemented(`${req.method} /api${req.path} not implemented`));
     });
 
     // API is ready

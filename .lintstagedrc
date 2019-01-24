@@ -1,0 +1,8 @@
+{
+  "*.js": [
+    "node_modules/.bin/eslint"
+  ],
+  "routes/*.json": [
+    "node_modules/.bin/swagger-cli validate"
+  ]
+}

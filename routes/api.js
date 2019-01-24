@@ -7,7 +7,7 @@ const ua = require('../lib/analytics');
 const handlers = require('../handlers');
 const options = require('../lib/options');
 
-module.exports = new Promise((resolve) => {
+module.exports = new Promise((resolve, reject) => {
   const router = express.Router();
 
   const apiOptions = options('api');
@@ -39,10 +39,7 @@ module.exports = new Promise((resolve) => {
   // Swagger middleware
   swagger('routes/api.json', router, (err, middleware) => {
     // Halt on errors
-    if (err) {
-      logger.error(err.message);
-      process.exit(1);
-    }
+    if (err) return reject(err);
 
     // Parse and validate
     router.use(
@@ -82,6 +79,6 @@ module.exports = new Promise((resolve) => {
     });
 
     // API is ready
-    resolve(router);
+    return resolve(router);
   });
 });

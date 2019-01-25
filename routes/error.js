@@ -7,7 +7,7 @@ module.exports = (err, req, res, next) => {
   const { payload, headers } = Boom.boomify(err, { statusCode: err.status, override: false }).output;
 
   // Log stack on server errors
-  if (payload.statusCode === 500) logger.error(err.stack);
+  if (err.isServer) logger.error(err.stack);
 
   // Respond with correct content type
   res.set(headers);

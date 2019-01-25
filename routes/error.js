@@ -4,15 +4,16 @@ const logger = require('../lib/logger');
 
 module.exports = (err, req, res, next) => {
   // Convert error to Boom error and set status to 500 if not set
-  const errPayload = Boom.boomify(err, { statusCode: err.status, override: false }).output.payload;
+  const { payload, headers } = Boom.boomify(err, { statusCode: err.status, override: false }).output;
 
   // Log stack on server errors
-  if (errPayload.statusCode === 500) logger.error(err.stack);
+  if (payload.statusCode === 500) logger.error(err.stack);
 
   // Respond with correct content type
+  res.set(headers);
   if (req.url.split('/')[1].toLowerCase() === 'api') {
-    res.status(errPayload.statusCode).json(errPayload);
+    res.status(payload.statusCode).json(payload);
   } else {
-    res.status(errPayload.statusCode).render('error', { error: errPayload });
+    res.status(payload.statusCode).render('error', { error: payload });
   }
 };

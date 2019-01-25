@@ -64,7 +64,7 @@ module.exports = new Promise((resolve, reject) => {
         }
 
         // Call handler and send any error caught to the error route
-        return handler[method](req, res, next).catch(error => next(error));
+        return Promise.try(() => { handler[method](req, res, next); }).catch(next);
       });
 
       // Mock

@@ -31,7 +31,7 @@
     "require-directory": "^2.1.1",
     "serve-favicon": "^2.5.0",
     "swagger-express-middleware": "^2.0.1",
-    "swagger-ui-dist": "^3.20.6",
+    "swagger-ui-dist": "^3.20.7",
     "throng": "^4.0.0",
     "universal-analytics": "^0.4.20",
     "uuid": "^3.3.2",

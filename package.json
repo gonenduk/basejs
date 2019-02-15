@@ -27,7 +27,7 @@
     "nodemailer": "^5.1.1",
     "pug": "^2.0.3",
     "request": "^2.87.0",
-    "request-promise": "^4.2.2",
+    "request-promise": "^4.2.4",
     "require-directory": "^2.1.1",
     "serve-favicon": "^2.5.0",
     "swagger-express-middleware": "^2.0.1",
@@ -45,7 +45,7 @@
     "lint-staged": "^8.1.4",
     "mocha": "^5.2.0",
     "mochawesome": "^3.1.1",
-    "nyc": "^13.1.0",
+    "nyc": "^13.3.0",
     "swagger-cli": "^2.2.1"
   }
 }

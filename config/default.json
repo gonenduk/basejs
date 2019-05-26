@@ -11,7 +11,8 @@
   "api": {
     "docs": true,
     "ui": true,
-    "mock": false
+    "mock": false,
+    "id": true
   },
   "mongodb": {
     "url": "mongodb://localhost:27017",

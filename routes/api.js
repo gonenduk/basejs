@@ -2,6 +2,7 @@ const express = require('express');
 const swagger = require('swagger-express-middleware');
 const sui = require('swagger-ui-dist').getAbsoluteFSPath();
 const Boom = require('boom');
+const rTracer = require('cls-rtracer');
 const logger = require('../lib/logger');
 const ua = require('../lib/analytics');
 const handlers = require('../handlers');
@@ -40,6 +41,11 @@ module.exports = new Promise((resolve, reject) => {
   swagger('routes/api.json', router, (err, middleware) => {
     // Halt on errors
     if (err) return reject(err);
+
+    // Request id
+    if (apiOptions.id) {
+      router.use('/api', rTracer.expressMiddleware());
+    }
 
     // Parse and validate
     router.use(

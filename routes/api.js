@@ -58,20 +58,21 @@ module.exports = new Promise((resolve, reject) => {
 
     // Handlers
     if (!apiOptions.mock) {
-      router.use('/api', (req, res, next) => {
-        // Find handler according to swagger definition
-        const handlerName = req.swagger.pathName.slice(1).replace(/\//g, '-');
-        const method = req.method.toLowerCase();
-        const handler = handlers[handlerName];
-
-        // If handler not found continue to mock and error handling
-        if (!handler || !(method in handler)) {
-          return next();
-        }
-
-        // Call handler and send any error caught to the error route
-        return Promise.try(() => { handler[method](req, res, next); }).catch(next);
-      });
+      router.use('/api', handlers);
+      // router.use('/api', (req, res, next) => {
+      //   // Find handler according to swagger definition
+      //   const handlerName = req.swagger.pathName.slice(1).replace(/\//g, '-');
+      //   const method = req.method.toLowerCase();
+      //   const handler = handlers[handlerName];
+      //
+      //   // If handler not found continue to mock and error handling
+      //   if (!handler || !(method in handler)) {
+      //     return next();
+      //   }
+      //
+      //   // Call handler and send any error caught to the error route
+      //   return Promise.try(() => { handler[method](req, res, next); }).catch(next);
+      // });
 
       // Mock
     } else {

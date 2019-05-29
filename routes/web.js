@@ -2,7 +2,6 @@ const express = require('express');
 const Boom = require('boom');
 const ac = require('../lib/acl');
 const ua = require('../lib/analytics');
-const handlers = require('../handlers');
 const options = require('../lib/options');
 
 const router = express.Router();
@@ -31,12 +30,19 @@ router.use('/', (req, res, next) => {
 });
 
 // Pages
-router.get('/', handlers.web.home);
-router.get('/ping', handlers.web.ping);
+router.get('/', (req, res) => {
+  let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  if (ip === '::1') ip = '127.0.0.1';
+  res.render('index', { ip });
+});
+
+router.get('/ping', (req, res) => {
+  res.send('pong');
+});
 
 // Catch 404 and forward to error handler
-router.use((req, res, next) => {
-  next(Boom.notFound('Page not found'));
+router.use(() => {
+  throw Boom.notFound('Page not found');
 });
 
 module.exports = router;

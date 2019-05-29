@@ -1,34 +1,83 @@
+const express = require('express');
 const Boom = require('boom');
-const user = require('../models/user');
+const model = require('../models/user');
 const ac = require('../lib/acl');
-const CollectionHandler = require('./plugins/collection-handler');
+const collectionHandler = require('./routers/collection-handler');
+const itemHandler = require('./routers/item-handler');
+const safe = require('./routers/safe');
 
-class UsersHandler extends CollectionHandler {
-  constructor() {
-    super(user);
-  }
+const router = express.Router();
+const basePath = '/users';
 
-  get(req, res, next) {
+router.route(basePath)
+  .get((req, res, next) => {
     // Access control
     const permission = ac.can(req.user.role).readAny('user');
-    if (!permission.granted) return next(Boom.forbidden('Access denied'));
+    if (!permission.granted) throw Boom.forbidden('Access denied');
 
     // Hide password (write only)
     req.query.projection = { password: 0 };
 
-    return super.get(req, res, next);
-  }
+    next();
+  })
 
-  post(req, res, next) {
+  .post((req, res, next) => {
     // Access control
     const permission = ac.can(req.user.role).createOwn('user');
-    if (!permission.granted) return next(Boom.forbidden('Access denied'));
+    if (!permission.granted) throw Boom.forbidden('Access denied');
 
     // New user role is always set to user
     req.body.role = 'user';
 
-    return super.post(req, res, next);
-  }
-}
+    next();
+  });
 
-module.exports = new UsersHandler();
+router.route(`${basePath}/:id`)
+  .get((req, res, next) => {
+    if (req.pathParams.id === 'me') req.pathParams.id = req.user.id;
+
+    // Access control
+    const permission = (req.user.id === req.pathParams.id)
+      ? ac.can(req.user.role).readOwn('user')
+      : ac.can(req.user.role).readAny('user');
+    if (!permission.granted) throw Boom.forbidden('Access denied');
+
+    // Hide password (write only)
+    req.query.projection = { password: 0 };
+
+    next();
+  })
+
+  .patch((req, res, next) => {
+    if (req.pathParams.id === 'me') req.pathParams.id = req.user.id;
+
+    // Access control
+    const permission = (req.user.id === req.pathParams.id)
+      ? ac.can(req.user.role).updateOwn('user')
+      : ac.can(req.user.role).updateAny('user');
+    if (!permission.granted) throw Boom.forbidden('Access denied');
+
+    next();
+  });
+
+router.route(`${basePath}/:id/role`)
+  .put(safe(async (req, res) => {
+    if (req.pathParams.id === 'me') req.pathParams.id = req.user.id;
+
+    // Access control
+    const permission = (req.user.id === req.pathParams.id)
+      ? ac.can(req.user.role).updateOwn('user-role')
+      : ac.can(req.user.role).updateAny('user-role');
+    if (!permission.granted) throw Boom.forbidden('Access denied');
+
+    // Update item owner
+    const item = await model.setRole(req.pathParams.id, req.body);
+    if (!item) throw Boom.notFound(`${req.originalUrl} not found`);
+    res.status(204).end();
+  }));
+
+router
+  .use(basePath, collectionHandler)
+  .use(basePath, itemHandler(model));
+
+module.exports = router;

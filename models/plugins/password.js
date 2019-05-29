@@ -1,6 +1,7 @@
 /* eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["item"] }] */
 /* eslint class-methods-use-this: "off" */
 const bcrypt = require('bcrypt-nodejs');
+const Promise = require('bluebird');
 const logger = require('../../lib/logger');
 
 const hashAsync = Promise.promisify(bcrypt.hash);

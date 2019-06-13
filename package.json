@@ -33,7 +33,7 @@
     "require-directory": "^2.1.1",
     "serve-favicon": "^2.5.0",
     "swagger-express-middleware": "^2.0.2",
-    "swagger-ui-dist": "^3.22.2",
+    "swagger-ui-dist": "^3.22.3",
     "throng": "^4.0.0",
     "universal-analytics": "^0.4.20",
     "uuid": "^3.3.2",
@@ -43,11 +43,11 @@
     "eslint": "^5.15.3",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.17.3",
-    "husky": "^2.4.0",
+    "husky": "^2.4.1",
     "lint-staged": "^8.2.0",
     "mocha": "^6.1.4",
     "mochawesome": "^4.0.0",
     "nyc": "^14.1.1",
-    "swagger-cli": "^2.2.1"
+    "swagger-cli": "^2.2.2"
   }
 }

@@ -77,7 +77,7 @@ router.route(`${basePath}/:id/role`)
   }));
 
 router
-  .use(basePath, collectionHandler)
+  .use(basePath, collectionHandler(model))
   .use(basePath, itemHandler(model));
 
 module.exports = router;

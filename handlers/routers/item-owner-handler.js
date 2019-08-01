@@ -1,5 +1,5 @@
 const express = require('express');
-const Boom = require('boom');
+const Boom = require('@hapi/boom');
 const safe = require('./safe');
 
 module.exports = (model) => {

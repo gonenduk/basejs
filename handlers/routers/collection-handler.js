@@ -1,6 +1,6 @@
 /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
 const express = require('express');
-const Boom = require('boom');
+const Boom = require('@hapi/boom');
 const safe = require('./safe');
 
 function safeParse(name, str) {

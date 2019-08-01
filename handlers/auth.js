@@ -1,6 +1,6 @@
 /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
 const express = require('express');
-const Boom = require('boom');
+const Boom = require('@hapi/boom');
 const user = require('../models/user');
 const social = require('../lib/social');
 const jwt = require('../lib/jwt');

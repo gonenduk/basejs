@@ -1,5 +1,5 @@
 const express = require('express');
-const Boom = require('boom');
+const Boom = require('@hapi/boom');
 const model = require('../models/user');
 const ac = require('../lib/acl');
 const itemHandler = require('./routers/item-handler');

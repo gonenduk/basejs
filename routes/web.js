@@ -1,5 +1,5 @@
 const express = require('express');
-const Boom = require('boom');
+const Boom = require('@hapi/boom');
 const ac = require('../lib/acl');
 const ua = require('../lib/analytics');
 const options = require('../lib/options');

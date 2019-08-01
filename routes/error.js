@@ -1,5 +1,5 @@
 /* eslint no-unused-vars: "off" */
-const Boom = require('boom');
+const Boom = require('@hapi/boom');
 const logger = require('../lib/logger');
 
 module.exports = (err, req, res, next) => {

@@ -7,7 +7,7 @@ const logger = require('../../lib/logger');
 const hashAsync = Promise.promisify(bcrypt.hash);
 const compareAsync = Promise.promisify(bcrypt.compare);
 
-module.exports = ModelClass => class extends ModelClass {
+module.exports = (ModelClass) => class extends ModelClass {
   validatePassword(password, hash) {
     try {
       return compareAsync(password, hash);

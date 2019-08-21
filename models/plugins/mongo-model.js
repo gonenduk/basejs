@@ -52,20 +52,20 @@ class MongoModel {
 
   getOneById(id, projection = null, filter = {}) {
     const objectId = toObjectId(id);
-    const query = Object.assign({ _id: objectId }, filter);
+    const query = { _id: objectId, ...filter };
     return this.collection.findOne(query, { projection });
   }
 
   async updateOneById(id, item = {}, filter = {}) {
     const objectId = toObjectId(id);
-    const query = Object.assign({ _id: objectId }, filter);
+    const query = { _id: objectId, ...filter };
     const result = await this.collection.updateOne(query, { $set: item });
     return result.modifiedCount === 1;
   }
 
   async deleteOneById(id, filter = {}) {
     const objectId = toObjectId(id);
-    const query = Object.assign({ _id: objectId }, filter);
+    const query = { _id: objectId, ...filter };
     const result = await this.collection.deleteOne(query);
     return result.deletedCount === 1;
   }

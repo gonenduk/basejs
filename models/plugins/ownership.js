@@ -14,7 +14,7 @@ function toObjectId(id) {
   }
 }
 
-module.exports = ModelClass => class extends ModelClass {
+module.exports = (ModelClass) => class extends ModelClass {
   addOne(item = {}) {
     item.ownerId = toObjectId(item.ownerId);
     return super.addOne(item);

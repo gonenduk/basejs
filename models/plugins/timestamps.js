@@ -1,6 +1,6 @@
 /* eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["item"] }] */
 
-module.exports = ModelClass => class extends ModelClass {
+module.exports = (ModelClass) => class extends ModelClass {
   addOne(item = {}) {
     item.createdAt = new Date();
     item.updatedAt = item.createdAt;

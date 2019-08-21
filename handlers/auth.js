@@ -26,7 +26,7 @@ router.route(`${basePath}/token`)
     const accessPayload = { id: match._id, role: match.role };
     const refreshPayload = { id: match._id };
     return Promise.all([jwt.signAccessToken(accessPayload), jwt.signRefreshToken(refreshPayload)])
-      .then(tokens => res.json({ access_token: tokens[0], refresh_token: tokens[1] }))
+      .then((tokens) => res.json({ access_token: tokens[0], refresh_token: tokens[1] }))
       .catch((err) => { throw Boom.unauthorized(`Failed to sign user tokens: ${err.message}`); });
   }))
 
@@ -56,7 +56,7 @@ router.route(`${basePath}/refresh/token`)
     const accessPayload = { id: match._id, role: match.role };
     const refreshPayload = { id: match._id };
     return Promise.all([jwt.signAccessToken(accessPayload), jwt.signRefreshToken(refreshPayload)])
-      .then(tokens => res.json({ access_token: tokens[0], refresh_token: tokens[1] }))
+      .then((tokens) => res.json({ access_token: tokens[0], refresh_token: tokens[1] }))
       .catch((err) => { throw Boom.unauthorized(`Failed to sign user tokens: ${err.message}`); });
   }));
 
@@ -83,7 +83,7 @@ router.route(`${basePath}/social/token`)
     const accessPayload = { id: match._id, role: match.role };
     const refreshPayload = { id: match._id };
     return Promise.all([jwt.signAccessToken(accessPayload), jwt.signRefreshToken(refreshPayload)])
-      .then(tokens => res.json({ access_token: tokens[0], refresh_token: tokens[1] }))
+      .then((tokens) => res.json({ access_token: tokens[0], refresh_token: tokens[1] }))
       .catch((err) => { throw Boom.unauthorized(`Failed to sign user tokens: ${err.message}`); });
   }));
 

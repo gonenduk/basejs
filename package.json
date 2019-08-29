@@ -24,7 +24,7 @@
     "express-jwt": "^5.3.0",
     "ioredis": "^4.14.0",
     "jsonwebtoken": "^8.5.1",
-    "mongodb": "^3.3.0",
+    "mongodb": "^3.3.2",
     "morgan": "^1.9.0",
     "nodemailer": "^6.3.0",
     "pug": "^2.0.4",
@@ -32,22 +32,22 @@
     "request-promise": "^4.2.4",
     "require-directory": "^2.1.1",
     "serve-favicon": "^2.5.0",
-    "swagger-express-middleware": "^2.0.2",
-    "swagger-ui-dist": "^3.23.5",
+    "swagger-express-middleware": "^2.0.3",
+    "swagger-ui-dist": "^3.23.6",
     "throng": "^4.0.0",
     "universal-analytics": "^0.4.20",
     "uuid": "^3.3.3",
     "winston": "^3.2.1"
   },
   "devDependencies": {
-    "eslint": "^6.2.1",
+    "eslint": "^6.2.2",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
     "husky": "^3.0.4",
-    "lint-staged": "^9.2.3",
+    "lint-staged": "^9.2.5",
     "mocha": "^6.2.0",
     "mochawesome": "^4.1.0",
     "nyc": "^14.1.1",
-    "swagger-cli": "^2.3.0"
+    "swagger-cli": "^2.3.1"
   }
 }

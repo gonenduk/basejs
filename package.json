@@ -7,7 +7,7 @@
     "db": "node tools/db",
     "lint": "node_modules/.bin/eslint .",
     "test": "node_modules/.bin/nyc node_modules/.bin/mocha --reporter mochawesome",
-    "swagger": "node_modules/.bin/swagger-cli validate routes/api.json"
+    "swagger": "node_modules/.bin/swagger-cli validate routes/api.yaml"
   },
   "dependencies": {
     "@hapi/boom": "^7.4.10",

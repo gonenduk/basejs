@@ -26,7 +26,7 @@ module.exports = (model) => {
       if (req.query.sort) sort = safeParse('sort', req.query.sort);
 
       // Get skip and limit
-      const { skip, limit = 20, projection } = req.query;
+      const { skip, limit, projection } = req.query;
 
       // Get list of items
       res.json(await model.getMany(filter, {

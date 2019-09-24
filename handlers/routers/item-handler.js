@@ -8,7 +8,7 @@ module.exports = (model) => {
   router.route('/:id')
     .get(safe(async (req, res) => {
       // Get id, projection and filter
-      const { id } = req.pathParams;
+      const { id } = req.params;
       const { projection, filter } = req.query;
 
       // Get item
@@ -19,7 +19,7 @@ module.exports = (model) => {
 
     .delete(safe(async (req, res) => {
       // Get id and filter
-      const { id } = req.pathParams;
+      const { id } = req.params;
       const { filter } = req.query;
 
       // Delete item
@@ -30,7 +30,7 @@ module.exports = (model) => {
 
     .patch(safe(async (req, res) => {
       // Get id and filter
-      const { id } = req.pathParams;
+      const { id } = req.params;
       const { filter } = req.query;
 
       // Update item fields

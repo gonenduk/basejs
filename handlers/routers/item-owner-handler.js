@@ -8,7 +8,7 @@ module.exports = (model) => {
   router.route('/:id/owner')
     .put(safe(async (req, res) => {
       // Get id and filter
-      const { id } = req.pathParams;
+      const { id } = req.params;
       const { filter } = req.query;
 
       // Update item owner

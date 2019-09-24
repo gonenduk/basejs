@@ -34,10 +34,10 @@ router.route(basePath)
 
 router.route(`${basePath}/:id`)
   .get((req, res, next) => {
-    if (req.pathParams.id === 'me') req.pathParams.id = req.user.id;
+    if (req.params.id === 'me') req.params.id = req.user.id;
 
     // Access control
-    const permission = (req.user.id === req.pathParams.id)
+    const permission = (req.user.id === req.params.id)
       ? ac.can(req.user.role).readOwn('user')
       : ac.can(req.user.role).readAny('user');
     if (!permission.granted) throw Boom.forbidden('Access denied');
@@ -49,10 +49,10 @@ router.route(`${basePath}/:id`)
   })
 
   .patch((req, res, next) => {
-    if (req.pathParams.id === 'me') req.pathParams.id = req.user.id;
+    if (req.params.id === 'me') req.params.id = req.user.id;
 
     // Access control
-    const permission = (req.user.id === req.pathParams.id)
+    const permission = (req.user.id === req.params.id)
       ? ac.can(req.user.role).updateOwn('user')
       : ac.can(req.user.role).updateAny('user');
     if (!permission.granted) throw Boom.forbidden('Access denied');
@@ -62,16 +62,16 @@ router.route(`${basePath}/:id`)
 
 router.route(`${basePath}/:id/role`)
   .put(safe(async (req, res) => {
-    if (req.pathParams.id === 'me') req.pathParams.id = req.user.id;
+    if (req.params.id === 'me') req.params.id = req.user.id;
 
     // Access control
-    const permission = (req.user.id === req.pathParams.id)
+    const permission = (req.user.id === req.params.id)
       ? ac.can(req.user.role).updateOwn('user-role')
       : ac.can(req.user.role).updateAny('user-role');
     if (!permission.granted) throw Boom.forbidden('Access denied');
 
     // Update item owner
-    const item = await model.setRole(req.pathParams.id, req.body);
+    const item = await model.setRole(req.params.id, req.body);
     if (!item) throw Boom.notFound(`${req.originalUrl} not found`);
     res.status(204).end();
   }));

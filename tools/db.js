@@ -6,11 +6,9 @@ const mongo = require('../lib/mongodb');
 
 const { log } = console;
 
-function connect() {
-  return mongo.getReady.catch(() => {
-    log('Exiting - Failed to connect to db');
-    process.exit(1);
-  });
+async function connect() {
+  if (!mongo.isConnected) await mongo.connect();
+  return mongo.db;
 }
 
 function getCollection(db, name) {
@@ -24,13 +22,13 @@ function getCollection(db, name) {
 
 const commands = {
   async clean() {
-    const { db } = await connect();
+    const db = await connect();
     log('Deleting DB...');
     return db.dropDatabase();
   },
 
   async init() {
-    const { db } = await connect();
+    const db = await connect();
     log('Creating collections with their schema and indexes...');
 
     // Create collections and update latest schema
@@ -45,7 +43,7 @@ const commands = {
   },
 
   async users() {
-    const { db } = await connect();
+    const db = await connect();
     log('Creating users...');
 
     const users = await getCollection(db, 'users');

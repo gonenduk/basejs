@@ -42,15 +42,13 @@ if (apiOptions.docs) {
   router.use('/api/docs', express.static(path.join(__dirname, 'api.yaml')));
 }
 
-// Swagger validation init
-new OpenApiValidator({ apiSpec: path.join(__dirname, 'api.yaml') }).install(router);
-
 // Request id
 if (apiOptions.id) {
   router.use('/api', rTracer.expressMiddleware());
 }
 
-// Validation
+// Swagger validations
+new OpenApiValidator({ apiSpec: path.join(__dirname, 'api.yaml') }).install(router);
 
 // Handlers
 router.use('/api', handlers);
@@ -61,25 +59,3 @@ router.use('/api', (req, res, next) => {
 });
 
 module.exports = router;
-
-// Swagger middleware
-/*
-swagger('routes/api.json', router, (err, middleware) => {
-  // Halt on errors
-  if (err) return reject(err);
-
-  // Request id
-  if (apiOptions.id) {
-    router.use('/api', rTracer.expressMiddleware());
-  }
-
-  // Parse and validate
-  router.use(
-    middleware.metadata(),
-    middleware.CORS(),
-    middleware.files({ useBasePath: true, apiPath: apiOptions.docs ? '/docs' : '' }),
-    middleware.parseRequest(),
-    middleware.validateRequest(),
-  );
-});
-*/

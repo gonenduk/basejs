@@ -9,6 +9,14 @@ const safe = require('./routers/safe');
 const router = express.Router();
 const basePath = '/auth';
 
+function createJWT(match) {
+  const accessPayload = { id: match._id, role: match.role };
+  const refreshPayload = { id: match._id };
+  return Promise.all([jwt.signAccessToken(accessPayload), jwt.signRefreshToken(refreshPayload)])
+    .then((tokens) => ({ access_token: tokens[0], refresh_token: tokens[1] }))
+    .catch((err) => { throw Boom.unauthorized(`Failed to sign user tokens: ${err.message}`); });
+}
+
 router.route(`${basePath}/token`)
   .post(safe(async (req, res) => {
     const { username, password } = req.body;
@@ -23,11 +31,7 @@ router.route(`${basePath}/token`)
     }
 
     // Create JWT with access and refresh tokens
-    const accessPayload = { id: match._id, role: match.role };
-    const refreshPayload = { id: match._id };
-    return Promise.all([jwt.signAccessToken(accessPayload), jwt.signRefreshToken(refreshPayload)])
-      .then((tokens) => res.json({ access_token: tokens[0], refresh_token: tokens[1] }))
-      .catch((err) => { throw Boom.unauthorized(`Failed to sign user tokens: ${err.message}`); });
+    res.json(await createJWT(match));
   }))
 
   .delete(safe(async (req, res) => {
@@ -53,11 +57,7 @@ router.route(`${basePath}/refresh/token`)
     if (token.iat * 1000 < match.logoutAt.getTime()) throw Boom.unauthorized('Refresh token expired');
 
     // Create JWT with access and refresh tokens
-    const accessPayload = { id: match._id, role: match.role };
-    const refreshPayload = { id: match._id };
-    return Promise.all([jwt.signAccessToken(accessPayload), jwt.signRefreshToken(refreshPayload)])
-      .then((tokens) => res.json({ access_token: tokens[0], refresh_token: tokens[1] }))
-      .catch((err) => { throw Boom.unauthorized(`Failed to sign user tokens: ${err.message}`); });
+    res.json(await createJWT(match));
   }));
 
 router.route(`${basePath}/social/token`)
@@ -80,11 +80,7 @@ router.route(`${basePath}/social/token`)
     if (!match) throw Boom.unauthorized('No matching user found');
 
     // Create JWT for dummy user
-    const accessPayload = { id: match._id, role: match.role };
-    const refreshPayload = { id: match._id };
-    return Promise.all([jwt.signAccessToken(accessPayload), jwt.signRefreshToken(refreshPayload)])
-      .then((tokens) => res.json({ access_token: tokens[0], refresh_token: tokens[1] }))
-      .catch((err) => { throw Boom.unauthorized(`Failed to sign user tokens: ${err.message}`); });
+    res.json(await createJWT(match));
   }));
 
 module.exports = router;

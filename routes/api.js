@@ -29,7 +29,7 @@ if (analyticsOptions.api) {
 if (apiOptions.ui) {
   router.get('/api/ui', (req, res, next) => {
     if (!req.query.url) {
-      res.redirect(`?url=${req.protocol}://${req.get('host')}/api/docs`);
+      res.redirect('?url=/api/docs');
     } else {
       next();
     }

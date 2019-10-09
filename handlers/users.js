@@ -34,8 +34,6 @@ router.route(basePath)
 
 router.route(`${basePath}/:id`)
   .get((req, res, next) => {
-    if (req.params.id === 'me') req.params.id = req.user.id;
-
     // Access control
     const permission = (req.user.id === req.params.id)
       ? ac.can(req.user.role).readOwn('user')
@@ -49,8 +47,6 @@ router.route(`${basePath}/:id`)
   })
 
   .patch((req, res, next) => {
-    if (req.params.id === 'me') req.params.id = req.user.id;
-
     // Access control
     const permission = (req.user.id === req.params.id)
       ? ac.can(req.user.role).updateOwn('user')
@@ -62,8 +58,6 @@ router.route(`${basePath}/:id`)
 
 router.route(`${basePath}/:id/role`)
   .put(safe(async (req, res) => {
-    if (req.params.id === 'me') req.params.id = req.user.id;
-
     // Access control
     const permission = (req.user.id === req.params.id)
       ? ac.can(req.user.role).updateOwn('user-role')

@@ -148,11 +148,20 @@ is done.
 Can be configured under 'api':
 * docs: true to expose a route with the OpenAPI definition
 * ui: true to expose a route with the swagger ui tool
-* mock: true to use a mock instead of teh handlers
 
-Building routes using [swagger-express-middleware](https://www.npmjs.com/package/swagger-express-middleware)
+Building routes using [express-openapi-validator](https://www.npmjs.com/package/express-openapi-validator)
 
 OpenAPI definition file can be built using [Swagger Tools](https://swagger.io/)
+
+### Unique request ID for each api call
+
+All log messages coming from the same request will share the same ID in the log message.
+This is helpful to relate different log messages to one specific request.
+
+Can be configured under 'api':
+* id: true to add the unique id per request
+
+IDs created using [cls-rtracer](https://www.npmjs.com/package/cls-rtracer)
 
 ### Database management
 

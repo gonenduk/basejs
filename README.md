@@ -260,4 +260,6 @@ Checksum calculation and validation and generating uuid.
 
 ## License
 
-[ISC](LICENSE)
+[MIT](LICENSE)
+
+<a href="https://www.buymeacoffee.com/Ry4Nvf1" target="_blank"><img src="https://bmc-cdn.nyc3.digitaloceanspaces.com/BMC-button-images/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>

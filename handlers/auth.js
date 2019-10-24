@@ -54,7 +54,7 @@ router.route(`${basePath}/refresh/token`)
     if (!match) throw Boom.unauthorized('Invalid user in refresh token');
 
     // Validate user did not log off after refresh token was created
-    if (token.iat * 1000 < match.logoutAt.getTime()) throw Boom.unauthorized('Refresh token expired');
+    if (match.logoutAt && token.iat * 1000 < match.logoutAt.getTime()) throw Boom.unauthorized('Refresh token expired');
 
     // Create JWT with access and refresh tokens
     res.json(await createJWT(match));

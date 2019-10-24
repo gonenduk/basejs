@@ -22,7 +22,7 @@
     "cookie-parser": "^1.4.4",
     "express": "^4.17.1",
     "express-jwt": "^5.3.0",
-    "express-openapi-validator": "^2.9.0",
+    "express-openapi-validator": "^2.12.1",
     "ioredis": "^4.14.1",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.3.3",
@@ -48,6 +48,6 @@
     "mocha": "^6.2.2",
     "mochawesome": "^4.1.0",
     "nyc": "^14.1.1",
-    "swagger-cli": "^2.3.2"
+    "swagger-cli": "^2.3.3"
   }
 }

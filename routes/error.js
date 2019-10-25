@@ -2,6 +2,7 @@
 const Boom = require('@hapi/boom');
 const logger = require('../lib/logger');
 
+// noinspection JSUnusedLocalSymbols
 module.exports = (err, req, res, next) => {
   // Convert error to Boom error and set status to 500 if not set
   const { payload, headers } = Boom.boomify(err, { statusCode: err.status, override: false }).output;

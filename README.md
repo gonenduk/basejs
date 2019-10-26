@@ -36,8 +36,10 @@ $ npm start
 ```
 root
   |--config
+  |--acl
+  |    |--generic
   |--handlers
-  |    |--plugins
+  |    |--generic
   |--lib
   |--models
   |    |--plugins  
@@ -52,10 +54,14 @@ root
 
 **config**: Configuration files.
 
+**acl**: Definition of access control levels and handlers of routes for access control.
+
+**acl generic**: Common base access control handlers to be used by other handlers.
+
 **handlers**: Handlers of routes both for API calls and web pages.
 The actual business logic of end points.
 
-**handlers plugins**: Common base handlers to be used by other handlers.
+**handlers generic**: Common base handlers to be used by other handlers.
 For example, handling collections and items of resources, updating ownership...
 
 **lib**: Wrappers around 3rd party packages to initialize and isolate them.

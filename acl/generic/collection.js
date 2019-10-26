@@ -14,11 +14,8 @@ router.route('/')
   })
 
   .post((req, res, next) => {
-    // Set ownership to current user
-    req.body.ownerId = req.user.id;
-
-    // Access control
-    const permission = ac.can(req.user.role).createOwn('resource');
+    const { user } = req;
+    const permission = ac.can(user.role).createOwn('resource');
     if (!permission.granted) throw Boom.forbidden('Not allowed to create item');
 
     next();

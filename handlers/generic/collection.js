@@ -35,6 +35,9 @@ module.exports = (model) => {
     }))
 
     .post(safe(async (req, res) => {
+      // Set ownership to current user
+      req.body.ownerId = req.user.id;
+
       // Add one item to collection
       const item = await model.addOne(req.body);
       res.status(201).location(`${req.originalUrl}/${item._id}`).json(item);

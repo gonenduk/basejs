@@ -6,12 +6,12 @@ const router = express.Router();
 
 router.route('/:id/owner')
   .put((req, res, next) => {
-    // Access control
-    let permission = ac.can(req.user.role).updateAny('resource-owner');
+    const { user } = req;
+    let permission = ac.can(user.role).updateAny('resource-owner');
     if (!permission.granted) {
-      permission = ac.can(req.user.role).updateOwn('resource-owner');
+      permission = ac.can(user.role).updateOwn('resource-owner');
       if (!permission.granted) throw Boom.forbidden('Access denied');
-      req.query.filter = { ownerId: req.user.id };
+      req.query.filter = { ownerId: user.id };
     }
 
     next();

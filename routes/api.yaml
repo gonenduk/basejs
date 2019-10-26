@@ -213,6 +213,9 @@ paths:
       tags:
         - Users
       description: Get a user profile by id
+      security:
+        - {}
+        - JWT: []
       responses:
         '200':
           description: Profile

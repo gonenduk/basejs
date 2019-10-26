@@ -7,6 +7,7 @@ const rTracer = require('cls-rtracer');
 const ua = require('../lib/analytics');
 const acl = require('../acl');
 const handlers = require('../handlers');
+const build = require('./build');
 const options = require('../lib/options');
 
 const router = express.Router();
@@ -52,7 +53,7 @@ if (apiOptions.id) {
 new OpenApiValidator({ apiSpec: path.join(__dirname, 'api.yaml') }).install(router);
 
 // Access control level validations
-router.use('/api', acl);
+build(router, '/api', acl);
 
 // Handlers
 router.use('/api', handlers);

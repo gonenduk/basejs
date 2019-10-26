@@ -1,18 +1,15 @@
 const express = require('express');
 const model = require('../models/product');
-const collectionACL = require('./generic/collection-acl');
-const collectionHandler = require('./generic/collection-handler');
-const itemACL = require('./generic/item-acl');
-const itemHandler = require('./generic/item-handler');
-const itemOwnerACL = require('./generic/item-owner-acl');
-const itemOwnerHandler = require('./generic/item-owner-handler');
+const collectionHandler = require('./generic/collection');
+const itemHandler = require('./generic/item');
+const itemOwnerHandler = require('./generic/item-owner');
 
 const router = express.Router();
 const basePath = '/products';
 
 router
-  .use(basePath, collectionACL, collectionHandler(model))
-  .use(basePath, itemACL, itemHandler(model))
-  .use(basePath, itemOwnerACL, itemOwnerHandler);
+  .use(basePath, collectionHandler(model))
+  .use(basePath, itemHandler(model))
+  .use(basePath, itemOwnerHandler);
 
 module.exports = router;

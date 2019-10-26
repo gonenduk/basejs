@@ -1,8 +1,8 @@
 const express = require('express');
 const Boom = require('@hapi/boom');
 const model = require('../models/user');
-const collectionHandler = require('./generic/collection-handler');
-const itemHandler = require('./generic/item-handler');
+const collectionHandler = require('./generic/collection');
+const itemHandler = require('./generic/item');
 const safe = require('./generic/safe');
 
 const router = express.Router();

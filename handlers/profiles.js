@@ -1,6 +1,6 @@
 const express = require('express');
 const model = require('../models/user');
-const itemHandler = require('./generic/item-handler');
+const itemHandler = require('./generic/item');
 
 const router = express.Router();
 const basePath = '/profiles';

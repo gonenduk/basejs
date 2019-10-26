@@ -3,7 +3,6 @@ const Boom = require('@hapi/boom');
 const model = require('../models/user');
 const collectionHandler = require('./generic/collection');
 const itemHandler = require('./generic/item');
-const safe = require('./generic/safe');
 
 const router = express.Router();
 const basePath = '/users';
@@ -32,12 +31,12 @@ router.route(`${basePath}/:id`)
   });
 
 router.route(`${basePath}/:id/role`)
-  .put(safe(async (req, res) => {
+  .put(async (req, res) => {
     // Update item owner
     const item = await model.setRole(req.params.id, req.body);
     if (!item) throw Boom.notFound(`${req.originalUrl} not found`);
     res.status(204).end();
-  }));
+  });
 
 router
   .use(basePath, collectionHandler(model))

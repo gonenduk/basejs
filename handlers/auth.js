@@ -4,7 +4,6 @@ const Boom = require('@hapi/boom');
 const user = require('../models/user');
 const social = require('../lib/social');
 const jwt = require('../lib/jwt');
-const safe = require('./generic/safe');
 
 const router = express.Router();
 const basePath = '/auth';
@@ -18,7 +17,7 @@ function createJWT(match) {
 }
 
 router.route(`${basePath}/token`)
-  .post(safe(async (req, res) => {
+  .post(async (req, res) => {
     const { username, password } = req.body;
 
     // Validate email/password
@@ -32,15 +31,15 @@ router.route(`${basePath}/token`)
 
     // Create JWT with access and refresh tokens
     res.json(await createJWT(match));
-  }))
+  })
 
-  .delete(safe(async (req, res) => {
+  .delete(async (req, res) => {
     await user.logout(req.user.id);
     res.status(204).end();
-  }));
+  });
 
 router.route(`${basePath}/refresh/token`)
-  .post(safe(async (req, res) => {
+  .post(async (req, res) => {
     // Verify refresh token
     let token;
     try {
@@ -58,10 +57,10 @@ router.route(`${basePath}/refresh/token`)
 
     // Create JWT with access and refresh tokens
     res.json(await createJWT(match));
-  }));
+  });
 
 router.route(`${basePath}/social/token`)
-  .post(safe(async (req, res) => {
+  .post(async (req, res) => {
     const { provider, token } = req.body;
 
     // Verify provider is supported
@@ -81,6 +80,6 @@ router.route(`${basePath}/social/token`)
 
     // Create JWT for dummy user
     res.json(await createJWT(match));
-  }));
+  });
 
 module.exports = router;

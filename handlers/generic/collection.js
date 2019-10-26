@@ -1,7 +1,6 @@
 /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
 const express = require('express');
 const Boom = require('@hapi/boom');
-const safe = require('./safe');
 
 function safeParse(name, str) {
   let obj;
@@ -18,7 +17,7 @@ module.exports = (model) => {
   const router = express.Router();
 
   router.route('/')
-    .get(safe(async (req, res) => {
+    .get(async (req, res) => {
       // Get filter and sort objects (in OpenAPI 3 won't need to verify they are objects)
       let filter;
       let sort;
@@ -32,18 +31,19 @@ module.exports = (model) => {
       res.json(await model.getMany(filter, {
         sort, skip, limit, projection,
       }));
-    }))
+    })
 
-    .post(safe(async (req, res) => {
+    .post(async (req, res) => {
       // Set ownership to current user
-      req.body.ownerId = req.user.id;
+      const { user } = req;
+      req.body.ownerId = user.id;
 
       // Add one item to collection
       const item = await model.addOne(req.body);
       res.status(201).location(`${req.originalUrl}/${item._id}`).json(item);
-    }))
+    })
 
-    .patch(safe(async (req, res) => {
+    .patch(async (req, res) => {
       // Get filter object (in OpenAPI 3 won't need to verify they are objects)
       let filter;
       if (req.query.filter) filter = safeParse('filter', req.query.filter);
@@ -51,9 +51,9 @@ module.exports = (model) => {
       // Update list of items
       await model.updateMany(filter, req.body);
       res.status(204).end();
-    }))
+    })
 
-    .delete(safe(async (req, res) => {
+    .delete(async (req, res) => {
       // Get filter object (in OpenAPI 3 won't need to verify it is an object)
       let filter;
       if (req.query.filter) filter = safeParse('filter', req.query.filter);
@@ -61,7 +61,7 @@ module.exports = (model) => {
       // Delete items from collection
       await model.deleteMany(filter);
       res.status(204).end();
-    }));
+    });
 
   return router;
 };

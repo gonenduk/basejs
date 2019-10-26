@@ -2,9 +2,9 @@ const express = require('express');
 const Boom = require('@hapi/boom');
 const model = require('../models/user');
 const ac = require('../lib/acl');
-const collectionHandler = require('./routers/collection-handler');
-const itemHandler = require('./routers/item-handler');
-const safe = require('./routers/safe');
+const collectionHandler = require('./generic/collection-handler');
+const itemHandler = require('./generic/item-handler');
+const safe = require('./generic/safe');
 
 const router = express.Router();
 const basePath = '/users';

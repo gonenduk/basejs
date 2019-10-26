@@ -4,7 +4,7 @@ const Boom = require('@hapi/boom');
 const user = require('../models/user');
 const social = require('../lib/social');
 const jwt = require('../lib/jwt');
-const safe = require('./routers/safe');
+const safe = require('./generic/safe');
 
 const router = express.Router();
 const basePath = '/auth';

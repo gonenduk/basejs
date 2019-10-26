@@ -2,7 +2,7 @@ const express = require('express');
 const Boom = require('@hapi/boom');
 const model = require('../models/user');
 const ac = require('../lib/acl');
-const itemHandler = require('./routers/item-handler');
+const itemHandler = require('./generic/item-handler');
 
 const router = express.Router();
 const basePath = '/profiles';

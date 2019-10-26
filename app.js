@@ -14,7 +14,7 @@ module.exports = app;
 const web = require('./routes/web');
 const api = require('./routes/api');
 const common = require('./routes/common');
-const error = require('./routes/error');
+const error = require('./handlers/error');
 
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -5,6 +5,7 @@ const sui = require('swagger-ui-dist').getAbsoluteFSPath();
 const Boom = require('@hapi/boom');
 const rTracer = require('cls-rtracer');
 const ua = require('../lib/analytics');
+const acl = require('../acl');
 const handlers = require('../handlers');
 const options = require('../lib/options');
 
@@ -49,6 +50,9 @@ if (apiOptions.id) {
 
 // Swagger validations
 new OpenApiValidator({ apiSpec: path.join(__dirname, 'api.yaml') }).install(router);
+
+// Access control level validations
+router.use('/api', acl);
 
 // Handlers
 router.use('/api', handlers);

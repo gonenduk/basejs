@@ -4,9 +4,6 @@ const jwt = require('../lib/jwt');
 
 const router = express.Router();
 
-// Define access control
-require('./acl');
-
 // Default JWT extraction options
 const jwtOptions = { secret: jwt.secret, credentialsRequired: false };
 

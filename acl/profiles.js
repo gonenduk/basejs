@@ -6,9 +6,10 @@ const router = express.Router();
 const basePath = '/profiles';
 
 router.get(`${basePath}/:id`, (req, res, next) => {
-  const permission = (req.user.id === req.params.id)
-    ? ac.can(req.user.role).readOwn('profile')
-    : ac.can(req.user.role).readAny('profile');
+  const { user } = req;
+  const permission = (user.id === req.params.id)
+    ? ac.can(user.role).readOwn('profile')
+    : ac.can(user.role).readAny('profile');
   if (!permission.granted) throw Boom.forbidden('Access denied');
 
   next();

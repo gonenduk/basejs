@@ -3,7 +3,8 @@ const requireDirectory = require('require-directory');
 const ac = require('../lib/acl');
 
 // Access control definitions
-ac.grant('guest')
+ac.grant('none')
+  .grant('guest')
   .createOwn('user')
   .readAny('profile')
   .readAny('resource')

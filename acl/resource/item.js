@@ -6,7 +6,7 @@ module.exports = {
     let permission = ac.can(req.user.role).readAny('resource');
     if (!permission.granted) {
       permission = ac.can(req.user.role).readOwn('resource');
-      if (!permission.granted) throw Boom.forbidden('Access denied');
+      if (!permission.granted) throw Boom.forbidden();
       req.query.filter = { ownerId: req.user.id };
     }
 
@@ -16,7 +16,7 @@ module.exports = {
     let permission = ac.can(req.user.role).updateAny('resource');
     if (!permission.granted) {
       permission = ac.can(req.user.role).updateOwn('resource');
-      if (!permission.granted) throw Boom.forbidden('Access denied');
+      if (!permission.granted) throw Boom.forbidden();
       req.query.filter = { ownerId: req.user.id };
     }
 
@@ -26,7 +26,7 @@ module.exports = {
     let permission = ac.can(req.user.role).deleteAny('resource');
     if (!permission.granted) {
       permission = ac.can(req.user.role).deleteOwn('resource');
-      if (!permission.granted) throw Boom.forbidden('Access denied');
+      if (!permission.granted) throw Boom.forbidden();
       req.query.filter = { ownerId: req.user.id };
     }
 

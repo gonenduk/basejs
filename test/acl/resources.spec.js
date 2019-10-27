@@ -12,7 +12,6 @@ const req = { params: {} };
 const res = {};
 const next = () => {};
 
-const accessDenied = Boom.forbidden('Access denied');
 
 describe('Access control for public resources', () => {
   context('Get list', () => {
@@ -26,6 +25,11 @@ describe('Access control for public resources', () => {
     it('should allow user to create', () => {
       req.user = user;
       assert.doesNotThrow(() => { resourceACL.post(req, res, next); });
+    });
+
+    it('should not allow guest to create', () => {
+      req.user = guest;
+      assert.throws(() => { resourceACL.post(req, res, next); }, Boom.forbidden());
     });
   });
 
@@ -47,7 +51,7 @@ describe('Access control for public resources', () => {
     it('should not allow user to update any', () => {
       req.user = user;
       req.params.id = moderator.id;
-      assert.throws(() => { resourceACL[':id'].patch(req, res, next); }, accessDenied);
+      assert.throws(() => { resourceACL[':id'].patch(req, res, next); }, Boom.forbidden());
     });
 
     it('should allow admin to update any', () => {
@@ -61,7 +65,7 @@ describe('Access control for public resources', () => {
     it('should not allow moderator to update own', () => {
       req.user = moderator;
       req.params.id = moderator.id;
-      assert.throws(() => { resourceACL[':id'].role.put(req, res, next); }, accessDenied);
+      assert.throws(() => { resourceACL[':id'].role.put(req, res, next); }, Boom.forbidden());
     });
 
     it('should allow admin to update any', () => {

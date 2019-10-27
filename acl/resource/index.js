@@ -4,7 +4,7 @@ const itemOwnerACL = require('./item-owner');
 
 module.exports = {
   ...collectionACL,
-  id: {
+  ':id': {
     ...itemACL,
     owner: {
       ...itemOwnerACL,

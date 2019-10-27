@@ -2,7 +2,7 @@ const Boom = require('@hapi/boom');
 const ac = require('../lib/acl');
 
 module.exports = {
-  id: {
+  ':id': {
     get: (req, res, next) => {
       const permission = (req.user.id === req.params.id)
         ? ac.can(req.user.role).readOwn('profile')

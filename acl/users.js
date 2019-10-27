@@ -15,7 +15,7 @@ module.exports = {
     next();
   },
 
-  id: {
+  ':id': {
     get: (req, res, next) => {
       const permission = (req.user.id === req.params.id)
         ? ac.can(req.user.role).readOwn('user')

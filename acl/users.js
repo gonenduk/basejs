@@ -34,7 +34,7 @@ module.exports = {
     },
 
     role: {
-      put: async (req, res, next) => {
+      put: (req, res, next) => {
         const permission = (req.user.id === req.params.id)
           ? ac.can(req.user.role).updateOwn('user-role')
           : ac.can(req.user.role).updateAny('user-role');

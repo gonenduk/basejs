@@ -1,3 +1,3 @@
-const resourceACL = require('./resource');
+const publicResourceACL = require('./resources/public');
 
-module.exports = resourceACL;
+module.exports = publicResourceACL;

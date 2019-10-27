@@ -56,12 +56,12 @@ root
 
 **acl**: Definition of access control levels and handlers of routes for access control.
 
-**acl resource**: Common base access control handlers to be used by other handlers.
+**acl resources**: Common base access control handlers to be used by other handlers.
 
 **handlers**: Handlers of routes both for API calls and web pages.
 The actual business logic of end points.
 
-**handlers resource**: Common base handlers to be used by other handlers.
+**handlers resources**: Common base handlers to be used by other handlers.
 For example, handling collections and items of resources, updating ownership...
 
 **lib**: Wrappers around 3rd party packages to initialize and isolate them.

@@ -14,8 +14,10 @@ module.exports = {
   ':id': {
     ...baseResource[':id'],
     get: (req, res, next) => {
-      const permission = ac.can(req.user.role).readOwn('private-resource');
+      let permission = ac.can(req.user.role).readAny('private-resource');
       if (!permission.granted) {
+        permission = ac.can(req.user.role).readOwn('private-resource');
+        if (!permission.granted) throw Boom.forbidden();
         req.query.filter = { ownerId: req.user.id };
       }
 

@@ -1,6 +1,7 @@
 const assert = require('assert').strict;
 const Boom = require('@hapi/boom');
 require('../../acl');
+const ac = require('../../lib/acl');
 const publicResourceACL = require('../../acl/resources/public');
 
 const guest = { role: 'guest' };
@@ -11,6 +12,10 @@ const res = {};
 const next = () => {};
 
 describe('Access control for public resources', () => {
+  before(() => {
+    ac.grant('none');
+  });
+
   beforeEach(() => {
     req.query = {};
   });

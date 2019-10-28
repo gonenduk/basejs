@@ -8,6 +8,7 @@ const admin = { role: 'admin', id: '1' };
 const moderator = { role: 'moderator', id: '2' };
 const user = { role: 'user', id: '3' };
 const guest = { role: 'guest' };
+const dummy = { role: 'dummy' };
 
 const req = {};
 const res = {};
@@ -90,15 +91,16 @@ describe('Access control for resources', () => {
       req.user = admin;
       assert.doesNotThrow(() => { publicResourceACL[':id'].owner.put(req, res, next); });
     });
-  });
 
-  context('Update resource ownership in case can update own', () => {
-    it('should allow admin to update own', () => {
-      const dummy = { role: 'dummyUpdateOwnOwner' };
-      ac.grant('dummyUpdateOwnOwner').updateOwn('resource-owner');
+    it('should allow dummy to update own', () => {
+      ac.grant('dummy').updateOwn('resource-owner');
       req.user = dummy;
       assert.doesNotThrow(() => { publicResourceACL[':id'].owner.put(req, res, next); });
       assert.deepEqual(req.query.filter, { ownerId: req.user.id });
+    });
+
+    after(() => {
+      ac.deny('dummy').updateOwn('resource-owner');
     });
   });
 });

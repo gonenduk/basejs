@@ -1,6 +1,7 @@
 const assert = require('assert').strict;
 const Boom = require('@hapi/boom');
 require('../../acl');
+const ac = require('../../lib/acl');
 const publicResourceACL = require('../../acl/resources/public');
 
 const admin = { role: 'admin', id: '1' };
@@ -88,6 +89,16 @@ describe('Access control for resources', () => {
     it('should allow admin to update any', () => {
       req.user = admin;
       assert.doesNotThrow(() => { publicResourceACL[':id'].owner.put(req, res, next); });
+    });
+  });
+
+  context('Update resource ownership in case can update own', () => {
+    it('should allow admin to update own', () => {
+      const dummy = { role: 'dummyUpdateOwnOwner' };
+      ac.grant('dummyUpdateOwnOwner').updateOwn('resource-owner');
+      req.user = dummy;
+      assert.doesNotThrow(() => { publicResourceACL[':id'].owner.put(req, res, next); });
+      assert.deepEqual(req.query.filter, { ownerId: req.user.id });
     });
   });
 });

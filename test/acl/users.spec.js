@@ -1,18 +1,24 @@
 const assert = require('assert').strict;
 const Boom = require('@hapi/boom');
 require('../../acl');
+const ac = require('../../lib/acl');
 const usersACL = require('../../acl/users');
 
 const admin = { role: 'admin', id: '1' };
 const moderator = { role: 'moderator', id: '2' };
 const user = { role: 'user', id: '3' };
 const guest = { role: 'guest' };
+const none = { role: 'none' };
 
 const req = { params: {} };
 const res = {};
 const next = () => {};
 
-describe.skip('Access control for /users', () => {
+describe('Access control for /users', () => {
+  before(() => {
+    ac.grant('none');
+  });
+
   context('Get user list', () => {
     it('should allow moderator to read', () => {
       req.user = moderator;
@@ -30,6 +36,11 @@ describe.skip('Access control for /users', () => {
       req.user = guest;
       assert.doesNotThrow(() => { usersACL.post(req, res, next); });
     });
+
+    it('should not allow undefined role to create', () => {
+      req.user = none;
+      assert.throws(() => { usersACL.post(req, res, next); }, Boom.forbidden());
+    });
   });
 
   context('Get user', () => {
@@ -39,16 +50,16 @@ describe.skip('Access control for /users', () => {
       assert.doesNotThrow(() => { usersACL[':id'].get(req, res, next); });
     });
 
-    it('should not allow user to read any', () => {
-      req.user = user;
-      req.params.id = moderator.id;
-      assert.throws(() => { usersACL[':id'].get(req, res, next); }, Boom.forbidden());
-    });
-
     it('should allow moderator to read any', () => {
       req.user = moderator;
       req.params.id = admin.id;
       assert.doesNotThrow(() => { usersACL[':id'].get(req, res, next); });
+    });
+
+    it('should not allow user to read any', () => {
+      req.user = user;
+      req.params.id = moderator.id;
+      assert.throws(() => { usersACL[':id'].get(req, res, next); }, Boom.forbidden());
     });
   });
 

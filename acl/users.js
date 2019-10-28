@@ -26,8 +26,8 @@ module.exports = {
     },
     patch: (req, res, next) => {
       const permission = (req.user.id === req.params.id)
-        ? ac.can(req.user.role).updateOwn('private-resource')
-        : ac.can(req.user.role).updateAny('private-resource');
+        ? ac.can(req.user.role).updateOwn('resource')
+        : ac.can(req.user.role).updateAny('resource');
       if (!permission.granted) throw Boom.forbidden();
 
       next();

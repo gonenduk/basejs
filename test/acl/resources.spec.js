@@ -36,6 +36,11 @@ describe('Access control for resources', () => {
       assert.deepEqual(req.query.filter, { ownerId: req.user.id });
     });
 
+    it('should not allow guest to update any', () => {
+      req.user = guest;
+      assert.throws(() => { publicResourceACL[':id'].patch(req, res, next); }, Boom.forbidden());
+    });
+
     it('should not allow moderator to update any', () => {
       req.user = moderator;
       assert.doesNotThrow(() => { publicResourceACL[':id'].patch(req, res, next); });
@@ -54,6 +59,11 @@ describe('Access control for resources', () => {
       req.user = user;
       assert.doesNotThrow(() => { publicResourceACL[':id'].delete(req, res, next); });
       assert.deepEqual(req.query.filter, { ownerId: req.user.id });
+    });
+
+    it('should not allow guest to delete any', () => {
+      req.user = guest;
+      assert.throws(() => { publicResourceACL[':id'].delete(req, res, next); }, Boom.forbidden());
     });
 
     it('should not allow moderator to delete any', () => {

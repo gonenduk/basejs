@@ -5,6 +5,7 @@ const privateResourceACL = require('../../acl/resources/private');
 
 const moderator = { role: 'moderator', id: '2' };
 const user = { role: 'user', id: '3' };
+const guest = { role: 'guest' };
 
 const req = {};
 const res = {};
@@ -47,8 +48,8 @@ describe('Access control for private resources', () => {
     });
 
     it('should not allow guest to read any', () => {
-      req.user = user;
-      assert.throws(() => { privateResourceACL.get(req, res, next); }, Boom.forbidden());
+      req.user = guest;
+      assert.throws(() => { privateResourceACL[':id'].get(req, res, next); }, Boom.forbidden());
     });
   });
 });

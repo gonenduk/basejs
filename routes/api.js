@@ -7,6 +7,7 @@ const rTracer = require('cls-rtracer');
 const ua = require('../lib/analytics');
 const acl = require('../acl');
 const handlers = require('../handlers');
+const handlersRoutes = require('../handlersRouters');
 const build = require('./build');
 const options = require('../lib/options');
 
@@ -56,7 +57,10 @@ new OpenApiValidator({ apiSpec: path.join(__dirname, 'api.yaml') }).install(rout
 build(router, '/api', acl);
 
 // Handlers
-router.use('/api', handlers);
+build(router, '/api', handlers);
+
+// Handlers
+router.use('/api', handlersRoutes);
 
 // Default handler (not implemented error)
 router.use('/api', (req, res, next) => {

@@ -1,26 +1,17 @@
-const Boom = require('@hapi/boom');
-const ac = require('../../lib/acl');
 const baseResource = require('./base');
+const validations = require('./validations');
 
 module.exports = {
   ...baseResource,
   get: (req, res, next) => {
-    const permission = ac.can(req.user.role).readAny('private-resource');
-    if (!permission.granted) throw Boom.forbidden();
-
+    validations(req.user, 'readAny', '', 'private-resource', {});
     next();
   },
 
   ':id': {
     ...baseResource[':id'],
     get: (req, res, next) => {
-      let permission = ac.can(req.user.role).readAny('private-resource');
-      if (!permission.granted) {
-        permission = ac.can(req.user.role).readOwn('private-resource');
-        if (!permission.granted) throw Boom.forbidden();
-        req.query.filter = { ownerId: req.user.id };
-      }
-
+      validations(req.user, 'readAny', 'readOwn', 'private-resource', { query: req.query });
       next();
     },
   },

@@ -10,7 +10,7 @@ const user = { role: 'user', id: '3' };
 const guest = { role: 'guest' };
 const dummy = { role: 'dummy' };
 
-const req = {};
+const req = { params: {} };
 const res = {};
 const next = () => {};
 

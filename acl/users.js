@@ -1,45 +1,28 @@
-const Boom = require('@hapi/boom');
-const ac = require('../lib/acl');
+const validations = require('./resources/validations');
 
 module.exports = {
   get: (req, res, next) => {
-    const permission = ac.can(req.user.role).readAny('private-resource');
-    if (!permission.granted) throw Boom.forbidden();
-
+    validations(req.user, 'readAny', '', 'private-resource', {});
     next();
   },
   post: (req, res, next) => {
-    const permission = ac.can(req.user.role).createOwn('user');
-    if (!permission.granted) throw Boom.forbidden();
-
+    validations(req.user, '', 'createOwn', 'user', {});
     next();
   },
 
   ':id': {
     get: (req, res, next) => {
-      const permission = (req.user.id === req.params.id)
-        ? ac.can(req.user.role).readOwn('private-resource')
-        : ac.can(req.user.role).readAny('private-resource');
-      if (!permission.granted) throw Boom.forbidden();
-
+      validations(req.user, 'readAny', 'readOwn', 'private-resource', { id: req.params.id });
       next();
     },
     patch: (req, res, next) => {
-      const permission = (req.user.id === req.params.id)
-        ? ac.can(req.user.role).updateOwn('resource')
-        : ac.can(req.user.role).updateAny('resource');
-      if (!permission.granted) throw Boom.forbidden();
-
+      validations(req.user, 'updateAny', 'updateOwn', 'resource', { id: req.params.id });
       next();
     },
 
     role: {
       put: (req, res, next) => {
-        const permission = (req.user.id === req.params.id)
-          ? ac.can(req.user.role).updateOwn('user-role')
-          : ac.can(req.user.role).updateAny('user-role');
-        if (!permission.granted) throw Boom.forbidden();
-
+        validations(req.user, 'updateAny', 'updateOwn', 'user-role', { id: req.params.id });
         next();
       },
     },

@@ -1,22 +1,17 @@
-const Boom = require('@hapi/boom');
-const ac = require('../../lib/acl');
 const baseResource = require('./base');
+const validations = require('./validations');
 
 module.exports = {
   ...baseResource,
   get: (req, res, next) => {
-    const permission = ac.can(req.user.role).readAny('public-resource');
-    if (!permission.granted) throw Boom.forbidden();
-
+    validations(req.user, 'readAny', '', 'public-resource', {});
     next();
   },
 
   ':id': {
     ...baseResource[':id'],
     get: (req, res, next) => {
-      const permission = ac.can(req.user.role).readAny('public-resource');
-      if (!permission.granted) throw Boom.forbidden();
-
+      validations(req.user, 'readAny', '', 'public-resource', {});
       next();
     },
   },

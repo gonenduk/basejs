@@ -1,45 +1,24 @@
-const Boom = require('@hapi/boom');
-const ac = require('../../lib/acl');
+const validations = require('./validations');
 
 module.exports = {
   post: (req, res, next) => {
-    const permission = ac.can(req.user.role).createOwn('resource');
-    if (!permission.granted) throw Boom.forbidden();
-
+    validations(req.user, '', 'createOwn', 'resource', {});
     next();
   },
 
   ':id': {
     patch: (req, res, next) => {
-      let permission = ac.can(req.user.role).updateAny('resource');
-      if (!permission.granted) {
-        permission = ac.can(req.user.role).updateOwn('resource');
-        if (!permission.granted) throw Boom.forbidden();
-        req.query.filter = { ownerId: req.user.id };
-      }
-
+      validations(req.user, 'updateAny', 'updateOwn', 'resource', { query: req.query });
       next();
     },
     delete: (req, res, next) => {
-      let permission = ac.can(req.user.role).deleteAny('resource');
-      if (!permission.granted) {
-        permission = ac.can(req.user.role).deleteOwn('resource');
-        if (!permission.granted) throw Boom.forbidden();
-        req.query.filter = { ownerId: req.user.id };
-      }
-
+      validations(req.user, 'deleteAny', 'deleteOwn', 'resource', { query: req.query });
       next();
     },
 
     owner: {
       put: (req, res, next) => {
-        let permission = ac.can(req.user.role).updateAny('resource-owner');
-        if (!permission.granted) {
-          permission = ac.can(req.user.role).updateOwn('resource-owner');
-          if (!permission.granted) throw Boom.forbidden();
-          req.query.filter = { ownerId: req.user.id };
-        }
-
+        validations(req.user, 'updateAny', 'updateOwn', 'resource-owner', { query: req.query });
         next();
       },
     },

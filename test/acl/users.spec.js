@@ -1,24 +1,18 @@
 const assert = require('assert').strict;
 const Boom = require('@hapi/boom');
 require('../../acl');
-const ac = require('../../lib/acl');
 const usersACL = require('../../acl/users');
 
 const admin = { role: 'admin', id: '1' };
 const moderator = { role: 'moderator', id: '2' };
 const user = { role: 'user', id: '3' };
 const guest = { role: 'guest' };
-const none = { role: 'none' };
 
 const req = { params: {} };
 const res = {};
 const next = () => {};
 
 describe('Access control for /users', () => {
-  before(() => {
-    ac.grant('none');
-  });
-
   context('Get user list', () => {
     it('should allow moderator to read', () => {
       req.user = moderator;
@@ -35,11 +29,6 @@ describe('Access control for /users', () => {
     it('should allow guest to create', () => {
       req.user = guest;
       assert.doesNotThrow(() => { usersACL.post(req, res, next); });
-    });
-
-    it('should not allow undefined role to create', () => {
-      req.user = none;
-      assert.throws(() => { usersACL.post(req, res, next); }, Boom.forbidden());
     });
   });
 

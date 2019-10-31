@@ -45,12 +45,9 @@ module.exports = {
     token: {
       post: async (req, res) => {
         // Verify refresh token
-        let token;
-        try {
-          token = await jwt.verifyToken(req.body.token);
-        } catch (err) {
+        const token = await jwt.verifyToken(req.body.token).catch((err) => {
           throw Boom.unauthorized(`Invalid refresh token: ${err.message}`);
-        }
+        });
 
         // Find related user
         const match = await user.getOneById(token.id, { role: 1, logoutAt: 1 });
@@ -76,12 +73,9 @@ module.exports = {
         if (!social.isProviderSupported(provider)) throw Boom.badRequest(`Unsupported provider '${provider}'`);
 
         // Verify token with provider and get user profile data
-        let profile;
-        try {
-          profile = await social.validateWithProvider(provider, token);
-        } catch (err) {
+        const profile = await social.validateWithProvider(provider, token).catch((err) => {
           throw Boom.unauthorized(err.error);
-        }
+        });
 
         // Find user by email
         const match = await user.getOne({ email: profile.email }, { projection: { role: 1 } });

@@ -3,26 +3,41 @@ const sinon = require('sinon');
 const Boom = require('@hapi/boom');
 const user = require('../../models/user');
 const jwt = require('../../lib/jwt');
+const social = require('../../lib/social');
 const { auth } = require('../../handlers');
 
 const req = {};
 const res = {};
 
 describe('Handler of /auth', () => {
-  const getOneStub = sinon.stub(user, 'getOne');
-  const validatePasswordStub = sinon.stub(user, 'validatePassword');
-  const signAccessTokenStub = sinon.stub(jwt, 'signAccessToken').resolves('ta');
-  const signRefreshTokenStub = sinon.stub(jwt, 'signRefreshToken').resolves('tr');
+  let getOneStub;
+  let getOneByIdStub;
+  let validatePasswordStub;
+  let logoutStub;
+  let signAccessTokenStub;
+  let signRefreshTokenStub;
+  let verifyTokenStub;
+  let validateWithProviderStub;
+
+  before(() => {
+    getOneStub = sinon.stub(user, 'getOne');
+    getOneByIdStub = sinon.stub(user, 'getOneById');
+    validatePasswordStub = sinon.stub(user, 'validatePassword');
+    logoutStub = sinon.stub(user, 'logout');
+    signAccessTokenStub = sinon.stub(jwt, 'signAccessToken');
+    signRefreshTokenStub = sinon.stub(jwt, 'signRefreshToken');
+    verifyTokenStub = sinon.stub(jwt, 'verifyToken');
+    validateWithProviderStub = sinon.stub(social, 'validateWithProvider');
+  });
 
   after(() => {
-    getOneStub.restore();
-    validatePasswordStub.restore();
-    signAccessTokenStub.restore();
-    signRefreshTokenStub.restore();
+    sinon.restore();
   });
 
   context('Create access and refresh tokens from username and password', () => {
-    req.body = { username: 'user', password: 'password' };
+    before(() => {
+      req.body = { username: 'user', password: 'password' };
+    });
 
     it('should fail on invalid user', async () => {
       await assert.rejects(() => auth.token.post(req, res), Boom.unauthorized('Incorrect username or password'));
@@ -36,6 +51,8 @@ describe('Handler of /auth', () => {
     it('should return access and refresh tokens on success', async () => {
       getOneStub.resolves({});
       validatePasswordStub.resolves(true);
+      signAccessTokenStub.resolves('ta');
+      signRefreshTokenStub.resolves('tr');
       res.json = (obj) => {
         assert.deepEqual(obj, { access_token: 'ta', refresh_token: 'tr' });
       };
@@ -50,13 +67,11 @@ describe('Handler of /auth', () => {
   });
 
   context('Delete token', () => {
-    req.user = { id: '1' };
-    res.status = () => res;
-    res.end = () => res;
-    const logoutStub = sinon.stub(user, 'logout').resolves();
-
-    after(() => {
-      logoutStub.restore();
+    before(() => {
+      req.user = { id: '1' };
+      res.status = () => res;
+      res.end = () => res;
+      logoutStub.resolves();
     });
 
     it('should always succeed', async () => {
@@ -65,13 +80,8 @@ describe('Handler of /auth', () => {
   });
 
   context('Create access and refresh tokens from refresh token', () => {
-    req.body = { token: 't' };
-    const getOneByIdStub = sinon.stub(user, 'getOneById');
-    const verifyTokenStub = sinon.stub(jwt, 'verifyToken');
-
-    after(() => {
-      getOneByIdStub.restore();
-      verifyTokenStub.restore();
+    before(() => {
+      req.body = { token: 't' };
     });
 
     it('should fail on invalid token', async () => {
@@ -99,6 +109,38 @@ describe('Handler of /auth', () => {
         assert.deepEqual(obj, { access_token: 'ta', refresh_token: 'tr' });
       };
       await assert.doesNotReject(() => auth.refresh.token.post(req, res));
+    });
+  });
+
+  context('Create access and refresh tokens from social token', () => {
+    before(() => {
+      req.body = { provider: 'p', token: 't' };
+    });
+
+    it('should fail on unknown provider', async () => {
+      verifyTokenStub.rejects(Error('e'));
+      await assert.rejects(() => auth.social.token.post(req, res), Boom.unauthorized('Unsupported provider \'p\''));
+    });
+
+    it('should fail if token not valid by provider', async () => {
+      req.body.provider = 'facebook';
+      verifyTokenStub.resolves({ id: '1' });
+      validateWithProviderStub.rejects(Error());
+      await assert.rejects(() => auth.social.token.post(req, res), Boom.unauthorized('Unauthorized'));
+    });
+
+    it('should fail if user in token not found', async () => {
+      validateWithProviderStub.resolves({});
+      getOneStub.resolves();
+      await assert.rejects(() => auth.social.token.post(req, res), Boom.unauthorized('No matching user found'));
+    });
+
+    it('should return access and refresh tokens on success', async () => {
+      getOneStub.resolves({});
+      res.json = (obj) => {
+        assert.deepEqual(obj, { access_token: 'ta', refresh_token: 'tr' });
+      };
+      await assert.doesNotReject(() => auth.social.token.post(req, res));
     });
   });
 });

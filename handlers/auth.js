@@ -70,7 +70,7 @@ module.exports = {
         const { provider, token } = req.body;
 
         // Verify provider is supported
-        if (!social.isProviderSupported(provider)) throw Boom.badRequest(`Unsupported provider '${provider}'`);
+        if (!social.isProviderSupported(provider)) throw Boom.unauthorized(`Unsupported provider '${provider}'`);
 
         // Verify token with provider and get user profile data
         const profile = await social.validateWithProvider(provider, token).catch((err) => {

@@ -17,10 +17,12 @@ function toObjectId(id) {
 class MongoModel {
   constructor(collectionName) {
     this.collectionName = collectionName;
-    mongo.db.collection(collectionName, { strict: true }, (err, collection) => {
-      this.collection = collection;
-      if (err) logger.warn(`Cannot access '${collectionName}' collection: ${err.message}`);
-    });
+    if (mongo.isConnected) {
+      mongo.db.collection(collectionName, { strict: true }, (err, collection) => {
+        this.collection = collection;
+        if (err) logger.warn(`Cannot access '${collectionName}' collection: ${err.message}`);
+      });
+    } else this.connection = () => { throw Error('Not connected'); };
   }
 
   // ***** Collections

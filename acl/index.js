@@ -4,15 +4,15 @@ const ac = require('../lib/acl');
 
 // Access control definitions
 ac.grant('guest')
-  .readAny('public-resource')
+  .readAny('resource-public')
   .readAny('webpage')
 
   .grant('user').extend('guest')
   .createOwn('resource').updateOwn('resource').deleteOwn('resource')
-  .readOwn('private-resource')
+  .readOwn('resource-private')
 
   .grant('moderator').extend('user')
-  .readAny('private-resource')
+  .readAny('resource-private')
 
   .grant('admin').extend('moderator')
   .updateAny('resource').deleteAny('resource')

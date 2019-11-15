@@ -2,7 +2,7 @@ const validations = require('./resources/validations');
 
 module.exports = {
   get: (req, res, next) => {
-    validations(req.user, 'readAny', '', 'private-resource', {});
+    validations(req.user, 'readAny', '', 'resource-private', {});
     next();
   },
   post: (req, res, next) => {
@@ -11,7 +11,7 @@ module.exports = {
 
   ':id': {
     get: (req, res, next) => {
-      validations(req.user, 'readAny', 'readOwn', 'private-resource', { id: req.params.id });
+      validations(req.user, 'readAny', 'readOwn', 'resource-private', { id: req.params.id });
       next();
     },
     patch: (req, res, next) => {

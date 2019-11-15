@@ -21,7 +21,7 @@ module.exports = {
 
     role: {
       put: (req, res, next) => {
-        validations(req.user, 'updateAny', 'updateOwn', 'user-role', { id: req.params.id });
+        validations(req.user, 'updateAny', 'updateOwn', 'resource-system', { id: req.params.id });
         next();
       },
     },

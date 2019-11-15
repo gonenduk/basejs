@@ -16,7 +16,6 @@ ac.grant('guest')
 
   .grant('admin').extend('moderator')
   .updateAny('resource').deleteAny('resource')
-  .updateAny('resource-owner')
-  .updateAny('user-role');
+  .updateAny('resource-system');
 
 module.exports = requireDirectory(module, { recurse: false });

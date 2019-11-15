@@ -18,7 +18,7 @@ module.exports = {
 
     owner: {
       put: (req, res, next) => {
-        validations(req.user, 'updateAny', 'updateOwn', 'resource-owner', { query: req.query });
+        validations(req.user, 'updateAny', 'updateOwn', 'resource-system', { query: req.query });
         next();
       },
     },

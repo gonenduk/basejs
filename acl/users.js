@@ -6,7 +6,6 @@ module.exports = {
     next();
   },
   post: (req, res, next) => {
-    validations(req.user, '', 'createOwn', 'user', {});
     next();
   },
 

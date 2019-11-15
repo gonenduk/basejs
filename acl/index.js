@@ -4,7 +4,6 @@ const ac = require('../lib/acl');
 
 // Access control definitions
 ac.grant('guest')
-  .createOwn('user')
   .readAny('public-resource')
   .readAny('webpage')
 

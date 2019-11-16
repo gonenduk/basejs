@@ -1,18 +1,34 @@
-const baseResource = require('./base');
-const validations = require('./validations');
+const validate = require('./validate');
 
 module.exports = {
-  ...baseResource,
   get: (req, res, next) => {
-    validations(req.user, 'readAny', '', 'resource-public', {});
+    validate.anyByOwnerId(req.user, 'read', 'resource-public');
+    next();
+  },
+  post: (req, res, next) => {
+    validate.oneByOwnerId(req.user, 'create', 'resource');
     next();
   },
 
   ':id': {
-    ...baseResource[':id'],
     get: (req, res, next) => {
-      validations(req.user, 'readAny', '', 'resource-public', {});
+      validate.oneByOwnerId(req.user, 'read', 'resource-public', req.query);
       next();
+    },
+    patch: (req, res, next) => {
+      validate.oneByOwnerId(req.user, 'update', 'resource', req.query);
+      next();
+    },
+    delete: (req, res, next) => {
+      validate.oneByOwnerId(req.user, 'delete', 'resource', req.query);
+      next();
+    },
+
+    owner: {
+      put: (req, res, next) => {
+        validate.oneByOwnerId(req.user, 'update', 'resource-system');
+        next();
+      },
     },
   },
 };

@@ -31,11 +31,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.locals.config = config;
 
 // Routes setup (order is important)
-app.use(common);
-app.use(api);
-app.use(web);
-app.use(error);
-
-// App is ready
-app.locals.isReady = Promise.resolve();
-logger.info('Routes are ready');
+app.locals.isReady = Promise.all([common, api, web, error]).then((routers) => {
+  routers.forEach((router) => {
+    app.use(router);
+  });
+  logger.info('Routes are ready');
+});

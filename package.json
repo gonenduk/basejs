@@ -23,7 +23,7 @@
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
     "express-jwt": "^5.3.0",
-    "express-openapi-validator": "^3.0.0-alpha.2",
+    "express-openapi-validator": "^3.0.2",
     "ioredis": "^4.14.1",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.3.5",
@@ -41,7 +41,7 @@
     "winston": "^3.2.1"
   },
   "devDependencies": {
-    "eslint": "^6.7.1",
+    "eslint": "^6.7.2",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
     "husky": "^3.1.0",

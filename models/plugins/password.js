@@ -1,6 +1,6 @@
 /* eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["item"] }] */
 /* eslint class-methods-use-this: "off" */
-const bcrypt = require('bcrypt-nodejs');
+const bcrypt = require('bcryptjs');
 const util = require('util');
 const logger = require('../../lib/logger');
 

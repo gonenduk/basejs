@@ -5,7 +5,6 @@
 require('auto-strict');
 
 // Initialize promise library, config, logger and cluster
-global.Promise = require('bluebird');
 const logger = require('./lib/logger');
 const cluster = require('./lib/cluster');
 

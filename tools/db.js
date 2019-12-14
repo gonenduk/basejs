@@ -1,10 +1,14 @@
-global.Promise = require('bluebird');
 const bcrypt = require('bcrypt-nodejs');
 const program = require('commander');
 const schemas = require('../models/schemas');
 const mongo = require('../lib/mongodb');
 
 const { log } = console;
+
+Promise.each = async (arr, fn) => {
+  // eslint-disable-next-line no-restricted-syntax,no-await-in-loop
+  for (const item of arr) await fn(item);
+};
 
 async function connect() {
   if (!mongo.isConnected) await mongo.connect();
@@ -36,7 +40,7 @@ const commands = {
       log(` ${collectionName}`);
       await db.createCollection(collectionName);
       await db.command({ collMod: collectionName, validator: schemas[collectionName].schema });
-      Promise.each(schemas[collectionName].indexes, async (index) => {
+      return Promise.each(schemas[collectionName].indexes, async (index) => {
         await db.createIndex(collectionName, index.fields, index.options);
       });
     });

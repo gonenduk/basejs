@@ -1,11 +1,11 @@
 /* eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["item"] }] */
 /* eslint class-methods-use-this: "off" */
 const bcrypt = require('bcrypt-nodejs');
-const Promise = require('bluebird');
+const util = require('util');
 const logger = require('../../lib/logger');
 
-const hashAsync = Promise.promisify(bcrypt.hash);
-const compareAsync = Promise.promisify(bcrypt.compare);
+const hashAsync = util.promisify(bcrypt.hash);
+const compareAsync = util.promisify(bcrypt.compare);
 
 module.exports = (ModelClass) => class extends ModelClass {
   validatePassword(password, hash) {

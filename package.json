@@ -14,7 +14,6 @@
     "accesscontrol": "^2.2.1",
     "auto-strict": "0.0.4",
     "bcrypt-nodejs": "0.0.3",
-    "bluebird": "^3.7.2",
     "cls-hooked": "^4.2.2",
     "cls-rtracer": "^1.3.0",
     "commander": "^4.0.1",

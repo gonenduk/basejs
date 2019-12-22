@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt-nodejs');
+const bcrypt = require('bcryptjs');
 const program = require('commander');
 const schemas = require('../models/schemas');
 const mongo = require('../lib/mongodb');

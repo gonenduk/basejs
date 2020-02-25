@@ -36,7 +36,7 @@
     "swagger-ui-dist": "^3.25.0",
     "throng": "^4.0.0",
     "universal-analytics": "^0.4.20",
-    "uuid": "^3.4.0",
+    "uuid": "^7.0.0",
     "winston": "^3.2.1"
   },
   "devDependencies": {

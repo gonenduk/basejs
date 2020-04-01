@@ -36,7 +36,7 @@
     "swagger-ui-dist": "^3.25.0",
     "throng": "^4.0.0",
     "universal-analytics": "^0.4.20",
-    "uuid": "^7.0.2",
+    "uuid": "^7.0.3",
     "winston": "^3.2.1"
   },
   "devDependencies": {
@@ -44,7 +44,7 @@
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.2",
     "husky": "^4.2.3",
-    "lint-staged": "^10.1.0",
+    "lint-staged": "^10.1.1",
     "mocha": "^7.1.1",
     "mochawesome": "^5.0.0",
     "nyc": "^15.0.0",

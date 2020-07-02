@@ -5,7 +5,7 @@ const jwt = require('../lib/jwt');
 const router = express.Router();
 
 // Default JWT extraction options
-const jwtOptions = { secret: jwt.secret, credentialsRequired: false };
+const jwtOptions = { secret: jwt.secret, credentialsRequired: false, algorithms: ['HS256'] };
 
 // JWT extraction
 router.use('/', jwtExtraction(jwtOptions), (req, res, next) => {

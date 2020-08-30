@@ -14,7 +14,7 @@ const options = require('../lib/options');
 const apiOptions = options('api');
 const analyticsOptions = options('analytics');
 
-module.exports = new Promise((resolve) => {
+const routerAPI = async () => {
   const router = express.Router();
 
   // Google analytics
@@ -52,22 +52,23 @@ module.exports = new Promise((resolve) => {
   }
 
   // Swagger validations
-  const validator = new OpenApiValidator({ apiSpec: path.join(__dirname, 'api.yaml') }).install(router);
-  validator.then(() => {
-    // Access control level validations
-    build(router, '/api', acl);
+  await new OpenApiValidator({ apiSpec: path.join(__dirname, 'api.yaml') }).install(router);
 
-    // Handlers
-    build(router, '/api', handlers);
+  // Access control level validations
+  build(router, '/api', acl);
 
-    // Handlers
-    router.use('/api', handlersRoutes);
+  // Handlers
+  build(router, '/api', handlers);
 
-    // Default handler (not implemented error)
-    router.use('/api', (req, res, next) => {
-      next(Boom.notImplemented(`${req.method} /api${req.path} not implemented`));
-    });
+  // Handlers
+  router.use('/api', handlersRoutes);
 
-    resolve(router);
+  // Default handler (not implemented error)
+  router.use('/api', (req, res, next) => {
+    next(Boom.notImplemented(`${req.method} /api${req.path} not implemented`));
   });
-});
+
+  return router;
+};
+
+module.exports = routerAPI();

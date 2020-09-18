@@ -9,13 +9,14 @@ ac.grant('guest')
 
   .grant('user').extend('guest')
   .createOwn('resource').updateOwn('resource').deleteOwn('resource')
-  .readOwn('resource-private')
+  .readOwn('resource')
 
   .grant('moderator').extend('user')
-  .readAny('resource-private')
+  .readAny('resource')
 
   .grant('admin').extend('moderator')
   .updateAny('resource').deleteAny('resource')
-  .updateAny('resource-system');
+  .createAny('resource-system').updateAny('resource-system').deleteAny('resource-system')
+  .readAny('resource-system');
 
 module.exports = requireDirectory(module, { recurse: false });

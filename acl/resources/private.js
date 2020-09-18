@@ -2,7 +2,7 @@ const validate = require('./validate');
 
 module.exports = {
   get: (req, res, next) => {
-    validate.anyByOwnerId(req.user, 'read', 'resource-private');
+    validate.anyByOwnerId(req.user, 'read', 'resource');
     next();
   },
   post: (req, res, next) => {
@@ -12,7 +12,7 @@ module.exports = {
 
   ':id': {
     get: (req, res, next) => {
-      validate.oneByOwnerId(req.user, 'read', 'resource-private', req.query);
+      validate.oneByOwnerId(req.user, 'read', 'resource', req.query);
       next();
     },
     patch: (req, res, next) => {

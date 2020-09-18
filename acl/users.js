@@ -2,7 +2,7 @@ const validate = require('./resources/validate');
 
 module.exports = {
   get: (req, res, next) => {
-    validate.byUserId(req.user, 'read', 'resource-private');
+    validate.byUserId(req.user, 'read', 'resource');
     next();
   },
   post: (req, res, next) => {
@@ -11,7 +11,7 @@ module.exports = {
 
   ':id': {
     get: (req, res, next) => {
-      validate.byUserId(req.user, 'read', 'resource-private', req.params.id);
+      validate.byUserId(req.user, 'read', 'resource', req.params.id);
       next();
     },
     patch: (req, res, next) => {

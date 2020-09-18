@@ -12,7 +12,7 @@ paths:
     post:
       tags:
         - Authentication
-      description: Create a JWT based on user credentials
+      summary: Create a JWT based on user credentials
       security: []
       responses:
         '200':
@@ -42,7 +42,7 @@ paths:
     delete:
       tags:
         - Authentication
-      description: Log out a user to invalidate existing refresh tokens
+      summary: Log out a user to invalidate existing refresh tokens
       responses:
         '204':
           $ref: '#/components/responses/NoContentResponse'
@@ -52,7 +52,7 @@ paths:
     post:
       tags:
         - Authentication
-      description: Create a JWT based on a refresh token
+      summary: Create a JWT based on a refresh token
       security: []
       responses:
         '200':
@@ -79,7 +79,7 @@ paths:
     post:
       tags:
         - Authentication
-      description: Create a JWT based on social provider token
+      summary: Create a JWT based on social provider token
       security: []
       responses:
         '200':
@@ -109,7 +109,7 @@ paths:
     get:
       tags:
         - Users
-      description: Get all users
+      summary: Get all users
       parameters:
         - $ref: '#/components/parameters/filterParam'
         - $ref: '#/components/parameters/sortParam'
@@ -127,7 +127,7 @@ paths:
     post:
       tags:
         - Users
-      description: Create a user
+      summary: Create a user
       security:
         - {}
         - JWT: []
@@ -157,7 +157,7 @@ paths:
     get:
       tags:
         - Users
-      description: Get a user by id
+      summary: Get a user by id
       responses:
         '200':
           description: User
@@ -170,7 +170,7 @@ paths:
     patch:
       tags:
         - Users
-      description: Update user fields by id
+      summary: Update user fields by id
       responses:
         '204':
           $ref: '#/components/responses/NoContentResponse'
@@ -189,7 +189,7 @@ paths:
     put:
       tags:
         - Users
-      description: Set user role
+      summary: Set user role
       responses:
         '204':
           $ref: '#/components/responses/NoContentResponse'
@@ -212,7 +212,7 @@ paths:
     get:
       tags:
         - Users
-      description: Get a user profile by id
+      summary: Get a user profile by id
       security:
         - {}
         - JWT: []
@@ -229,7 +229,7 @@ paths:
     get:
       tags:
         - Products
-      description: Get all products
+      summary: Get all products
       security:
         - {}
         - JWT: []
@@ -250,7 +250,7 @@ paths:
     post:
       tags:
         - Products
-      description: Create a product
+      summary: Create a product
       responses:
         '201':
           description: New product
@@ -276,7 +276,7 @@ paths:
     get:
       tags:
         - Products
-      description: Get a product by id
+      summary: Get a product by id
       security:
         - {}
         - JWT: []
@@ -292,7 +292,7 @@ paths:
     patch:
       tags:
         - Products
-      description: Update product fields by id
+      summary: Update product fields by id
       responses:
         '204':
           $ref: '#/components/responses/NoContentResponse'
@@ -308,7 +308,7 @@ paths:
     delete:
       tags:
         - Products
-      description: Delete a product by id
+      summary: Delete a product by id
       responses:
         '204':
           $ref: '#/components/responses/NoContentResponse'
@@ -320,7 +320,7 @@ paths:
     put:
       tags:
         - Products
-      description: Replace owner of product
+      summary: Replace owner of product
       responses:
         '204':
           $ref: '#/components/responses/NoContentResponse'

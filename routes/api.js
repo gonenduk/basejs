@@ -8,7 +8,6 @@ const ua = require('../lib/analytics');
 const acl = require('../acl');
 const handlers = require('../handlers');
 const handlersRoutes = require('../handlersRouters');
-const build = require('./build');
 const options = require('../lib/options');
 
 const apiOptions = options('api');
@@ -58,7 +57,7 @@ const routerAPI = async () => {
   router.use('/api', acl);
 
   // Handlers
-  build(router, '/api', handlers);
+  router.use('/api', handlers);
 
   // Handlers
   router.use('/api', handlersRoutes);

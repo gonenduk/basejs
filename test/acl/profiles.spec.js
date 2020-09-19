@@ -1,20 +1,33 @@
-const assert = require('assert').strict;
+/* eslint no-unused-vars: "off" */
+const request = require('supertest');
+const express = require('express');
 require('../../acl');
-const profilesACL = require('../../acl/profiles');
+const router = require('../../acl/profiles');
 
-const user = { role: 'user', id: '3' };
 const guest = { role: 'guest' };
+let testUser;
 
-const req = { params: {} };
-const res = {};
-const next = () => {};
+const app = express();
 
-describe.skip('Access control for /profiles', () => {
+app.use('*', (req, res, next) => {
+  req.user = testUser;
+  next();
+});
+app.use('/', router);
+app.use('*', (req, res) => {
+  res.send(req.query.filter);
+});
+app.use((err, req, res, next) => {
+  res.status(err.output.statusCode).end();
+});
+
+describe('Access control for /profiles', () => {
   context('Get resource', () => {
-    it('should allow guest to read any', () => {
-      req.user = guest;
-      req.params.id = user;
-      assert.doesNotThrow(() => { profilesACL[':id'].get(req, res, next); });
+    it('should allow guest to read any', (done) => {
+      testUser = guest;
+      request(app)
+        .get('/3')
+        .expect(200, {}, done);
     });
   });
 });

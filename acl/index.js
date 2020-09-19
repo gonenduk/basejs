@@ -1,6 +1,9 @@
 /* eslint newline-per-chained-call: "off" */
 const requireDirectory = require('require-directory');
+const express = require('express');
 const ac = require('../lib/acl');
+
+const router = express.Router();
 
 // Access control definitions
 ac.grant('guest')
@@ -19,4 +22,7 @@ ac.grant('guest')
   .createAny('resource-system').updateAny('resource-system').deleteAny('resource-system')
   .readAny('resource-system');
 
-module.exports = requireDirectory(module, { recurse: false });
+const aclRouters = requireDirectory(module, { recurse: false });
+Object.values(aclRouters).forEach((aclRouter) => router.use(aclRouter));
+
+module.exports = router;

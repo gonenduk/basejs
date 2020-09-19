@@ -1,10 +1,11 @@
+const express = require('express');
 const { validate } = require('./validations');
 
-module.exports = {
-  ':id': {
-    get: (req, res, next) => {
-      validate.ownOrAnyByUserId(req.user, 'read', 'resource-public', req.params.id);
-      next();
-    },
-  },
-};
+const router = express.Router();
+
+router.get('/profiles/:id', (req, res, next) => {
+  validate.ownOrAnyByUserId(req.user, 'read', 'resource-public', req.params.id);
+  next();
+});
+
+module.exports = router;

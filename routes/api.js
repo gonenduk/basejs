@@ -55,7 +55,7 @@ const routerAPI = async () => {
   await new OpenApiValidator({ apiSpec: path.join(__dirname, 'api.yaml') }).install(router);
 
   // Access control level validations
-  build(router, '/api', acl);
+  router.use('/api', acl);
 
   // Handlers
   build(router, '/api', handlers);

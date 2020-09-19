@@ -1,29 +1,30 @@
+const express = require('express');
 const { validate } = require('./validations');
 
-module.exports = {
-  get: (req, res, next) => {
-    validate.ownOrAnyByUserId(req.user, 'read', 'resource');
-    next();
-  },
-  post: (req, res, next) => {
-    next();
-  },
+const router = express.Router();
 
-  ':id': {
-    get: (req, res, next) => {
-      validate.ownOrAnyByUserId(req.user, 'read', 'resource', req.params.id);
-      next();
-    },
-    patch: (req, res, next) => {
-      validate.ownOrAnyByUserId(req.user, 'update', 'resource', req.params.id);
-      next();
-    },
+router.get('/users', (req, res, next) => {
+  validate.ownOrAnyByUserId(req.user, 'read', 'resource');
+  next();
+});
 
-    role: {
-      put: (req, res, next) => {
-        validate.anyByUserRole(req.user, 'update', 'resource-system');
-        next();
-      },
-    },
-  },
-};
+router.post('/users', (req, res, next) => {
+  next();
+});
+
+router.get('/users/:id', (req, res, next) => {
+  validate.ownOrAnyByUserId(req.user, 'read', 'resource', req.params.id);
+  next();
+});
+
+router.patch('/users/:id', (req, res, next) => {
+  validate.ownOrAnyByUserId(req.user, 'update', 'resource', req.params.id);
+  next();
+});
+
+router.put('/users/:id/role', (req, res, next) => {
+  validate.anyByUserRole(req.user, 'update', 'resource-system');
+  next();
+});
+
+module.exports = router;

@@ -1,8 +1,7 @@
 /* eslint no-unused-vars: "off" */
 const request = require('supertest');
 const express = require('express');
-require('../../acl');
-const router = require('../../acl/users');
+const router = require('../../acl');
 
 const admin = { role: 'admin', id: '1' };
 const moderator = { role: 'moderator', id: '2' };

@@ -1,8 +1,7 @@
 /* eslint no-unused-vars: "off" */
 const request = require('supertest');
 const express = require('express');
-require('../../acl');
-const router = require('../../acl/profiles');
+const router = require('../../acl');
 
 const guest = { role: 'guest' };
 let testUser;

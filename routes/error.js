@@ -11,7 +11,7 @@ module.exports = (err, req, res, next) => { // eslint-disable-line no-unused-var
 
   // Respond with correct content type
   res.set(headers);
-  if (req.url.split('/')[1].toLowerCase() === 'api') {
+  if (req.api) {
     res.status(payload.statusCode).json(payload);
   } else {
     res.status(payload.statusCode).render('error', { error: payload });

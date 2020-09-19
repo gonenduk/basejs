@@ -2,6 +2,7 @@ const request = require('supertest');
 const express = require('express');
 require('../../acl');
 const router = require('../../acl/validations/public');
+const errorRouter = require('../../routes/error');
 
 const guest = { role: 'guest' };
 let testUser;
@@ -9,6 +10,7 @@ let testUser;
 const app = express();
 
 app.use((req, res, next) => {
+  req.api = true;
   req.user = testUser;
   next();
 });
@@ -16,10 +18,7 @@ app.use(router);
 app.use((req, res) => {
   res.send(req.query.filter);
 });
-// noinspection JSUnusedLocalSymbols
-app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
-  res.status(err.output.statusCode).end();
-});
+app.use(errorRouter);
 
 describe('Access control for public resources', () => {
   context('Get list', () => {

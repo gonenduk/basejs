@@ -16,6 +16,12 @@ const analyticsOptions = options('analytics');
 const routerAPI = async () => {
   const router = express.Router();
 
+  // Mark API flow
+  router.use('/api', (req, res, next) => {
+    req.api = true;
+    next();
+  });
+
   // Google analytics
   if (analyticsOptions.api) {
     router.use('/api', (req, res, next) => {

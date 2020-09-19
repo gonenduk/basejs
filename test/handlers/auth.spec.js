@@ -6,11 +6,13 @@ const user = require('../../models/user');
 const jwt = require('../../lib/jwt');
 const social = require('../../lib/social');
 const router = require('../../handlers');
+const errorRouter = require('../../routes/error');
 
 const app = express();
 
 app.use(express.json());
 app.use((req, res, next) => {
+  req.api = true;
   req.user = { id: 1 };
   next();
 });
@@ -18,10 +20,7 @@ app.use(router);
 app.use((req, res) => {
   res.end();
 });
-// noinspection JSUnusedLocalSymbols
-app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
-  res.status(err.output.statusCode).end();
-});
+app.use(errorRouter);
 
 describe('Handler of /auth', () => {
   let getOneStub;

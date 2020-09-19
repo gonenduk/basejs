@@ -1,4 +1,3 @@
-/* eslint no-unused-vars: "off" */
 const request = require('supertest');
 const express = require('express');
 require('express-async-errors');
@@ -19,7 +18,8 @@ app.use(router);
 app.use((req, res) => {
   res.end();
 });
-app.use((err, req, res, next) => {
+// noinspection JSUnusedLocalSymbols
+app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
   res.status(err.output.statusCode).end();
 });
 

@@ -10,12 +10,12 @@ let testUser;
 
 const app = express();
 
-app.use('*', (req, res, next) => {
+app.use((req, res, next) => {
   req.user = testUser;
   next();
 });
-app.use('/', router);
-app.use('*', (req, res) => {
+app.use(router);
+app.use((req, res) => {
   res.send(req.query.filter);
 });
 app.use((err, req, res, next) => {

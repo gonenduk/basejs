@@ -1,15 +1,29 @@
-const assert = require('assert').strict;
+/* eslint no-unused-vars: "off" */
+const request = require('supertest');
+const express = require('express');
+require('express-async-errors');
 const sinon = require('sinon');
-const Boom = require('@hapi/boom');
 const user = require('../../models/user');
 const jwt = require('../../lib/jwt');
 const social = require('../../lib/social');
-const { auth } = require('../../handlers');
+const router = require('../../handlers');
 
-const req = {};
-const res = {};
+const app = express();
 
-describe.skip('Handler of /auth', () => {
+app.use(express.json());
+app.use((req, res, next) => {
+  req.user = { id: 1 };
+  next();
+});
+app.use(router);
+app.use((req, res) => {
+  res.end();
+});
+app.use((err, req, res, next) => {
+  res.status(err.output.statusCode).end();
+});
+
+describe('Handler of /auth', () => {
   let getOneStub;
   let getOneByIdStub;
   let validatePasswordStub;
@@ -35,112 +49,130 @@ describe.skip('Handler of /auth', () => {
   });
 
   context('Create access and refresh tokens from username and password', () => {
-    before(() => {
-      req.body = { username: 'user', password: 'password' };
+    // before(() => {
+    //   req.body = { username: 'user', password: 'password' };
+    // });
+
+    it('should fail on invalid user', (done) => {
+      request(app)
+        .post('/auth/token')
+        .send({ username: 'user', password: 'password' })
+        .expect(401, done);
     });
 
-    it('should fail on invalid user', async () => {
-      await assert.rejects(() => auth.token.post(req, res), Boom.unauthorized('Incorrect username or password'));
-    });
-
-    it('should fail on invalid password', async () => {
+    it('should fail on invalid password', (done) => {
       getOneStub.resolves({});
-      await assert.rejects(() => auth.token.post(req, res), Boom.unauthorized('Incorrect username or password'));
+      request(app)
+        .post('/auth/token')
+        .send({ username: 'user', password: 'password' })
+        .expect(401, done);
     });
 
-    it('should return access and refresh tokens on success', async () => {
+    it('should return access and refresh tokens on success', (done) => {
       getOneStub.resolves({});
       validatePasswordStub.resolves(true);
       signAccessTokenStub.resolves('ta');
       signRefreshTokenStub.resolves('tr');
-      res.json = (obj) => {
-        assert.deepEqual(obj, { access_token: 'ta', refresh_token: 'tr' });
-      };
-      await assert.doesNotReject(() => auth.token.post(req, res));
+      request(app)
+        .post('/auth/token')
+        .send({ username: 'user', password: 'password' })
+        .expect(200, { access_token: 'ta', refresh_token: 'tr' }, done);
     });
 
-    it('should fail if cannot create tokens', async () => {
-      res.json = () => res;
+    it('should fail if cannot create tokens', (done) => {
       signAccessTokenStub.rejects(Error('e'));
-      await assert.rejects(() => auth.token.post(req, res), Boom.unauthorized('Failed to sign user tokens: e'));
+      request(app)
+        .post('/auth/token')
+        .send({ username: 'user', password: 'password' })
+        .expect(401, done);
     });
   });
 
   context('Delete token', () => {
     before(() => {
-      req.user = { id: '1' };
-      res.status = () => res;
-      res.end = () => res;
+      // req.user = { id: '1' };
+
       logoutStub.resolves();
     });
 
-    it('should always succeed', async () => {
-      await assert.doesNotReject(() => auth.token.delete(req, res));
+    it('should always succeed', (done) => {
+      request(app)
+        .delete('/auth/token')
+        .expect(204, done);
     });
   });
 
   context('Create access and refresh tokens from refresh token', () => {
-    before(() => {
-      req.body = { token: 't' };
-    });
-
-    it('should fail on invalid token', async () => {
+    it('should fail on invalid token', (done) => {
       verifyTokenStub.rejects(Error('e'));
-      await assert.rejects(() => auth.refresh.token.post(req, res), Boom.unauthorized('Invalid refresh token: e'));
+      request(app)
+        .post('/auth/refresh/token')
+        .send({ token: 't' })
+        .expect(401, done);
     });
 
-    it('should fail on invalid user in token', async () => {
+    it('should fail on invalid user in token', (done) => {
       verifyTokenStub.resolves({ id: '1' });
       getOneByIdStub.resolves();
-      await assert.rejects(() => auth.refresh.token.post(req, res), Boom.unauthorized('Invalid user in refresh token'));
+      request(app)
+        .post('/auth/refresh/token')
+        .send({ token: 't' })
+        .expect(401, done);
     });
 
-    it('should fail after logout', async () => {
+    it('should fail after logout', (done) => {
       verifyTokenStub.resolves({ id: '1', iat: 1 });
       getOneByIdStub.resolves({ logoutAt: new Date() });
-      await assert.rejects(() => auth.refresh.token.post(req, res), Boom.unauthorized('Refresh token expired'));
+      request(app)
+        .post('/auth/refresh/token')
+        .send({ token: 't' })
+        .expect(401, done);
     });
 
-    it('should return access and refresh tokens on success', async () => {
+    it('should return access and refresh tokens on success', (done) => {
       verifyTokenStub.resolves({ id: '1', iat: Date.now() * 2 });
       getOneByIdStub.resolves({ logoutAt: new Date() });
       signAccessTokenStub.resolves('ta');
-      res.json = (obj) => {
-        assert.deepEqual(obj, { access_token: 'ta', refresh_token: 'tr' });
-      };
-      await assert.doesNotReject(() => auth.refresh.token.post(req, res));
+      request(app)
+        .post('/auth/refresh/token')
+        .send({ token: 't' })
+        .expect(200, { access_token: 'ta', refresh_token: 'tr' }, done);
     });
   });
 
   context('Create access and refresh tokens from social token', () => {
-    before(() => {
-      req.body = { provider: 'p', token: 't' };
-    });
-
-    it('should fail on unknown provider', async () => {
+    it('should fail on unknown provider', (done) => {
       verifyTokenStub.rejects(Error('e'));
-      await assert.rejects(() => auth.social.token.post(req, res), Boom.unauthorized('Unsupported provider \'p\''));
+      request(app)
+        .post('/auth/social/token')
+        .send({ provider: 'p', token: 't' })
+        .expect(401, done);
     });
 
-    it('should fail if token not valid by provider', async () => {
-      req.body.provider = 'facebook';
+    it('should fail if token not valid by provider', (done) => {
       verifyTokenStub.resolves({ id: '1' });
       validateWithProviderStub.rejects(Error());
-      await assert.rejects(() => auth.social.token.post(req, res), Boom.unauthorized('Unauthorized'));
+      request(app)
+        .post('/auth/social/token')
+        .send({ provider: 'facebook', token: 't' })
+        .expect(401, done);
     });
 
-    it('should fail if user in token not found', async () => {
+    it('should fail if user in token not found', (done) => {
       validateWithProviderStub.resolves({});
       getOneStub.resolves();
-      await assert.rejects(() => auth.social.token.post(req, res), Boom.unauthorized('No matching user found'));
+      request(app)
+        .post('/auth/social/token')
+        .send({ provider: 'facebook', token: 't' })
+        .expect(401, done);
     });
 
-    it('should return access and refresh tokens on success', async () => {
+    it('should return access and refresh tokens on success', (done) => {
       getOneStub.resolves({});
-      res.json = (obj) => {
-        assert.deepEqual(obj, { access_token: 'ta', refresh_token: 'tr' });
-      };
-      await assert.doesNotReject(() => auth.social.token.post(req, res));
+      request(app)
+        .post('/auth/social/token')
+        .send({ provider: 'facebook', token: 't' })
+        .expect(200, { access_token: 'ta', refresh_token: 'tr' }, done);
     });
   });
 });

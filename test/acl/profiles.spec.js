@@ -26,7 +26,7 @@ describe('Access control for /profiles', () => {
     it('should allow guest to read any', (done) => {
       testUser = guest;
       request(app)
-        .get('/3')
+        .get('/profiles/3')
         .expect(200, {}, done);
     });
   });

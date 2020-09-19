@@ -1,7 +1,7 @@
 const assert = require('assert').strict;
 const Boom = require('@hapi/boom');
 require('../../acl');
-const privateResourceACL = require('../../acl/resources/private');
+const privateResourceACL = require('../../acl/validations/private');
 
 const moderator = { role: 'moderator', id: '2' };
 const user = { role: 'user', id: '3' };

@@ -1,3 +1,3 @@
-const publicResourceACL = require('./resources/public');
+const aclValidations = require('./validations');
 
-module.exports = publicResourceACL;
+module.exports = aclValidations.public;

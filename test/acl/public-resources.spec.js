@@ -1,6 +1,6 @@
 const assert = require('assert').strict;
 require('../../acl');
-const publicResourceACL = require('../../acl/resources/public');
+const publicResourceACL = require('../../acl/validations/public');
 
 const guest = { role: 'guest' };
 

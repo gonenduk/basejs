@@ -1,8 +1,8 @@
-const validate = require('./resources/validate');
+const { validate } = require('./validations');
 
 module.exports = {
   get: (req, res, next) => {
-    validate.byUserId(req.user, 'read', 'resource');
+    validate.ownOrAnyByUserId(req.user, 'read', 'resource');
     next();
   },
   post: (req, res, next) => {
@@ -11,17 +11,17 @@ module.exports = {
 
   ':id': {
     get: (req, res, next) => {
-      validate.byUserId(req.user, 'read', 'resource', req.params.id);
+      validate.ownOrAnyByUserId(req.user, 'read', 'resource', req.params.id);
       next();
     },
     patch: (req, res, next) => {
-      validate.byUserId(req.user, 'update', 'resource', req.params.id);
+      validate.ownOrAnyByUserId(req.user, 'update', 'resource', req.params.id);
       next();
     },
 
     role: {
       put: (req, res, next) => {
-        validate.byUserId(req.user, 'update', 'resource-system', req.params.id);
+        validate.anyByUserRole(req.user, 'update', 'resource-system');
         next();
       },
     },

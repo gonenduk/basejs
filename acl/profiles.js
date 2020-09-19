@@ -1,9 +1,9 @@
-const validate = require('./resources/validate');
+const { validate } = require('./validations');
 
 module.exports = {
   ':id': {
     get: (req, res, next) => {
-      validate.byUserId(req.user, 'read', 'resource-public', req.params.id);
+      validate.ownOrAnyByUserId(req.user, 'read', 'resource-public', req.params.id);
       next();
     },
   },

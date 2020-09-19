@@ -1,49 +1,64 @@
-const assert = require('assert').strict;
-const Boom = require('@hapi/boom');
+/* eslint no-unused-vars: "off" */
+const request = require('supertest');
+const express = require('express');
 require('../../acl');
-const privateResourceACL = require('../../acl/validations/private');
+const router = require('../../acl/validations/private');
 
 const moderator = { role: 'moderator', id: '2' };
 const user = { role: 'user', id: '3' };
+let testUser;
 
-const req = {};
-const res = {};
-const next = () => {};
+const app = express();
 
-describe.skip('Access control for private resources', () => {
-  beforeEach(() => {
-    req.query = {};
-  });
+app.use('*', (req, res, next) => {
+  req.user = testUser;
+  next();
+});
+app.use('/', router);
+app.use('*', (req, res) => {
+  res.send(req.query.filter);
+});
+app.use((err, req, res, next) => {
+  res.status(err.output.statusCode).end();
+});
 
+describe('Access control for private resources', () => {
   context('Get list', () => {
-    it('should allow moderator to read', () => {
-      req.user = moderator;
-      assert.doesNotThrow(() => { privateResourceACL.get(req, res, next); });
+    it('should allow moderator to read', (done) => {
+      testUser = moderator;
+      request(app)
+        .get('/')
+        .expect(200, done);
     });
 
-    it('should not allow user to read', () => {
-      req.user = user;
-      assert.throws(() => { privateResourceACL.get(req, res, next); }, Boom.forbidden());
+    it('should not allow user to read', (done) => {
+      testUser = user;
+      request(app)
+        .get('/')
+        .expect(403, done);
     });
   });
 
   context('Get resource', () => {
-    it('should allow user to read own', () => {
-      req.user = user;
-      assert.doesNotThrow(() => { privateResourceACL[':id'].get(req, res, next); });
-      assert.deepEqual(req.query.filter, { ownerId: req.user.id });
+    it('should allow user to read own', (done) => {
+      testUser = user;
+      request(app)
+        .get('/3')
+        .expect(200, { ownerId: '3' }, done);
     });
 
-    it('should allow moderator to read any', () => {
-      req.user = moderator;
-      assert.doesNotThrow(() => { privateResourceACL[':id'].get(req, res, next); });
-      assert.equal(req.query.filter, undefined);
+    it('should allow moderator to read any', (done) => {
+      testUser = moderator;
+      request(app)
+        .get('/3')
+        .expect(200, {}, done);
     });
 
-    it('should not allow user to read any', () => {
-      req.user = user;
-      assert.doesNotThrow(() => { privateResourceACL[':id'].get(req, res, next); });
-      assert.deepEqual(req.query.filter, { ownerId: req.user.id });
+    it('should not allow user to read any', (done) => {
+      testUser = user;
+      request(app)
+        .get('/4')
+        .expect(200, { ownerId: '3' }, done);
     });
   });
 });

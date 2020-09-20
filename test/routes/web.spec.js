@@ -1,5 +1,6 @@
 const request = require('supertest');
 const express = require('express');
+const sinon = require('sinon');
 const acl = require('../../lib/acl');
 require('../../acl');
 const router = require('../../routes/web');
@@ -16,6 +17,10 @@ app.use(router);
 app.use(errorRouter);
 
 describe('Web router', () => {
+  after(() => {
+    sinon.restore();
+  });
+
   it('should return home page', (done) => {
     request(app)
       .get('/')
@@ -48,7 +53,7 @@ describe('Web router', () => {
   });
 
   it('should return 403 when no read permissions', (done) => {
-    acl.can = () => ({
+    sinon.stub(acl, 'can').returns({
       readAny: () => ({ granted: false }),
     });
     request(app)

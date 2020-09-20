@@ -38,6 +38,10 @@ router.get('/ping', (req, res) => {
   res.send('pong');
 });
 
+router.get('/health', (req, res) => {
+  res.send('OK');
+});
+
 // Catch 404 and forward to error handler
 router.use(() => {
   throw Boom.notFound('Page not found');

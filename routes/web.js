@@ -20,7 +20,7 @@ if (analyticsOptions.web) {
 }
 
 // Access control
-router.use('/', (req, res, next) => {
+router.use((req, res, next) => {
   // Access control
   const permission = ac.can(req.user.role).readAny('webpage');
   if (!permission.granted) throw Boom.forbidden('Access denied');

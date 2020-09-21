@@ -30,4 +30,6 @@ function startNoCluster() {
 }
 
 // Start cluster support
-cluster(startMaster, startWorker, startNoCluster);
+cluster(startMaster, startWorker, startNoCluster).catch((err) => {
+  logger.error(`Failed to start: ${err.stack}`);
+});

@@ -21,7 +21,7 @@
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
     "express-jwt": "^6.0.0",
-    "express-openapi-validator": "^3.17.1",
+    "express-openapi-validator": "^3.17.2",
     "ioredis": "^4.17.3",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.2",

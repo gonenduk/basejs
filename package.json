@@ -21,7 +21,7 @@
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
     "express-jwt": "^6.0.0",
-    "express-openapi-validator": "^3.17.2",
+    "express-openapi-validator": "^4.0.2",
     "ioredis": "^4.17.3",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.2",
@@ -38,9 +38,9 @@
     "winston": "^3.3.3"
   },
   "devDependencies": {
-    "eslint": "^7.9.0",
+    "eslint": "^7.10.0",
     "eslint-config-airbnb-base": "^14.2.0",
-    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-import": "^2.22.1",
     "husky": "^4.3.0",
     "lint-staged": "^10.4.0",
     "mocha": "^8.1.3",

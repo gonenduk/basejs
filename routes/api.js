@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const { OpenApiValidator } = require('express-openapi-validator');
+const OpenApiValidator = require('express-openapi-validator');
 const sui = require('swagger-ui-dist').getAbsoluteFSPath();
 const Boom = require('@hapi/boom');
 const rTracer = require('cls-rtracer');
@@ -57,7 +57,7 @@ const routerAPI = async () => {
   }
 
   // Swagger validations
-  await new OpenApiValidator({ apiSpec: path.join(__dirname, 'api.yaml') }).install(router);
+  router.use(OpenApiValidator.middleware({ apiSpec: path.join(__dirname, 'api.yaml') }));
 
   // Access control level validations
   router.use('/api', acl);

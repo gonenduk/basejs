@@ -21,7 +21,7 @@
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
     "express-jwt": "^6.0.0",
-    "express-openapi-validator": "^4.0.7",
+    "express-openapi-validator": "^4.1.0",
     "ioredis": "^4.17.3",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.2",
@@ -34,7 +34,7 @@
     "swagger-ui-dist": "^3.35.0",
     "throng": "^5.0.0",
     "universal-analytics": "^0.4.23",
-    "uuid": "^8.3.0",
+    "uuid": "^8.3.1",
     "winston": "^3.3.3"
   },
   "devDependencies": {
@@ -46,7 +46,7 @@
     "mocha": "^8.1.3",
     "mochawesome": "^6.1.1",
     "nyc": "^15.1.0",
-    "sinon": "^9.1.0",
+    "sinon": "^9.2.0",
     "supertest": "^5.0.0",
     "swagger-cli": "^4.0.4"
   }

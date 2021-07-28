@@ -18,7 +18,7 @@ class MongoModel {
   constructor(collectionName) {
     this.collectionName = collectionName;
     if (mongo.isConnected) {
-      mongo.db.collection(collectionName, { strict: true }, (err, collection) => {
+      mongo.db.collection(collectionName, (err, collection) => {
         this.collection = collection;
         if (err) logger.warn(`Cannot access '${collectionName}' collection: ${err.message}`);
       });

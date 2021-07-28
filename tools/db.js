@@ -17,7 +17,7 @@ async function connect() {
 
 function getCollection(db, name) {
   return new Promise((resolve, reject) => {
-    db.collection(name, { strict: true }, (err, collection) => {
+    db.collection(name, (err, collection) => {
       if (err) reject(err);
       resolve(collection);
     });

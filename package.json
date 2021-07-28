@@ -12,10 +12,10 @@
   "dependencies": {
     "@hapi/boom": "^9.1.0",
     "accesscontrol": "^2.2.1",
-    "auto-strict": "0.0.4",
+    "auto-strict": "^0.0.5",
     "bcryptjs": "^2.4.3",
     "cls-rtracer": "^2.4.0",
-    "commander": "^6.1.0",
+    "commander": "^8.1.0",
     "config": "^3.3.2",
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
@@ -43,10 +43,10 @@
     "eslint-plugin-import": "^2.22.1",
     "husky": "^4.3.0",
     "lint-staged": "^10.5.1",
-    "mocha": "^8.2.1",
+    "mocha": "^9.0.3",
     "mochawesome": "^6.2.1",
     "nyc": "^15.1.0",
-    "sinon": "^9.2.1",
+    "sinon": "^11.1.2",
     "supertest": "^6.0.1",
     "swagger-cli": "^4.0.4"
   }

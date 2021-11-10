@@ -1,3 +1,4 @@
+/* eslint-disable default-param-last */
 /* eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["item"] }] */
 
 module.exports = (ModelClass) => class extends ModelClass {

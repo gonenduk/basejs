@@ -34,7 +34,7 @@
     "superagent": "^6.1.0",
     "swagger-ui-dist": "^4.0.1",
     "throng": "^5.0.0",
-    "universal-analytics": "^0.4.23",
+    "universal-analytics": "^0.5.1",
     "uuid": "^8.3.1",
     "winston": "^3.3.3"
   },

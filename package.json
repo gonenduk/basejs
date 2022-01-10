@@ -31,7 +31,7 @@
     "pug": "^3.0.0",
     "require-directory": "^2.1.1",
     "serve-favicon": "^2.5.0",
-    "superagent": "^6.1.0",
+    "superagent": "^7.0.1",
     "swagger-ui-dist": "^4.0.1",
     "throng": "^5.0.0",
     "universal-analytics": "^0.5.1",

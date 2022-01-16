@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const OpenApiValidator = require('express-openapi-validator');
 const sui = require('swagger-ui-dist').getAbsoluteFSPath();
 const Boom = require('@hapi/boom');
@@ -22,7 +23,7 @@ const routerAPI = async () => {
     next();
   });
 
-  // Google analytics
+  // Google Analytics
   if (analyticsOptions.api) {
     router.use('/api', (req, res, next) => {
       const visitor = ua(req.user.id);
@@ -36,13 +37,11 @@ const routerAPI = async () => {
 
   // Swagger UI
   if (apiOptions.ui) {
-    router.get('/api/ui', (req, res, next) => {
-      if (!req.query.url) {
-        res.redirect('?url=/api/docs');
-      } else {
-        next();
-      }
-    });
+    const indexContent = fs.readFileSync(`${sui}/index.html`)
+      .toString()
+      .replace('https://petstore.swagger.io/v2/swagger.json', '/api/docs');
+    router.get('/api/ui', (req, res) => res.send(indexContent));
+    router.get('/api/ui/index.html', (req, res) => res.send(indexContent));
     router.use('/api/ui', express.static(sui));
   }
 

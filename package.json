@@ -47,7 +47,7 @@
     "mocha": "^9.0.3",
     "mochawesome": "^7.0.1",
     "nyc": "^15.1.0",
-    "sinon": "^12.0.1",
+    "sinon": "^13.0.1",
     "supertest": "^6.0.1",
     "swagger-cli": "^4.0.4"
   }

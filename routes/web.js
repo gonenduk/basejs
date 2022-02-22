@@ -1,11 +1,14 @@
 const express = require('express');
+const path = require('path');
 const Boom = require('@hapi/boom');
+const swaggerUi = require('swagger-ui-express');
 const ac = require('../lib/acl');
 const ua = require('../lib/analytics');
 const options = require('../lib/options');
 
 const router = express.Router();
 
+const apiOptions = options('api');
 const analyticsOptions = options('analytics');
 
 // Google analytics (server side)
@@ -41,6 +44,23 @@ router.get('/ping', (req, res) => {
 router.get('/health', (req, res) => {
   res.send('OK');
 });
+
+// Swagger UI
+if (apiOptions.ui) {
+  const swaggerConfig = {
+    explorer: true,
+    swaggerOptions: {
+      url: '/api-docs',
+    },
+  };
+  router.use('/api-ui', swaggerUi.serve);
+  router.get('/api-ui', swaggerUi.setup(null, swaggerConfig));
+}
+
+// Swagger docs
+if (apiOptions.docs) {
+  router.use('/api-docs', express.static(path.join(__dirname, 'api.yaml')));
+}
 
 // Catch 404 and forward to error handler
 router.use(() => {

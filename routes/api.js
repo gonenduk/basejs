@@ -1,7 +1,6 @@
 const express = require('express');
 const path = require('path');
 const OpenApiValidator = require('express-openapi-validator');
-const swaggerUi = require('swagger-ui-express');
 const Boom = require('@hapi/boom');
 const rTracer = require('cls-rtracer');
 const ua = require('../lib/analytics');
@@ -32,23 +31,6 @@ const routerAPI = async () => {
         .send();
       next();
     });
-  }
-
-  // Swagger UI
-  if (apiOptions.ui) {
-    const swaggerConfig = {
-      explorer: true,
-      swaggerOptions: {
-        url: '/api/docs',
-      },
-    };
-    router.use('/api/ui', swaggerUi.serve);
-    router.get('/api/ui', swaggerUi.setup(null, swaggerConfig));
-  }
-
-  // Swagger docs
-  if (apiOptions.docs) {
-    router.use('/api/docs', express.static(path.join(__dirname, 'api.yaml')));
   }
 
   // Request id

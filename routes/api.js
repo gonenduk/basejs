@@ -1,8 +1,7 @@
 const express = require('express');
 const path = require('path');
-const fs = require('fs');
 const OpenApiValidator = require('express-openapi-validator');
-const sui = require('swagger-ui-dist').getAbsoluteFSPath();
+const swaggerUi = require('swagger-ui-express');
 const Boom = require('@hapi/boom');
 const rTracer = require('cls-rtracer');
 const ua = require('../lib/analytics');
@@ -37,12 +36,14 @@ const routerAPI = async () => {
 
   // Swagger UI
   if (apiOptions.ui) {
-    const indexContent = fs.readFileSync(`${sui}/index.html`)
-      .toString()
-      .replace('https://petstore.swagger.io/v2/swagger.json', '/api/docs');
-    router.get('/api/ui', (req, res) => res.send(indexContent));
-    router.get('/api/ui/index.html', (req, res) => res.send(indexContent));
-    router.use('/api/ui', express.static(sui));
+    const swaggerConfig = {
+      explorer: true,
+      swaggerOptions: {
+        url: '/api/docs',
+      },
+    };
+    router.use('/api/ui', swaggerUi.serve);
+    router.get('/api/ui', swaggerUi.setup(null, swaggerConfig));
   }
 
   // Swagger docs

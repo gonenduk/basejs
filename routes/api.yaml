@@ -14,6 +14,8 @@ paths:
         - Authentication
       summary: Create a JWT based on user credentials
       security: []
+      operationId: loginWithCredentials
+      x-eov-operation-handler: auth
       responses:
         '200':
           description: New generated JWT
@@ -43,6 +45,8 @@ paths:
       tags:
         - Authentication
       summary: Log out a user to invalidate existing refresh tokens
+      operationId: logout
+      x-eov-operation-handler: auth
       responses:
         '204':
           $ref: '#/components/responses/NoContentResponse'
@@ -54,6 +58,8 @@ paths:
         - Authentication
       summary: Create a JWT based on a refresh token
       security: []
+      operationId: loginWithRefreshToken
+      x-eov-operation-handler: auth
       responses:
         '200':
           description: New generated JWT
@@ -81,6 +87,8 @@ paths:
         - Authentication
       summary: Create a JWT based on social provider token
       security: []
+      operationId: loginWithSocialToken
+      x-eov-operation-handler: auth
       responses:
         '200':
           description: New generated JWT

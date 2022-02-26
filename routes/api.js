@@ -6,7 +6,6 @@ const rTracer = require('cls-rtracer');
 const ua = require('../lib/analytics');
 const acl = require('../acl');
 const handlers = require('../handlers');
-const handlersRoutes = require('../handlersRouters');
 const options = require('../lib/options');
 
 const apiOptions = options('api');
@@ -39,21 +38,38 @@ const routerAPI = async () => {
   }
 
   // Swagger validations
-  router.use(OpenApiValidator.middleware({ apiSpec: path.join(__dirname, 'api.yaml') }));
+  router.use(OpenApiValidator.middleware({
+    apiSpec: path.join(__dirname, 'api.yaml'),
+    operationHandlers: {
+      basePath: path.join(__dirname, '../handlers'),
+      resolver: (basePath, route, apiDoc) => {
+        const pathKey = route.openApiRoute.substring(route.basePath.length);
+        const schema = apiDoc.paths[pathKey][route.method.toLowerCase()];
 
-  // Access control level validations
-  router.use('/api', acl);
+        // Get operation handler and id
+        const { operationId } = schema;
+        const operationHandler = schema['x-eov-operation-handler'];
 
-  // Handlers
-  router.use('/api', handlers);
+        // Handler and access control level validations
+        const operation = handlers?.[operationHandler]?.[operationId];
+        if (operation) {
+          return async (req, res, next) => {
+            try {
+              await acl?.[operationHandler]?.[operationId]?.(req, res);
+              await operation(req, res);
+            } catch (err) {
+              next(err);
+            }
+          };
+        }
 
-  // Handlers
-  router.use('/api', handlersRoutes);
-
-  // Default handler (not implemented error)
-  router.use('/api', (req, res, next) => {
-    next(Boom.notImplemented(`${req.method} /api${req.path} not implemented`));
-  });
+        // Default handler (not implemented error)
+        return (req, res, next) => {
+          next(Boom.notImplemented(`${req.method} /api${req.path} not implemented`));
+        };
+      },
+    },
+  }));
 
   return router;
 };

@@ -224,6 +224,8 @@ paths:
       security:
         - {}
         - JWT: []
+      operationId: getProfile
+      x-eov-operation-handler: profiles
       responses:
         '200':
           description: Profile

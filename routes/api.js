@@ -65,7 +65,7 @@ const routerAPI = async () => {
 
         // Default handler (not implemented error)
         return (req, res, next) => {
-          next(Boom.notImplemented(`${req.method} /api${req.path} not implemented`));
+          next(Boom.notImplemented(`${req.method} ${req.path} not implemented`));
         };
       },
     },

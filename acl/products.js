@@ -1,8 +1,10 @@
-const express = require('express');
-const aclValidations = require('./validations');
+const publicResource = require('./public-resource');
 
-const router = express.Router();
-
-router.use('/products', aclValidations.public);
-
-module.exports = router;
+module.exports = {
+  getProducts: (req) => publicResource.getMany(req),
+  createProduct: (req) => publicResource.create(req),
+  getProduct: (req) => publicResource.getOne(req),
+  updateProduct: (req) => publicResource.updateOne(req),
+  deleteProduct: (req) => publicResource.deleteOne(req),
+  updateProductOwner: (req) => publicResource.updateOwner(req),
+};

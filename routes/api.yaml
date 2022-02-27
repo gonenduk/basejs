@@ -123,6 +123,8 @@ paths:
         - $ref: '#/components/parameters/sortParam'
         - $ref: '#/components/parameters/skipParam'
         - $ref: '#/components/parameters/limitParam'
+      operationId: getUsers
+      x-eov-operation-handler: users
       responses:
         '200':
           description: Users
@@ -139,6 +141,8 @@ paths:
       security:
         - {}
         - JWT: []
+      operationId: createUser
+      x-eov-operation-handler: users
       responses:
         '201':
           description: New user
@@ -166,6 +170,8 @@ paths:
       tags:
         - Users
       summary: Get a user by id
+      operationId: getUser
+      x-eov-operation-handler: users
       responses:
         '200':
           description: User
@@ -179,6 +185,8 @@ paths:
       tags:
         - Users
       summary: Update user fields by id
+      operationId: updateUser
+      x-eov-operation-handler: users
       responses:
         '204':
           $ref: '#/components/responses/NoContentResponse'
@@ -198,6 +206,8 @@ paths:
       tags:
         - Users
       summary: Set user role
+      operationId: updateUserRole
+      x-eov-operation-handler: users
       responses:
         '204':
           $ref: '#/components/responses/NoContentResponse'

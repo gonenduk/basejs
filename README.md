@@ -37,9 +37,7 @@ $ npm start
 root
   |--config
   |--acl
-  |    |--generic
   |--handlers
-  |    |--generic
   |--lib
   |--models
   |    |--plugins  
@@ -56,13 +54,8 @@ root
 
 **acl**: Definition of access control levels and handlers of routes for access control.
 
-**acl resources**: Common base access control handlers to be used by other handlers.
-
 **handlers**: Handlers of routes both for API calls and web pages.
 The actual business logic of end points.
-
-**handlers resources**: Common base handlers to be used by other handlers.
-For example, handling collections and items of resources, updating ownership...
 
 **lib**: Wrappers around 3rd party packages to initialize and isolate them.
 Allows required behavior and replacing of packages without changing project code.

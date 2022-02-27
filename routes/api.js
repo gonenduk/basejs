@@ -55,7 +55,7 @@ const routerAPI = async () => {
         if (operation) {
           return async (req, res, next) => {
             try {
-              await acl?.[operationHandler]?.[operationId]?.(req, res);
+              await acl?.[operationHandler]?.[operationId]?.(req);
               await operation(req, res);
             } catch (err) {
               next(err);

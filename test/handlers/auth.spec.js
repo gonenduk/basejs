@@ -1,28 +1,19 @@
-const request = require('supertest');
-const express = require('express');
-require('express-async-errors');
+const assert = require('assert').strict;
 const sinon = require('sinon');
+const { auth } = require('../../handlers');
 const user = require('../../models/user');
 const jwt = require('../../lib/jwt');
 const social = require('../../lib/social');
-const router = require('../../handlers');
-const errorRouter = require('../../routes/error');
 
-const app = express();
+const req = {
+  api: true,
+  params: {},
+  body: {},
+  user: {},
+};
+const res = { json: () => {}, status: () => res, end: () => {} };
 
-app.use(express.json());
-app.use((req, res, next) => {
-  req.api = true;
-  req.user = { id: 1 };
-  next();
-});
-app.use(router);
-app.use((req, res) => {
-  res.end();
-});
-app.use(errorRouter);
-
-describe('Handler of /auth', () => {
+describe('Handler of authentication', () => {
   let getOneStub;
   let getOneByIdStub;
   let validatePasswordStub;
@@ -30,7 +21,9 @@ describe('Handler of /auth', () => {
   let signAccessTokenStub;
   let signRefreshTokenStub;
   let verifyTokenStub;
+  let isProviderSupported;
   let validateWithProviderStub;
+  let jsonStub;
 
   before(() => {
     getOneStub = sinon.stub(user, 'getOne');
@@ -40,7 +33,9 @@ describe('Handler of /auth', () => {
     signAccessTokenStub = sinon.stub(jwt, 'signAccessToken');
     signRefreshTokenStub = sinon.stub(jwt, 'signRefreshToken');
     verifyTokenStub = sinon.stub(jwt, 'verifyToken');
+    isProviderSupported = sinon.stub(social, 'isProviderSupported');
     validateWithProviderStub = sinon.stub(social, 'validateWithProvider');
+    jsonStub = sinon.stub(res, 'json');
   });
 
   after(() => {
@@ -48,130 +43,92 @@ describe('Handler of /auth', () => {
   });
 
   context('Create access and refresh tokens from username and password', () => {
-    // before(() => {
-    //   req.body = { username: 'user', password: 'password' };
-    // });
-
-    it('should fail on invalid user', (done) => {
-      request(app)
-        .post('/auth/token')
-        .send({ username: 'user', password: 'password' })
-        .expect(401, done);
+    it('should fail on invalid user', async () => {
+      await assert.rejects(() => auth.loginWithCredentials(req, res));
     });
 
-    it('should fail on invalid password', (done) => {
+    it('should fail on invalid password', async () => {
       getOneStub.resolves({});
-      request(app)
-        .post('/auth/token')
-        .send({ username: 'user', password: 'password' })
-        .expect(401, done);
+      await assert.rejects(() => auth.loginWithCredentials(req, res));
     });
 
-    it('should return access and refresh tokens on success', (done) => {
+    it('should return access and refresh tokens on success', async () => {
       getOneStub.resolves({});
       validatePasswordStub.resolves(true);
       signAccessTokenStub.resolves('ta');
       signRefreshTokenStub.resolves('tr');
-      request(app)
-        .post('/auth/token')
-        .send({ username: 'user', password: 'password' })
-        .expect(200, { access_token: 'ta', refresh_token: 'tr' }, done);
+      await assert.doesNotReject(() => auth.loginWithCredentials(req, res));
+      sinon.assert.calledWith(jsonStub, { access_token: 'ta', refresh_token: 'tr' });
     });
 
-    it('should fail if cannot create tokens', (done) => {
+    it('should fail if cannot create tokens', async () => {
       signAccessTokenStub.rejects(Error('e'));
-      request(app)
-        .post('/auth/token')
-        .send({ username: 'user', password: 'password' })
-        .expect(401, done);
+      await assert.rejects(() => auth.loginWithCredentials(req, res));
     });
   });
 
   context('Delete token', () => {
-    before(() => {
-      // req.user = { id: '1' };
-
+    it('should always succeed', async () => {
       logoutStub.resolves();
-    });
-
-    it('should always succeed', (done) => {
-      request(app)
-        .delete('/auth/token')
-        .expect(204, done);
+      await auth.logout(req, res);
+      await assert.doesNotReject(() => auth.logout(req, res));
     });
   });
 
   context('Create access and refresh tokens from refresh token', () => {
-    it('should fail on invalid token', (done) => {
+    it('should fail on invalid token', async () => {
       verifyTokenStub.rejects(Error('e'));
-      request(app)
-        .post('/auth/refresh/token')
-        .send({ token: 't' })
-        .expect(401, done);
+      await assert.rejects(() => auth.loginWithRefreshToken(req, res));
     });
 
-    it('should fail on invalid user in token', (done) => {
+    it('should fail on invalid user in token', async () => {
       verifyTokenStub.resolves({ id: '1' });
       getOneByIdStub.resolves();
-      request(app)
-        .post('/auth/refresh/token')
-        .send({ token: 't' })
-        .expect(401, done);
+      await assert.rejects(() => auth.loginWithRefreshToken(req, res));
     });
 
-    it('should fail after logout', (done) => {
+    it('should fail after logout', async () => {
       verifyTokenStub.resolves({ id: '1', iat: 1 });
       getOneByIdStub.resolves({ logoutAt: new Date() });
-      request(app)
-        .post('/auth/refresh/token')
-        .send({ token: 't' })
-        .expect(401, done);
+      await assert.rejects(() => auth.loginWithRefreshToken(req, res));
     });
 
-    it('should return access and refresh tokens on success', (done) => {
+    it('should return access and refresh tokens on success', async () => {
       verifyTokenStub.resolves({ id: '1', iat: Date.now() * 2 });
-      getOneByIdStub.resolves({ logoutAt: new Date() });
+      getOneByIdStub.resolves({});
       signAccessTokenStub.resolves('ta');
-      request(app)
-        .post('/auth/refresh/token')
-        .send({ token: 't' })
-        .expect(200, { access_token: 'ta', refresh_token: 'tr' }, done);
+      signRefreshTokenStub.resolves('tr');
+      jsonStub.reset();
+      await assert.doesNotReject(() => auth.loginWithRefreshToken(req, res));
+      sinon.assert.calledWith(jsonStub, { access_token: 'ta', refresh_token: 'tr' });
     });
   });
 
   context('Create access and refresh tokens from social token', () => {
-    it('should fail on unknown provider', (done) => {
-      verifyTokenStub.rejects(Error('e'));
-      request(app)
-        .post('/auth/social/token')
-        .send({ provider: 'p', token: 't' })
-        .expect(401, done);
+    it('should fail on unknown provider', async () => {
+      isProviderSupported.returns(false);
+      await assert.rejects(() => auth.loginWithSocialToken(req, res));
     });
 
-    it('should fail if token not valid by provider', (done) => {
-      verifyTokenStub.resolves({ id: '1' });
+    it('should fail if token not valid by provider', async () => {
+      isProviderSupported.returns(true);
       validateWithProviderStub.rejects(Error());
-      request(app)
-        .post('/auth/social/token')
-        .send({ provider: 'facebook', token: 't' })
-        .expect(401, done);
+      await assert.rejects(() => auth.loginWithSocialToken(req, res));
     });
 
-    it('should fail if user in token not found', (done) => {
+    it('should fail if user in token not found', async () => {
       validateWithProviderStub.resolves({});
       getOneStub.resolves();
-      request(app)
-        .post('/auth/social/token')
-        .send({ provider: 'facebook', token: 't' })
-        .expect(401, done);
+      await assert.rejects(() => auth.loginWithSocialToken(req, res));
     });
 
-    it('should return access and refresh tokens on success', (done) => {
+    it('should return access and refresh tokens on success', async () => {
       getOneStub.resolves({});
-      request(app)
-        .post('/auth/social/token')
-        .send({ provider: 'facebook', token: 't' })
-        .expect(200, { access_token: 'ta', refresh_token: 'tr' }, done);
+      signAccessTokenStub.resolves('ta');
+      signRefreshTokenStub.resolves('tr');
+      jsonStub.reset();
+      await assert.doesNotReject(() => auth.loginWithSocialToken(req, res));
+      sinon.assert.calledWith(jsonStub, { access_token: 'ta', refresh_token: 'tr' });
     });
   });
 });

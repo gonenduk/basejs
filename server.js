@@ -4,7 +4,7 @@
 // Use strict mode in all project modules
 require('auto-strict');
 
-// Initialize promise library, config, logger and cluster
+// Initialize config, logger and cluster
 const logger = require('./lib/logger');
 const cluster = require('./lib/cluster');
 

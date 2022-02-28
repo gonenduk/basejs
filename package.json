@@ -10,6 +10,9 @@
     "swagger": "node_modules/.bin/swagger-cli validate routes/api.yaml",
     "prepare": "husky install"
   },
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "dependencies": {
     "@hapi/boom": "^9.1.0",
     "accesscontrol": "^2.2.1",

@@ -15,15 +15,6 @@ async function connect() {
   return mongo.db;
 }
 
-function getCollection(db, name) {
-  return new Promise((resolve, reject) => {
-    db.collection(name, (err, collection) => {
-      if (err) reject(err);
-      resolve(collection);
-    });
-  });
-}
-
 const commands = {
   async clean() {
     const db = await connect();
@@ -50,7 +41,7 @@ const commands = {
     const db = await connect();
     log('Creating users...');
 
-    const users = await getCollection(db, 'users');
+    const users = db.collection('users');
 
     async function createUser(type) {
       log(` ${type}`);

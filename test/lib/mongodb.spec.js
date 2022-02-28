@@ -5,7 +5,7 @@ describe('MongoDB library', () => {
   context('Default connection', () => {
     it('should be exported by module', () => {
       assert(mongodb.driver);
-      assert(mongodb.client);
+      assert(mongodb.options);
     });
 
     it('should be disconnected', () => {
@@ -15,7 +15,7 @@ describe('MongoDB library', () => {
     it('should allow to create new connections', () => {
       const con = mongodb.createNew();
       assert(con.driver);
-      assert(con.client);
+      assert(con.options);
     });
   });
 

@@ -18,7 +18,7 @@ const routerAPI = async () => {
   if (analyticsOptions.api) {
     router.use('/api', (req, res, next) => {
       const visitor = ua(req.user.id);
-      const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+      const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
       if (ip !== '::1') visitor.set('uip', ip);
       visitor.pageview(req.originalUrl)
         .send();

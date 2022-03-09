@@ -15,7 +15,7 @@ const analyticsOptions = options('analytics');
 if (analyticsOptions.web) {
   router.use('/', (req, res, next) => {
     const visitor = ua(req.user.id);
-    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
     if (ip !== '::1') visitor.set('uip', ip);
     visitor.pageview(req.originalUrl).send();
     next();
@@ -32,7 +32,7 @@ router.use((req, res, next) => {
 
 // Pages
 router.get('/', (req, res) => {
-  let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  let ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
   if (ip === '::1') ip = '127.0.0.1';
   res.render('index', { ip });
 });

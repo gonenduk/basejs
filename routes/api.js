@@ -20,8 +20,7 @@ const routerAPI = async () => {
       const visitor = ua(req.user.id);
       const ip = req.clientIp;
       if (ip !== '::1') visitor.set('uip', ip);
-      visitor.pageview(req.originalUrl)
-        .send();
+      visitor.pageview(req.originalUrl).send();
       next();
     });
   }

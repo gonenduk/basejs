@@ -1,6 +1,6 @@
 const express = require('express');
 const requestIp = require('request-ip');
-const jwtExtraction = require('express-jwt');
+const { expressjwt } = require('express-jwt');
 const jwt = require('../lib/jwt');
 
 const router = express.Router();
@@ -12,8 +12,9 @@ const jwtOptions = { secret: jwt.secret, credentialsRequired: false, algorithms:
 router.use(requestIp.mw());
 
 // JWT extraction
-router.use(jwtExtraction(jwtOptions), (req, res, next) => {
+router.use(expressjwt(jwtOptions), (req, res, next) => {
   // Create a default guest user if token not given
+  req.user = req.auth;
   if (!req.user) req.user = { role: 'guest' };
   next();
 });

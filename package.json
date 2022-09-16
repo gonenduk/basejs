@@ -39,11 +39,11 @@
     "swagger-ui-express": "^4.3.0",
     "throng": "^5.0.0",
     "universal-analytics": "^0.5.1",
-    "uuid": "^8.3.1",
+    "uuid": "^9.0.0",
     "winston": "^3.3.3"
   },
   "devDependencies": {
-    "eslint": "^8.2.0",
+    "eslint": "^8.22.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.3",
     "husky": "^8.0.1",

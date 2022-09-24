@@ -26,7 +26,7 @@ const commands = {
     const db = await connect();
     log('Creating collections with their schema and indexes...');
 
-    // Create collections and update latest schema
+    // Create collections and update schema
     return Promise.each(Object.keys(schemas), async (collectionName) => {
       log(` ${collectionName}`);
       await db.createCollection(collectionName);

@@ -419,38 +419,32 @@ components:
       bearerFormat: Bearer
   schemas:
     User:
-      type: object
-      properties:
-        _id:
-          type: string
-          readOnly: true
-        username:
-          type: string
-        email:
-          type: string
-        password:
-          type: string
-          format: password
-          writeOnly: true
-        role:
-          type: string
-          enum:
-            - user
-            - moderator
-            - admin
-          readOnly: true
-        createdAt:
-          type: string
-          format: date-time
-          readOnly: true
-        updatedAt:
-          type: string
-          format: date-time
-          readOnly: true
-        logoutAt:
-          type: string
-          format: date-time
-          readOnly: true
+      allOf:
+      - type: object
+        properties:
+          _id:
+            type: string
+            readOnly: true
+          username:
+            type: string
+          email:
+            type: string
+          password:
+            type: string
+            format: password
+            writeOnly: true
+          role:
+            type: string
+            enum:
+              - user
+              - moderator
+              - admin
+            readOnly: true
+          logoutAt:
+            type: string
+            format: date-time
+            readOnly: true
+      - $ref: '#/components/schemas/TimeStamp'
     UserList:
       type: array
       items:
@@ -463,18 +457,27 @@ components:
         username:
           type: string
     Product:
+      allOf:
+      - type: object
+        properties:
+          _id:
+            type: string
+            readOnly: true
+          title:
+            type: string
+          price:
+            type: number
+          ownerId:
+            type: string
+            readOnly: true
+      - $ref: '#/components/schemas/TimeStamp'
+    ProductList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Product'
+    TimeStamp:
       type: object
       properties:
-        _id:
-          type: string
-          readOnly: true
-        title:
-          type: string
-        price:
-          type: number
-        ownerId:
-          type: string
-          readOnly: true
         createdAt:
           type: string
           format: date-time
@@ -483,10 +486,6 @@ components:
           type: string
           format: date-time
           readOnly: true
-    ProductList:
-      type: array
-      items:
-        $ref: '#/components/schemas/Product'
     Error:
       type: object
       required:

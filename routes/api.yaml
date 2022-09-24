@@ -420,61 +420,63 @@ components:
   schemas:
     User:
       allOf:
-      - type: object
-        properties:
-          _id:
-            type: string
-            readOnly: true
-          username:
-            type: string
-          email:
-            type: string
-          password:
-            type: string
-            format: password
-            writeOnly: true
-          role:
-            type: string
-            enum:
-              - user
-              - moderator
-              - admin
-            readOnly: true
-          logoutAt:
-            type: string
-            format: date-time
-            readOnly: true
-      - $ref: '#/components/schemas/TimeStamp'
+        - $ref: '#/components/schemas/MongoID'
+        - type: object
+          properties:
+            username:
+              type: string
+            email:
+              type: string
+            password:
+              type: string
+              format: password
+              writeOnly: true
+            role:
+              type: string
+              enum:
+                - user
+                - moderator
+                - admin
+              readOnly: true
+            logoutAt:
+              type: string
+              format: date-time
+              readOnly: true
+        - $ref: '#/components/schemas/TimeStamp'
     UserList:
       type: array
       items:
         $ref: '#/components/schemas/User'
     Profile:
-      type: object
-      properties:
-        _id:
-          type: string
-        username:
-          type: string
+      allOf:
+        - $ref: '#/components/schemas/MongoID'
+        - type: object
+          properties:
+            username:
+              type: string
     Product:
       allOf:
-      - type: object
-        properties:
-          _id:
-            type: string
-            readOnly: true
-          title:
-            type: string
-          price:
-            type: number
-          ownerId:
-            type: string
-            readOnly: true
-      - $ref: '#/components/schemas/TimeStamp'
+        - $ref: '#/components/schemas/MongoID'
+        - type: object
+          properties:
+            title:
+              type: string
+            price:
+              type: number
+            ownerId:
+              type: string
+              readOnly: true
+        - $ref: '#/components/schemas/TimeStamp'
     ProductList:
       type: array
       items:
         $ref: '#/components/schemas/Product'
+    MongoID:
+      type: object
+      properties:
+        _id:
+          type: string
+          readOnly: true
     TimeStamp:
       type: object
       properties:

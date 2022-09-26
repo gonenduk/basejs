@@ -6,7 +6,7 @@ Instead of developing a server from scratch each project, I start
 with this one and develop on top of it.
 
 [![Build Status](https://travis-ci.org/gonenduk/basejs.svg?branch=master)](https://travis-ci.org/gonenduk/basejs)
-[![dependencies Status](https://david-dm.org/gonenduk/basejs/status.svg)](https://david-dm.org/gonenduk/basejs)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/gonenduk/basejs/#license)
 
 A running server with the latest code can be found here:
 

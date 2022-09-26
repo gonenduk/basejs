@@ -55,17 +55,18 @@ root
 **acl**: Definition of access control levels and handlers of routes for access control.
 
 **handlers**: Handlers of routes both for API calls and web pages.
-The actual business logic of end points.
+Routes are built by OpenAPI. This is the end of each route where the input is validated
+and moved into the models and the where the output of the models is transferredd back to
+json and sent via http to the client.
 
 **lib**: Wrappers around 3rd party packages to initialize and isolate them.
 Allows required behavior and replacing of packages without changing project code.
 
 **models**: Models of resources. Does not have to have a DB collection associated with it.
+This is where the logic of the model is done and where the data layer is controlled.
+Can be access by the handlers of the routes or internally.
 
-**models plugins**: Common base models to be used by other models.
-For example, handling collections and items, ownership, timestamps...
-
-**models schemas**: Schema and index definitions of each DB model.   
+**models schemas**: DB Schema and index definitions of each model.   
 
 **public**: Public static files
 

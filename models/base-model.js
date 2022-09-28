@@ -98,9 +98,9 @@ class BaseModel {
     return result.deletedCount === 1;
   }
 
-  replaceOwnerById(id, ownerId, filter = {}) {
+  replaceOwnerById(id, ownerId) {
     const item = { ownerId: BaseModel.toObjectId(ownerId) };
-    return this.updateOneById(id, item, filter);
+    return this.updateOneById(id, item);
   }
 }
 

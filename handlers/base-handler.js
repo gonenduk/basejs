@@ -97,12 +97,11 @@ class BaseHandler {
   }
 
   async updateOwner(req, res) {
-    // Get id and filter
+    // Get id
     const { id } = req.params;
-    const { filter } = req.query;
 
     // Update item owner
-    const item = await this.model.replaceOwnerById(id, req.body, filter);
+    const item = await this.model.replaceOwnerById(id, req.body);
     if (!item) throw Boom.notFound(`${req.originalUrl} not found`);
     res.status(204).end();
   }

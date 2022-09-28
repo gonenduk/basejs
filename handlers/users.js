@@ -12,12 +12,7 @@ module.exports = {
     return baseHandler.getMany(req, res);
   },
 
-  createUser: (req, res) => {
-    // New user role is always set to user
-    req.body.role = 'user';
-
-    return baseHandler.create(req, res);
-  },
+  createUser: (req, res) => baseHandler.create(req, res),
 
   getUser: (req, res) => {
     // Hide password (write only)

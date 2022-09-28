@@ -25,6 +25,8 @@ class UserModel extends BaseModel {
   async addOne(item = {}) {
     // Hash password
     if (item.password) item.password = await hashAsync(item.password, null, null);
+    // New user role is always set to user
+    item.role = 'user';
     return super.addOne(item);
   }
 

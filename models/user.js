@@ -1,5 +1,6 @@
 /* eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["item"] }] */
 /* eslint class-methods-use-this: "off" */
+/* eslint-disable no-param-reassign */
 const bcrypt = require('bcryptjs');
 const logger = require('../lib/logger');
 const BaseModel = require('./base-model');
@@ -16,6 +17,16 @@ class UserModel extends BaseModel {
       logger.warn(`Cannot validate password: ${err.message}`);
       return false;
     }
+  }
+
+  getMany(filter, options = {}) {
+    options.projection = { password: 0 };
+    return super.getMany(filter, options);
+  }
+
+  getOneById(id) {
+    const projection = { password: 0 };
+    return super.getOneById(id, { projection });
   }
 
   async addOne(item = {}) {

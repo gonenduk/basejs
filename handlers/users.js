@@ -5,22 +5,9 @@ const model = require('../models/user');
 const baseHandler = new BaseHandler(model);
 
 module.exports = {
-  getUsers: (req, res) => {
-    // Hide password (write only)
-    req.query.projection = { password: 0 };
-
-    return baseHandler.getMany(req, res);
-  },
-
+  getUsers: (req, res) => baseHandler.getMany(req, res),
   createUser: (req, res) => baseHandler.create(req, res),
-
-  getUser: (req, res) => {
-    // Hide password (write only)
-    req.query.projection = { password: 0 };
-
-    return baseHandler.getOne(req, res);
-  },
-
+  getUser: (req, res) => baseHandler.getOne(req, res),
   updateUser: (req, res) => baseHandler.updateOne(req, res),
 
   updateUserRole: async (req, res) => {

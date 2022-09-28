@@ -2,24 +2,23 @@ const mongo = require('../lib/mongodb');
 
 const { ObjectId } = mongo.driver;
 
-function toObjectId(id) {
-  // Invalid id should rethrow with status 400
-  try {
-    return new ObjectId(id);
-  } catch (err) {
-    err.message = `id: ${err.message}`;
-    err.status = 400;
-    throw err;
-  }
-}
-
 class BaseModel {
   constructor(collectionName) {
-    this.collectionName = collectionName;
     if (mongo.isConnected) {
       this.collection = mongo.db.collection(collectionName);
     } else {
       this.connection = () => { throw Error('Not connected'); };
+    }
+  }
+
+  static toObjectId(id) {
+    // Invalid id should rethrow with status 400
+    try {
+      return new ObjectId(id);
+    } catch (err) {
+      err.message = `id: ${err.message}`;
+      err.status = 400;
+      throw err;
     }
   }
 
@@ -42,29 +41,25 @@ class BaseModel {
   }
 
   // ***** Documents
-  isExist(filter = {}) {
-    return this.collection.find(filter, { limit: 1 }).count({ limit: true });
-  }
-
   getOne(filter = {}, options = {}) {
     return this.collection.findOne(filter, options);
   }
 
   getOneById(id, projection = null, filter = {}) {
-    const objectId = toObjectId(id);
+    const objectId = BaseModel.toObjectId(id);
     const query = { _id: objectId, ...filter };
     return this.collection.findOne(query, { projection });
   }
 
   async updateOneById(id, item = {}, filter = {}) {
-    const objectId = toObjectId(id);
+    const objectId = BaseModel.toObjectId(id);
     const query = { _id: objectId, ...filter };
     const result = await this.collection.updateOne(query, { $set: item });
     return result.modifiedCount === 1;
   }
 
   async deleteOneById(id, filter = {}) {
-    const objectId = toObjectId(id);
+    const objectId = BaseModel.toObjectId(id);
     const query = { _id: objectId, ...filter };
     const result = await this.collection.deleteOne(query);
     return result.deletedCount === 1;

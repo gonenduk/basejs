@@ -1,10 +1,8 @@
-const MongoModel = require('./plugins/mongo-model');
-const Timestamps = require('./plugins/timestamps');
-const Ownership = require('./plugins/ownership');
+const BaseModel = require('./base-model');
 
-class ProductModel extends Ownership(Timestamps(MongoModel)) {
+class ProductModel extends BaseModel {
   constructor() {
-    super('products');
+    super('products', { ownership: true, timestamps: true });
   }
 }
 

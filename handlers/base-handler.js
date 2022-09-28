@@ -53,7 +53,7 @@ class BaseHandler {
   async create(req, res) {
     // Set ownership to current user
     const { user } = req;
-    req.body.ownerId = user.id;
+    if (user.id) req.body.ownerId = user.id;
 
     // Add one item to collection
     const item = await this.model.addOne(req.body);

@@ -8,7 +8,7 @@ class ProfileModel extends BaseModel {
   getOneById(id) {
     // Get profile fields only
     const projection = { username: 1 };
-    return super.getOneById(id, projection);
+    return super.getOneById(id, { projection });
   }
 }
 

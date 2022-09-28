@@ -70,36 +70,31 @@ class BaseModel {
   }
 
   deleteMany(filter = {}) {
+    this.convertOwnerId(filter);
     return this.collection.deleteMany(filter);
   }
 
   // ***** Documents
-  getOne(filter = {}, options = {}) {
+  getOneByFilter(filter = {}, options = {}) {
     this.convertOwnerId(filter);
     return this.collection.findOne(filter, options);
   }
 
-  getOneById(id, projection = null, filter = {}) {
+  getOneById(id, options = {}) {
     const objectId = BaseModel.toObjectId(id);
-    this.convertOwnerId(filter);
-    const query = { _id: objectId, ...filter };
-    return this.collection.findOne(query, { projection });
+    return this.collection.findOne({ _id: objectId }, options);
   }
 
-  async updateOneById(id, item = {}, filter = {}) {
+  async updateOneById(id, item = {}) {
     const objectId = BaseModel.toObjectId(id);
     this.updateTimestamp(item);
-    this.convertOwnerId(filter);
-    const query = { _id: objectId, ...filter };
-    const result = await this.collection.updateOne(query, { $set: item });
+    const result = await this.collection.updateOne({ _id: objectId }, { $set: item });
     return result.modifiedCount === 1;
   }
 
-  async deleteOneById(id, filter = {}) {
+  async deleteOneById(id) {
     const objectId = BaseModel.toObjectId(id);
-    this.convertOwnerId(filter);
-    const query = { _id: objectId, ...filter };
-    const result = await this.collection.deleteOne(query);
+    const result = await this.collection.deleteOne({ _id: objectId });
     return result.deletedCount === 1;
   }
 

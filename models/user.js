@@ -26,14 +26,14 @@ class UserModel extends BaseModel {
     return super.addOne(item);
   }
 
-  async updateOneById(id, item = {}, filter = {}) {
+  async updateOneById(id, item = {}) {
     if (item.password) {
       // Hash password
       item.password = await bcrypt.hash(item.password, 10);
       // Logout user to force use of new password on all devices
       item.logoutAt = new Date();
     }
-    return super.updateOneById(id, item, filter);
+    return super.updateOneById(id, item);
   }
 
   logout(id) {

@@ -18,34 +18,25 @@ class BaseHandler {
   }
 
   async getOne(req, res) {
-    // Get id, projection and filter
-    const { id } = req.params;
-    const { projection, filter } = req.query;
-
     // Get item
-    const item = await this.model.getOneById(id, projection, filter);
+    const { id } = req.params;
+    const item = await this.model.getOneById(id);
     if (!item) throw Boom.notFound(`${req.originalUrl} not found`);
     res.json(item);
   }
 
   async deleteOne(req, res) {
-    // Get id and filter
-    const { id } = req.params;
-    const { filter } = req.query;
-
     // Delete item
-    const item = await this.model.deleteOneById(id, filter);
+    const { id } = req.params;
+    const item = await this.model.deleteOneById(id);
     if (!item) throw Boom.notFound(`${req.originalUrl} not found`);
     res.status(204).end();
   }
 
   async updateOne(req, res) {
-    // Get id and filter
-    const { id } = req.params;
-    const { filter } = req.query;
-
     // Update item fields
-    const item = await this.model.updateOneById(id, req.body, filter);
+    const { id } = req.params;
+    const item = await this.model.updateOneById(id, req.body);
     if (!item) throw Boom.notFound(`${req.originalUrl} not found`);
     res.status(204).end();
   }
@@ -68,12 +59,10 @@ class BaseHandler {
     if (req.query.sort) sort = safeParse('sort', req.query.sort);
 
     // Get skip and limit
-    const { skip, limit, projection } = req.query;
+    const { skip, limit } = req.query;
 
     // Get list of items
-    res.json(await this.model.getMany(filter, {
-      sort, skip, limit, projection,
-    }));
+    res.json(await this.model.getMany(filter, { sort, skip, limit }));
   }
 
   async updateMany(req, res) {

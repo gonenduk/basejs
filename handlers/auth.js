@@ -17,12 +17,8 @@ module.exports = {
     const { username, password } = req.body;
 
     // Validate email/password
-    const match = await user.getOne({ username }, {
-      projection: {
-        password: 1,
-        role: 1,
-      },
-    });
+    const projection = { password: 1, role: 1 };
+    const match = await user.getOneByFilter({ username }, { projection });
     if (!match) {
       throw Boom.unauthorized('Incorrect username or password');
     }
@@ -46,7 +42,8 @@ module.exports = {
     });
 
     // Find related user
-    const match = await user.getOneById(token.id, { role: 1, logoutAt: 1 });
+    const projection = { role: 1, logoutAt: 1 };
+    const match = await user.getOneById(token.id, { projection });
     if (!match) throw Boom.unauthorized('Invalid user in refresh token');
 
     // Validate user did not log off after refresh token was created
@@ -70,7 +67,8 @@ module.exports = {
     });
 
     // Find user by email
-    const match = await user.getOne({ email: profile.email }, { projection: { role: 1 } });
+    const projection = { role: 1 };
+    const match = await user.getOneByFilter({ email: profile.email }, { projection });
     if (!match) throw Boom.unauthorized('No matching user found');
 
     // Create JWT for dummy user

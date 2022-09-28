@@ -97,6 +97,11 @@ class BaseModel {
     const result = await this.collection.deleteOne(query);
     return result.deletedCount === 1;
   }
+
+  replaceOwnerById(id, ownerId, filter = {}) {
+    const item = { ownerId: BaseModel.toObjectId(ownerId) };
+    return this.updateOneById(id, item, filter);
+  }
 }
 
 module.exports = BaseModel;

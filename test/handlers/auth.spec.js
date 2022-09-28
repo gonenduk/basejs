@@ -26,7 +26,7 @@ describe('Handler of authentication', () => {
   let jsonStub;
 
   before(() => {
-    getOneStub = sinon.stub(user, 'getOne');
+    getOneStub = sinon.stub(user, 'getOneByFilter');
     getOneByIdStub = sinon.stub(user, 'getOneById');
     validatePasswordStub = sinon.stub(user, 'validatePassword');
     logoutStub = sinon.stub(user, 'logout');

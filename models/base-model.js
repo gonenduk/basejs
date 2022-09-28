@@ -35,7 +35,12 @@ class BaseModel {
 
   updateTimestamp(item = {}) {
     if (this.timestamps) {
-      item.updatedAt = item.createdAt;
+      // Check if timestamp should be updated
+      if (item.updatedAt !== null) {
+        item.updatedAt = new Date();
+      } else {
+        delete item.updatedAt;
+      }
     }
   }
 

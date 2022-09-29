@@ -8,7 +8,7 @@ info:
 security:
   - JWT: []
 paths:
-  /auth/token:
+  /auth/token/credentials:
     post:
       tags:
         - Authentication
@@ -41,18 +41,7 @@ paths:
                   format: password
         description: User credentials
         required: true
-    delete:
-      tags:
-        - Authentication
-      summary: Log out a user to invalidate existing refresh tokens
-      operationId: logout
-      x-eov-operation-handler: auth
-      responses:
-        '204':
-          $ref: '#/components/responses/NoContentResponse'
-        default:
-          $ref: '#/components/responses/ErrorResponse'
-  /auth/refresh/token:
+  /auth/token/refresh:
     post:
       tags:
         - Authentication
@@ -81,7 +70,7 @@ paths:
                   type: string
         description: refresh token
         required: true
-  /auth/social/token:
+  /auth/token/social:
     post:
       tags:
         - Authentication
@@ -113,6 +102,18 @@ paths:
                   type: string
         description: Social provider and its access token
         required: true
+  /auth/token:
+    delete:
+      tags:
+        - Authentication
+      summary: Log out current user and invalidate existing refresh token
+      operationId: logout
+      x-eov-operation-handler: auth
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContentResponse'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
   /users:
     get:
       tags:

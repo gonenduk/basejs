@@ -30,11 +30,6 @@ module.exports = {
     res.json(await createJWT(match));
   },
 
-  logout: async (req, res) => {
-    await user.logout(req.user.id);
-    res.status(204).end();
-  },
-
   loginWithRefreshToken: async (req, res) => {
     // Verify refresh token
     const token = await jwt.verifyToken(req.body.token).catch((err) => {
@@ -73,5 +68,10 @@ module.exports = {
 
     // Create JWT for dummy user
     res.json(await createJWT(match));
+  },
+
+  logout: async (req, res) => {
+    await user.logout(req.user.id);
+    res.status(204).end();
   },
 };

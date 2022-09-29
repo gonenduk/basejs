@@ -4,6 +4,7 @@ const schemas = require('../models/schemas');
 const mongo = require('../lib/mongodb');
 
 const { log } = console;
+const { ObjectId } = mongo.driver;
 
 Promise.each = async (arr, fn) => {
   // eslint-disable-next-line no-restricted-syntax,no-await-in-loop
@@ -46,7 +47,7 @@ const commands = {
     async function createUser(type) {
       log(` ${type}`);
 
-      const isExist = await users.find({ email: type }, { limit: 1 }).count({ limit: true });
+      const isExist = await users.countDocuments({ username: type }, { limit: 1 });
       if (!isExist) {
         await users.insertOne({
           username: type,
@@ -66,10 +67,41 @@ const commands = {
     await createUser('user');
   },
 
+  async products() {
+    const db = await connect();
+    log('Creating products...');
+
+    const products = db.collection('products');
+
+    async function createProduct(title, price) {
+      log(` ${title}`);
+
+      const isExist = await products.countDocuments({ title }, { limit: 1 });
+      if (!isExist) {
+        await products.insertOne({
+          title,
+          price,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          ownerId: new ObjectId('6335515d0245a17258f96c69'),
+        });
+      } else {
+        log('Product already exists. Skipping');
+      }
+    }
+
+    await createProduct('table', 10);
+    await createProduct('chair', 5);
+    await createProduct('picture', 2);
+    await createProduct('carpet', 3);
+    await createProduct('closet', 20);
+  },
+
   async all() {
     await commands.clean();
     await commands.init();
     await commands.users();
+    await commands.products();
   },
 };
 
@@ -104,8 +136,13 @@ program
   .action(() => { run('users').then(done); });
 
 program
+  .command('products')
+  .description('create sample products')
+  .action(() => { run('products').then(done); });
+
+program
   .command('all')
-  .description('clean, init and create sample users')
+  .description('clean, init and create sample users and products')
   .action(() => { run('all').then(done); });
 
 program

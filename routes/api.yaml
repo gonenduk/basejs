@@ -464,9 +464,7 @@ components:
               type: string
             price:
               type: number
-            ownerId:
-              type: string
-              readOnly: true
+        - $ref: '#/components/schemas/OwnerID'
         - $ref: '#/components/schemas/TimeStamp'
     ProductList:
       type: array
@@ -476,6 +474,12 @@ components:
       type: object
       properties:
         _id:
+          type: string
+          readOnly: true
+    OwnerID:
+      type: object
+      properties:
+        ownerId:
           type: string
           readOnly: true
     TimeStamp:

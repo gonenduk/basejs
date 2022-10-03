@@ -16,7 +16,8 @@ function safeParse(str) {
 
 // Validations according to user id field in collection
 module.exports = {
-  _id(user, action, resource, userId) {
+  _id(req, action, resource) {
+    const { user, params } = req;
     // Validate user role can access any item
     let actionType = `${action}Any`;
     let permission = ac.can(user.role)[actionType](resource);
@@ -26,11 +27,12 @@ module.exports = {
       permission = ac.can(user.role)[actionType](resource);
       if (!permission.granted) throw Boom.forbidden();
       // Validate user is accessing own item
-      if (user.id !== userId) throw Boom.forbidden();
+      if (user.id !== params.id) throw Boom.forbidden();
     }
   },
 
-  ownerId(user, action, resource, query) {
+  ownerId(req, action, resource) {
+    const { user, query } = req;
     // Validate user role can access any item
     let actionType = `${action}Any`;
     let permission = ac.can(user.role)[actionType](resource);

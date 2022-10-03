@@ -16,7 +16,7 @@ describe('Access control for public resources', () => {
   });
 
   context('Get many', () => {
-    it('should allow guest to read', () => {
+    it('should allow guest to read any', () => {
       req.user = guest;
       assert.doesNotThrow(() => pr.getMany(req));
       assert.equal(req.query.filter, undefined);
@@ -36,7 +36,7 @@ describe('Access control for public resources', () => {
   });
 
   context('Get resource', () => {
-    it('should allow guest to read', () => {
+    it('should allow guest to read any', () => {
       req.user = guest;
       assert.doesNotThrow(() => pr.getOne(req));
       assert.equal(req.query.filter, undefined);

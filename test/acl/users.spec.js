@@ -1,21 +1,27 @@
 const assert = require('assert').strict;
-const { users } = require('../../acl');
+const acl = require('../../acl');
 
-const req = { api: true, params: {} };
+const { users } = acl;
+
+const req = { api: true };
 const admin = { role: 'admin', id: '1' };
 const moderator = { role: 'moderator', id: '2' };
 const user = { role: 'user', id: '3' };
 
 describe('Access control for users', () => {
-  context('Get user list', () => {
-    it('should allow moderator to read', () => {
-      req.user = moderator;
-      assert.doesNotThrow(() => users.getUsers(req));
-    });
+  beforeEach(() => {
+    req.params = {};
+  });
 
+  context('Get user list', () => {
     it('should not allow user to read', () => {
       req.user = user;
       assert.throws(() => users.getUsers(req));
+    });
+
+    it('should allow moderator to read any', () => {
+      req.user = moderator;
+      assert.doesNotThrow(() => users.getUsers(req));
     });
   });
 
@@ -26,38 +32,41 @@ describe('Access control for users', () => {
   });
 
   context('Get user', () => {
+    it('should not allow user to read any', () => {
+      req.user = user;
+      req.params.id = moderator.id;
+      assert.throws(() => users.getUser(req));
+    });
+
     it('should allow user to read own', () => {
       req.user = user;
-      req.params.id = req.user.id;
+      req.params.id = user.id;
       assert.doesNotThrow(() => users.getUser(req));
     });
 
     it('should allow moderator to read any', () => {
       req.user = moderator;
+      req.params.id = user.id;
       assert.doesNotThrow(() => users.getUser(req));
-    });
-
-    it('should not allow user to read any', () => {
-      req.user = user;
-      req.params.id = undefined;
-      assert.throws(() => users.getUser(req));
     });
   });
 
   context('Update user', () => {
-    it('should allow user to update own', () => {
-      req.user = user;
-      req.params.id = req.user.id;
-      assert.doesNotThrow(() => users.updateUser(req));
-    });
-
     it('should not allow moderator to update any', () => {
       req.user = moderator;
+      req.params.id = user.id;
       assert.throws(() => users.updateUser(req));
+    });
+
+    it('should allow user to update own', () => {
+      req.user = user;
+      req.params.id = user.id;
+      assert.doesNotThrow(() => users.updateUser(req));
     });
 
     it('should allow admin to update any', () => {
       req.user = admin;
+      req.params.id = moderator.id;
       assert.doesNotThrow(() => users.updateUser(req));
     });
   });
@@ -71,6 +80,7 @@ describe('Access control for users', () => {
 
     it('should allow admin to update any', () => {
       req.user = admin;
+      req.params.id = moderator.id;
       assert.doesNotThrow(() => users.updateUserRole(req));
     });
   });

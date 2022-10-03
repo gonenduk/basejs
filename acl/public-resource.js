@@ -5,17 +5,17 @@ class PublicResource {
     this.validate = baseValidation[userIdField];
   }
 
-  getMany(req) { this.validate(req.user, 'read', 'resource-public', req.query); }
+  getMany(req) { this.validate(req, 'read', 'resource-public'); }
 
-  create(req) { this.validate(req.user, 'create', 'resource', req.query); }
+  create(req) { this.validate(req, 'create', 'resource'); }
 
-  getOne(req) { this.validate(req.user, 'read', 'resource-public', req.query); }
+  getOne(req) { this.validate(req, 'read', 'resource-public'); }
 
-  updateOne(req) { this.validate(req.user, 'update', 'resource', req.query); }
+  updateOne(req) { this.validate(req, 'update', 'resource'); }
 
-  deleteOne(req) { this.validate(req.user, 'delete', 'resource', req.query); }
+  deleteOne(req) { this.validate(req, 'delete', 'resource'); }
 
-  updateSystem(req) { this.validate(req.user, 'update', 'resource-system', req.query); }
+  updateSystem(req) { this.validate(req, 'update', 'resource-system'); }
 }
 
 module.exports = PublicResource;

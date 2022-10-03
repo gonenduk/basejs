@@ -26,12 +26,6 @@ describe('Access control for private resources', () => {
       assert.equal(req.query.filter, JSON.stringify({ ownerId: user.id }));
     });
 
-    it('should not allow user to read others', () => {
-      req.user = user;
-      req.query.filter = JSON.stringify({ ownerId: moderator.id });
-      assert.throws(() => pr.getMany(req));
-    });
-
     it('should allow moderator to read any', () => {
       req.user = moderator;
       assert.doesNotThrow(() => pr.getMany(req));

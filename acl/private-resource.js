@@ -1,9 +1,9 @@
 const PublicResource = require('./public-resource');
 
 class PrivateResource extends PublicResource {
-  getMany(req) { this.validate(req.user, 'read', 'resource', req.query); }
+  getMany(req) { this.validate(req, 'read', 'resource'); }
 
-  getOne(req) { this.validate(req.user, 'read', 'resource', req.query); }
+  getOne(req) { this.validate(req, 'read', 'resource'); }
 }
 
 module.exports = PrivateResource;

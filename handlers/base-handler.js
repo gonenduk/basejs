@@ -2,7 +2,7 @@
 const Boom = require('@hapi/boom');
 
 function safeParse(name, str) {
-  if (!str) return undefined;
+  if (str === undefined) return undefined;
   let obj;
   try {
     obj = JSON.parse(str);

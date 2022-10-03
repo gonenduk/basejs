@@ -30,7 +30,7 @@ module.exports = {
     }
   },
 
-  ownerId(user, action, resource, query = {}) {
+  ownerId(user, action, resource, query) {
     // Validate user role can access any item
     let actionType = `${action}Any`;
     let permission = ac.can(user.role)[actionType](resource);

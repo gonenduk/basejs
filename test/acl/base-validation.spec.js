@@ -8,7 +8,7 @@ const req = { api: true, params: {} };
 const moderator = { role: 'moderator', id: '2' };
 const user = { role: 'user', id: '3' };
 
-describe('General access control cases', () => {
+describe('General access control validation cases', () => {
   beforeEach(() => {
     req.query = {};
   });

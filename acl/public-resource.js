@@ -1,10 +1,21 @@
-const validate = require('./base-validation');
+const baseValidation = require('./base-validation');
 
-module.exports = {
-  getMany: (req) => validate.anyByUserRole(req.user, 'read', 'resource-public'),
-  create: (req) => validate.anyByUserRoleOrOwnByOwnerId(req.user, 'create', 'resource'),
-  getOne: (req) => validate.anyByUserRoleOrOwnByOwnerId(req.user, 'read', 'resource-public', req.query),
-  updateOne: (req) => validate.anyByUserRoleOrOwnByOwnerId(req.user, 'update', 'resource', req.query),
-  deleteOne: (req) => validate.anyByUserRoleOrOwnByOwnerId(req.user, 'delete', 'resource', req.query),
-  updateOwner: (req) => validate.anyByUserRole(req.user, 'update', 'resource-system'),
-};
+class PublicResource {
+  constructor(userIdField = 'ownerId') {
+    this.validate = baseValidation[userIdField];
+  }
+
+  getMany(req) { this.validate(req.user, 'read', 'resource-public', req.query); }
+
+  create(req) { this.validate(req.user, 'create', 'resource', req.query); }
+
+  getOne(req) { this.validate(req.user, 'read', 'resource-public', req.query); }
+
+  updateOne(req) { this.validate(req.user, 'update', 'resource', req.query); }
+
+  deleteOne(req) { this.validate(req.user, 'delete', 'resource', req.query); }
+
+  updateSystem(req) { this.validate(req.user, 'update', 'resource-system', req.query); }
+}
+
+module.exports = PublicResource;

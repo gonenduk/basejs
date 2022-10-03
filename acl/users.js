@@ -1,8 +1,10 @@
-const validate = require('./base-validation');
+const PrivateResource = require('./private-resource');
+
+const privateResource = new PrivateResource('_id');
 
 module.exports = {
-  getUsers: (req) => validate.ownOrAnyByUserId(req.user, 'read', 'resource'),
-  getUser: (req) => validate.ownOrAnyByUserId(req.user, 'read', 'resource', req.params.id),
-  updateUser: (req) => validate.ownOrAnyByUserId(req.user, 'update', 'resource', req.params.id),
-  updateUserRole: (req) => validate.anyByUserRole(req.user, 'update', 'resource-system'),
+  getUsers: (req) => privateResource.getMany(req),
+  getUser: (req) => privateResource.getOne(req),
+  updateUser: (req) => privateResource.updateOne(req),
+  updateUserRole: (req) => privateResource.updateSystem(req),
 };

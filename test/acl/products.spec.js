@@ -1,6 +1,8 @@
 const sinon = require('sinon');
 const { products } = require('../../acl');
-const pr = require('../../acl/public-resource');
+const PublicResource = require('../../acl/public-resource');
+
+const pr = new PublicResource('ownerId');
 
 describe('Access control for products', () => {
   let getMany;

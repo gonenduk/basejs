@@ -1,5 +1,7 @@
-const validate = require('./base-validation');
+const PublicResource = require('./public-resource');
+
+const publicResource = new PublicResource('_id');
 
 module.exports = {
-  getProfile: (req) => validate.ownOrAnyByUserId(req.user, 'read', 'resource-public', req.params.id),
+  getProfile: (req) => publicResource.getOne(req),
 };

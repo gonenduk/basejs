@@ -1,8 +1,9 @@
-const validate = require('./base-validation');
-const publicResource = require('./public-resource');
+const PublicResource = require('./public-resource');
 
-module.exports = {
-  ...publicResource,
-  getMany: (req) => validate.anyByUserRole(req.user, 'read', 'resource'),
-  getOne: (req) => validate.anyByUserRoleOrOwnByOwnerId(req.user, 'read', 'resource', req.query),
-};
+class PrivateResource extends PublicResource {
+  getMany(req) { this.validate(req.user, 'read', 'resource', req.query); }
+
+  getOne(req) { this.validate(req.user, 'read', 'resource', req.query); }
+}
+
+module.exports = PrivateResource;

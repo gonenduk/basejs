@@ -1,12 +1,17 @@
 const PublicResource = require('./public-resource');
 
-const publicResource = new PublicResource();
+class Products extends PublicResource {
+  getProducts(req) { this.getMany(req); }
 
-module.exports = {
-  getProducts: (req) => publicResource.getMany(req),
-  createProduct: (req) => publicResource.create(req),
-  getProduct: (req) => publicResource.getOne(req),
-  updateProduct: (req) => publicResource.updateOne(req),
-  deleteProduct: (req) => publicResource.deleteOne(req),
-  updateProductOwner: (req) => publicResource.updateSystem(req),
-};
+  createProduct(req) { this.create(req); }
+
+  getProduct(req) { this.getOne(req); }
+
+  updateProduct(req) { this.updateOne(req); }
+
+  deleteProduct(req) { this.deleteOne(req); }
+
+  updateProductOwner(req) { this.updateSystem(req); }
+}
+
+module.exports = new Products();

@@ -1,10 +1,13 @@
 const PrivateResource = require('./private-resource');
 
-const privateResource = new PrivateResource('_id');
+class Users extends PrivateResource {
+  getUsers(req) { this.getMany(req); }
 
-module.exports = {
-  getUsers: (req) => privateResource.getMany(req),
-  getUser: (req) => privateResource.getOne(req),
-  updateUser: (req) => privateResource.updateOne(req),
-  updateUserRole: (req) => privateResource.updateSystem(req),
-};
+  getUser(req) { this.getOne(req); }
+
+  updateUser(req) { this.updateOne(req); }
+
+  updateUserRole(req) { this.updateSystem(req); }
+}
+
+module.exports = new Users('_id');

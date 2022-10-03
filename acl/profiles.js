@@ -1,7 +1,7 @@
 const PublicResource = require('./public-resource');
 
-const publicResource = new PublicResource('_id');
+class Profiles extends PublicResource {
+  getProfile(req) { this.getOne(req); }
+}
 
-module.exports = {
-  getProfile: (req) => publicResource.getOne(req),
-};
+module.exports = new Profiles('_id');

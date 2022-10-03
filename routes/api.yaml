@@ -366,7 +366,13 @@ paths:
               type: string
         description: New owner id
         required: true
-tags: []
+tags:
+  - name: Authentication
+  - name: Users
+  - name: Products
+    description: Sample public collection
+  - name: Tickets
+    description: Sample private collection
 components:
   responses:
     NoContentResponse:

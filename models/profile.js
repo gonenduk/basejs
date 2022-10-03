@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const BaseModel = require('./base-model');
 
 class ProfileModel extends BaseModel {
@@ -5,10 +6,10 @@ class ProfileModel extends BaseModel {
     super('users');
   }
 
-  getOneById(id) {
+  getOneById(id, filter, options = {}) {
     // Get profile fields only
-    const projection = { username: 1 };
-    return super.getOneById(id, { projection });
+    options.projection = { username: 1 };
+    return super.getOneById(id, filter, options);
   }
 }
 

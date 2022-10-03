@@ -18,25 +18,37 @@ class BaseHandler {
   }
 
   async getOne(req, res) {
-    // Get item
+    // Get id and filter
     const { id } = req.params;
-    const item = await this.model.getOneById(id);
+    let filter;
+    if (req.query.filter) filter = safeParse('filter', req.query.filter);
+
+    // Get item
+    const item = await this.model.getOneById(id, filter);
     if (!item) throw Boom.notFound(`${req.originalUrl} not found`);
     res.json(item);
   }
 
   async deleteOne(req, res) {
-    // Delete item
+    // Get id and filter
     const { id } = req.params;
-    const item = await this.model.deleteOneById(id);
+    let filter;
+    if (req.query.filter) filter = safeParse('filter', req.query.filter);
+
+    // Delete item
+    const item = await this.model.deleteOneById(id, filter);
     if (!item) throw Boom.notFound(`${req.originalUrl} not found`);
     res.status(204).end();
   }
 
   async updateOne(req, res) {
-    // Update item fields
+    // Get id and filter
     const { id } = req.params;
-    const item = await this.model.updateOneById(id, req.body);
+    let filter;
+    if (req.query.filter) filter = safeParse('filter', req.query.filter);
+
+    // Update item fields
+    const item = await this.model.updateOneById(id, filter, req.body);
     if (!item) throw Boom.notFound(`${req.originalUrl} not found`);
     res.status(204).end();
   }
@@ -86,11 +98,13 @@ class BaseHandler {
   }
 
   async updateOwner(req, res) {
-    // Get id
+    // Get id and filter
     const { id } = req.params;
+    let filter;
+    if (req.query.filter) filter = safeParse('filter', req.query.filter);
 
     // Update item owner
-    const item = await this.model.replaceOwnerById(id, req.body);
+    const item = await this.model.replaceOwnerById(id, filter, req.body);
     if (!item) throw Boom.notFound(`${req.originalUrl} not found`);
     res.status(204).end();
   }

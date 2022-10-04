@@ -366,6 +366,120 @@ paths:
               type: string
         description: New owner id
         required: true
+  /tickets:
+    get:
+      tags:
+        - Tickets
+      summary: Get all tickets
+      parameters:
+        - $ref: '#/components/parameters/filterParam'
+        - $ref: '#/components/parameters/sortParam'
+        - $ref: '#/components/parameters/skipParam'
+        - $ref: '#/components/parameters/limitParam'
+      operationId: getTickets
+      x-eov-operation-handler: tickets
+      responses:
+        '200':
+          description: Tickets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketList'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+    post:
+      tags:
+        - Tickets
+      summary: Create a ticket
+      operationId: createTicket
+      x-eov-operation-handler: tickets
+      responses:
+        '201':
+          description: New ticket
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/Ticket'
+                - required:
+                    - title
+        description: Ticket to create
+        required: true
+  /tickets/{id}:
+    parameters:
+      - $ref: '#/components/parameters/idParam'
+    get:
+      tags:
+        - Tickets
+      summary: Get a ticket by id
+      operationId: getTicket
+      x-eov-operation-handler: tickets
+      responses:
+        '200':
+          description: Ticket
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+    patch:
+      tags:
+        - Tickets
+      summary: Update ticket fields by id
+      operationId: updateTicket
+      x-eov-operation-handler: tickets
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContentResponse'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ticket'
+        description: Ticket fields to update
+        required: true
+    delete:
+      tags:
+        - Tickets
+      summary: Delete a ticket by id
+      operationId: deleteTicket
+      x-eov-operation-handler: tickets
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContentResponse'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+  /tickets/{id}/owner:
+    parameters:
+      - $ref: '#/components/parameters/idParam'
+    put:
+      tags:
+        - Tickets
+      summary: Replace owner of ticket
+      operationId: updateTicketOwner
+      x-eov-operation-handler: tickets
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContentResponse'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              type: string
+        description: New owner id
+        required: true
 tags:
   - name: Authentication
   - name: Users
@@ -476,6 +590,23 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/Product'
+    Ticket:
+      allOf:
+        - $ref: '#/components/schemas/MongoID'
+        - type: object
+          properties:
+            title:
+              type: string
+            venue:
+              type: string
+            price:
+              type: number
+        - $ref: '#/components/schemas/OwnerID'
+        - $ref: '#/components/schemas/TimeStamp'
+    TicketList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Ticket'
     MongoID:
       type: object
       properties:

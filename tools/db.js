@@ -97,11 +97,41 @@ const commands = {
     await createProduct('closet', 20);
   },
 
+  async tickets() {
+    const db = await connect();
+    log('Creating tickets...');
+
+    const tickets = db.collection('tickets');
+
+    async function createTicket(title, venue, price) {
+      log(` ${title}`);
+
+      const isExist = await tickets.countDocuments({ title }, { limit: 1 });
+      if (!isExist) {
+        await tickets.insertOne({
+          title,
+          venue,
+          price,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          ownerId: new ObjectId('6335515d0245a17258f96c69'),
+        });
+      } else {
+        log('Ticket already exists. Skipping');
+      }
+    }
+
+    await createTicket('ofra', 'expo', 300);
+    await createTicket('forever', 'haoman', 200);
+    await createTicket('luly', 'zizi', 80);
+  },
+
   async all() {
     await commands.clean();
     await commands.init();
     await commands.users();
     await commands.products();
+    await commands.tickets();
   },
 };
 
@@ -139,6 +169,11 @@ program
   .command('products')
   .description('create sample products')
   .action(() => { run('products').then(done); });
+
+program
+  .command('tickets')
+  .description('create sample tickets')
+  .action(() => { run('tickets').then(done); });
 
 program
   .command('all')

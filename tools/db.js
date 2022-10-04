@@ -6,6 +6,8 @@ const mongo = require('../lib/mongodb');
 const { log } = console;
 const { ObjectId } = mongo.driver;
 
+const defaultUserId = '6335515d0245a17258f96c69';
+
 Promise.each = async (arr, fn) => {
   // eslint-disable-next-line no-restricted-syntax,no-await-in-loop
   for (const item of arr) await fn(item);
@@ -44,16 +46,16 @@ const commands = {
 
     const users = db.collection('users');
 
-    async function createUser(type) {
-      log(` ${type}`);
+    async function createUser(username, role) {
+      log(` ${username}`);
 
-      const isExist = await users.countDocuments({ username: type }, { limit: 1 });
+      const isExist = await users.countDocuments({ username }, { limit: 1 });
       if (!isExist) {
         await users.insertOne({
-          username: type,
-          email: `${type}@example.com`,
-          password: bcrypt.hashSync(type),
-          role: type,
+          username,
+          email: `${username}@example.com`,
+          password: bcrypt.hashSync(username),
+          role,
           createdAt: new Date(),
           updatedAt: new Date(),
         });
@@ -62,9 +64,10 @@ const commands = {
       }
     }
 
-    await createUser('admin');
-    await createUser('moderator');
-    await createUser('user');
+    await createUser('admin', 'admin');
+    await createUser('moderator', 'moderator');
+    await createUser('user', 'user');
+    await createUser('user2', 'user');
   },
 
   async products() {
@@ -73,7 +76,7 @@ const commands = {
 
     const products = db.collection('products');
 
-    async function createProduct(title, price) {
+    async function createProduct(title, price, ownerId) {
       log(` ${title}`);
 
       const isExist = await products.countDocuments({ title }, { limit: 1 });
@@ -83,7 +86,7 @@ const commands = {
           price,
           createdAt: new Date(),
           updatedAt: new Date(),
-          ownerId: new ObjectId('6335515d0245a17258f96c69'),
+          ownerId: new ObjectId(ownerId || defaultUserId),
         });
       } else {
         log('Product already exists. Skipping');
@@ -103,7 +106,7 @@ const commands = {
 
     const tickets = db.collection('tickets');
 
-    async function createTicket(title, venue, price) {
+    async function createTicket(title, venue, price, ownerId) {
       log(` ${title}`);
 
       const isExist = await tickets.countDocuments({ title }, { limit: 1 });
@@ -114,7 +117,7 @@ const commands = {
           price,
           createdAt: new Date(),
           updatedAt: new Date(),
-          ownerId: new ObjectId('6335515d0245a17258f96c69'),
+          ownerId: new ObjectId(ownerId || defaultUserId),
         });
       } else {
         log('Ticket already exists. Skipping');

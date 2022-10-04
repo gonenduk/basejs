@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const bcrypt = require('bcryptjs');
 const program = require('commander');
 const schemas = require('../models/schemas');
@@ -7,6 +8,8 @@ const { log } = console;
 const { ObjectId } = mongo.driver;
 
 const defaultUserId = '6335515d0245a17258f96c69';
+let user1Id;
+let user2Id;
 
 Promise.each = async (arr, fn) => {
   // eslint-disable-next-line no-restricted-syntax,no-await-in-loop
@@ -48,26 +51,30 @@ const commands = {
 
     async function createUser(username, role) {
       log(` ${username}`);
+      let newItemId;
 
       const isExist = await users.countDocuments({ username }, { limit: 1 });
       if (!isExist) {
-        await users.insertOne({
+        const item = {
           username,
           email: `${username}@example.com`,
           password: bcrypt.hashSync(username),
           role,
           createdAt: new Date(),
           updatedAt: new Date(),
-        });
+        };
+        await users.insertOne(item);
+        newItemId = item._id;
       } else {
         log('User already exists. Skipping');
       }
+      return newItemId;
     }
 
     await createUser('admin', 'admin');
     await createUser('moderator', 'moderator');
-    await createUser('user', 'user');
-    await createUser('user2', 'user');
+    user1Id = await createUser('user', 'user');
+    user2Id = await createUser('user2', 'user');
   },
 
   async products() {
@@ -93,11 +100,11 @@ const commands = {
       }
     }
 
-    await createProduct('table', 10);
-    await createProduct('chair', 5);
-    await createProduct('picture', 2);
-    await createProduct('carpet', 3);
-    await createProduct('closet', 20);
+    await createProduct('table', 10, user1Id);
+    await createProduct('chair', 5, user1Id);
+    await createProduct('picture', 2, user1Id);
+    await createProduct('carpet', 3, user2Id);
+    await createProduct('closet', 20, user2Id);
   },
 
   async tickets() {
@@ -124,9 +131,9 @@ const commands = {
       }
     }
 
-    await createTicket('ofra', 'expo', 300);
-    await createTicket('forever', 'haoman', 200);
-    await createTicket('luly', 'zizi', 80);
+    await createTicket('ofra', 'expo', 300, user1Id);
+    await createTicket('forever', 'haoman', 200, user1Id);
+    await createTicket('luly', 'zizi', 80, user2Id);
   },
 
   async all() {

@@ -1,6 +1,7 @@
 const express = require('express');
 const requestIp = require('request-ip');
 const { expressjwt } = require('express-jwt');
+const Boom = require('@hapi/boom');
 const jwt = require('../lib/jwt');
 
 const router = express.Router();
@@ -13,9 +14,11 @@ router.use(requestIp.mw());
 
 // JWT extraction
 router.use(expressjwt(jwtOptions), (req, res, next) => {
-  // Create a default guest user if token not given
   req.user = req.auth;
+  // Create a default guest user if token not given
   if (!req.user) req.user = { role: 'guest' };
+  // Verify role exists in user
+  if (!req.user.role) throw Boom.badRequest('jwt missing role');
   next();
 });
 

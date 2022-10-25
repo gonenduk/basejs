@@ -12,17 +12,17 @@ paths:
     post:
       tags:
         - Authentication
-      summary: Create a JWT based on user credentials
+      summary: Sign in existing user by credentials and return JWTs
       security: []
       operationId: loginWithCredentials
       x-eov-operation-handler: auth
       responses:
         '200':
-          description: New generated JWT
+          description: New generated JWTs
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/JWT'
+                $ref: '#/components/schemas/AccessRefreshJWTs'
         default:
           $ref: '#/components/responses/ErrorResponse'
       requestBody:
@@ -45,17 +45,17 @@ paths:
     post:
       tags:
         - Authentication
-      summary: Create a JWT based on a refresh token
+      summary: Renew JWTs based on a refresh token
       security: []
       operationId: loginWithRefreshToken
       x-eov-operation-handler: auth
       responses:
         '200':
-          description: New generated JWT
+          description: New generated JWTs
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/JWT'
+                $ref: '#/components/schemas/AccessRefreshJWTs'
         default:
           $ref: '#/components/responses/ErrorResponse'
       requestBody:
@@ -74,17 +74,17 @@ paths:
     post:
       tags:
         - Authentication
-      summary: Create a JWT based on social provider token
+      summary: Sign in or sign up a user by oauth provider token and return JWTs
       security: []
       operationId: loginWithSocialToken
       x-eov-operation-handler: auth
       responses:
         '200':
-          description: New generated JWT
+          description: New generated JWTs
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/JWT'
+                $ref: '#/components/schemas/AccessRefreshJWTs'
         default:
           $ref: '#/components/responses/ErrorResponse'
       requestBody:
@@ -106,7 +106,7 @@ paths:
     delete:
       tags:
         - Authentication
-      summary: Log out current user and invalidate existing refresh token
+      summary: Log out current user and invalidate existing refresh tokens
       operationId: logout
       x-eov-operation-handler: auth
       responses:
@@ -641,7 +641,7 @@ components:
           type: string
         message:
           type: string
-    JWT:
+    AccessRefreshJWTs:
       type: object
       properties:
         access_token:

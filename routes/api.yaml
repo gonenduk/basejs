@@ -106,7 +106,7 @@ paths:
     delete:
       tags:
         - Authentication
-      summary: Log out current user and invalidate existing refresh tokens
+      summary: Sign out current user and invalidate existing refresh tokens
       operationId: logout
       x-eov-operation-handler: auth
       responses:
@@ -139,9 +139,7 @@ paths:
       tags:
         - Users
       summary: Create a user
-      security:
-        - {}
-        - JWT: []
+      security: []
       operationId: createUser
       x-eov-operation-handler: users
       responses:

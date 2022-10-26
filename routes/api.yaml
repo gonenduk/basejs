@@ -36,6 +36,7 @@ paths:
               properties:
                 username:
                   type: string
+                  description: email or username
                 password:
                   type: string
                   format: password

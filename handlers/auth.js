@@ -16,14 +16,14 @@ module.exports = {
   signInWithCredentials: async (req, res) => {
     const { username, password } = req.body;
 
-    // Validate email/password
+    // Validate email/username and password
     const projection = { password: 1, role: 1 };
-    const match = await user.getOneByFilter({ username }, { projection });
+    const match = await user.getOneByFilter({ $or: [{ email: username }, { username }] }, { projection });
     if (!match) {
-      throw Boom.unauthorized('Incorrect username or password');
+      throw Boom.unauthorized('Incorrect credentials');
     }
     if (!(await user.validatePassword(password, match.password))) {
-      throw Boom.unauthorized('Incorrect username or password');
+      throw Boom.unauthorized('Incorrect credentials');
     }
 
     // Create JWT with access and refresh tokens

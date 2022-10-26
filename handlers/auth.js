@@ -60,9 +60,9 @@ module.exports = {
       throw Boom.unauthorized(err.error);
     });
 
-    // Find user by email
+    // Find user by provider id
     const projection = { role: 1 };
-    const match = await user.getOneByFilter({ email: profile.email }, { projection });
+    const match = await user.getOneByFilter({ [provider]: profile.id }, { projection });
     if (!match) throw Boom.unauthorized('No matching user found');
 
     // Create JWT with access and refresh tokens

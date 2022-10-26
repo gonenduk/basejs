@@ -3,7 +3,7 @@ const sinon = require('sinon');
 const { auth } = require('../../handlers');
 const user = require('../../models/user');
 const jwt = require('../../lib/jwt');
-const social = require('../../lib/social');
+const oauth = require('../../lib/oauth');
 
 const req = {
   api: true,
@@ -33,8 +33,8 @@ describe('Handler of authentication', () => {
     signAccessTokenStub = sinon.stub(jwt, 'signAccessToken');
     signRefreshTokenStub = sinon.stub(jwt, 'signRefreshToken');
     verifyTokenStub = sinon.stub(jwt, 'verifyToken');
-    isProviderSupported = sinon.stub(social, 'isProviderSupported');
-    validateWithProviderStub = sinon.stub(social, 'validateWithProvider');
+    isProviderSupported = sinon.stub(oauth, 'isProviderSupported');
+    validateWithProviderStub = sinon.stub(oauth, 'validateWithProvider');
     jsonStub = sinon.stub(res, 'json');
   });
 

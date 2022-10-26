@@ -187,7 +187,7 @@ or will be considered as a guest. Secrets and TTL can be configured under server
 Authentication can be done by:
 * user credentials
 * refresh token
-* social login: facebook, google, github and windows
+* oauth sign in: facebook, google and apple
 
 Once authenticated the user will get its user id and user role for access control.
 To log out a user from a device, clients need just to delete the token they got and not use it anymore.

@@ -1,7 +1,7 @@
 /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
 const Boom = require('@hapi/boom');
 const user = require('../models/user');
-const social = require('../lib/social');
+const oauth = require('../lib/oauth');
 const jwt = require('../lib/jwt');
 
 function createJWT(match) {
@@ -53,10 +53,10 @@ module.exports = {
     const { provider, token } = req.body;
 
     // Verify provider is supported
-    if (!social.isProviderSupported(provider)) throw Boom.unauthorized(`Unsupported provider '${provider}'`);
+    if (!oauth.isProviderSupported(provider)) throw Boom.unauthorized(`Unsupported provider '${provider}'`);
 
     // Verify token with provider and get user profile data
-    const profile = await social.validateWithProvider(provider, token).catch((err) => {
+    const profile = await oauth.validateWithProvider(provider, token).catch((err) => {
       throw Boom.unauthorized(err.error);
     });
 

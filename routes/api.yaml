@@ -100,7 +100,7 @@ paths:
                   type: string
                 token:
                   type: string
-        description: Social provider and its access token
+        description: OAuth provider and its access token
         required: true
   /auth/token:
     delete:

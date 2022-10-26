@@ -158,8 +158,8 @@ paths:
               allOf:
                 - $ref: '#/components/schemas/User'
                 - required:
-                  - username
                   - email
+                  - password
         description: User to create
         required: true
   /users/{id}:

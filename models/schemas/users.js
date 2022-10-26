@@ -15,7 +15,7 @@ module.exports = {
     },
   },
   indexes: [
-    { fields: { username: 1 }, options: { unique: true } },
-    { fields: { email: 1 }, options: { unique: true, partialFilterExpression: { email: { $exists: true } } } },
+    { fields: { email: 1 }, options: { unique: true } },
+    { fields: { username: 1 }, options: { unique: true, partialFilterExpression: { username: { $exists: true } } } },
   ],
 };

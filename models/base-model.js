@@ -88,12 +88,14 @@ class BaseModel {
     return this.collection.findOne(query, options);
   }
 
-  async updateOneById(id, filter = {}, item = {}, unsetItem = []) {
+  async updateOneById(id, filter = {}, item = {}, unsetList = []) {
     const objectId = BaseModel.toObjectId(id);
     this.updateTimestamp(item);
     this.convertOwnerId(filter);
     const query = { _id: objectId, ...filter };
-    const result = await this.collection.updateOne(query, [{ $set: item }, { $unset: unsetItem }]);
+    const pipeline = [{ $set: item }];
+    if (unsetList.length) pipeline[1] = ({ $unset: unsetList });
+    const result = await this.collection.updateOne(query, pipeline);
     return result.modifiedCount === 1;
   }
 

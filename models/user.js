@@ -56,9 +56,12 @@ class UserModel extends BaseModel {
     return super.updateOneById(id, {}, item);
   }
 
+  connectOAuthProvider(id, provider, providerId) {
+    return super.updateOneById(id, {}, { [`oauth.${provider}`]: providerId });
+  }
+
   disconnectOAuthProvider(id, provider) {
-    const providerKey = [`oauth.${provider}`];
-    return super.updateOneById(id, {}, {}, providerKey);
+    return super.updateOneById(id, {}, {}, [`oauth.${provider}`]);
   }
 }
 

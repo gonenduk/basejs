@@ -74,6 +74,21 @@ module.exports = {
     res.status(204).end();
   },
 
+  connectOAuthProvider: async (req, res) => {
+    const { provider, token } = req.body;
+
+    // Verify provider is supported
+    if (!oauth.isProviderSupported(provider)) throw Boom.unauthorized(`Unsupported provider '${provider}'`);
+
+    // Verify token with provider and get user profile data
+    const profile = await oauth.validateWithProvider(provider, token).catch((err) => {
+      throw Boom.unauthorized(err.error);
+    });
+
+    await user.connectOAuthProvider(req.user.id, provider, profile.id);
+    res.status(204).end();
+  },
+
   disconnectOAuthProvider: async (req, res) => {
     const { provider } = req.body;
 

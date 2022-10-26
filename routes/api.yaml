@@ -75,7 +75,7 @@ paths:
     post:
       tags:
         - Authentication
-      summary: Sign in or sign up a user by OAuth provider token and return JWTs
+      summary: Sign in or sign up a user by OAUth provider and return JWTs
       security: []
       operationId: signInWithOAuthToken
       x-eov-operation-handler: auth
@@ -116,6 +116,32 @@ paths:
         default:
           $ref: '#/components/responses/ErrorResponse'
   /auth/oauth:
+    post:
+      tags:
+        - Authentication
+      summary: Connect current user to OAuth provider
+      operationId: connectOAuthProvider
+      x-eov-operation-handler: auth
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContentResponse'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - provider
+                - token
+              properties:
+                provider:
+                  type: string
+                token:
+                  type: string
+        description: OAuth provider
+        required: true
     delete:
       tags:
         - Authentication

@@ -20,7 +20,8 @@ class BaseHandler {
 
   async getOne(req, res) {
     // Get id and filter
-    const { id } = req.params;
+    let { id } = req.params;
+    if (id === 'me') id = req.user.id;
     const filter = safeParse('filter', req.query.filter);
 
     // Get item
@@ -31,7 +32,8 @@ class BaseHandler {
 
   async deleteOne(req, res) {
     // Get id and filter
-    const { id } = req.params;
+    let { id } = req.params;
+    if (id === 'me') id = req.user.id;
     const filter = safeParse('filter', req.query.filter);
 
     // Delete item
@@ -42,7 +44,8 @@ class BaseHandler {
 
   async updateOne(req, res) {
     // Get id and filter
-    const { id } = req.params;
+    let { id } = req.params;
+    if (id === 'me') id = req.user.id;
     const filter = safeParse('filter', req.query.filter);
 
     // Update item fields
@@ -93,7 +96,8 @@ class BaseHandler {
 
   async updateOwner(req, res) {
     // Get id and filter
-    const { id } = req.params;
+    let { id } = req.params;
+    if (id === 'me') id = req.user.id;
     const filter = safeParse('filter', req.query.filter);
 
     // Update item owner

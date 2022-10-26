@@ -37,12 +37,12 @@ module.exports = {
     });
 
     // Find related user
-    const projection = { role: 1, logoutAt: 1 };
+    const projection = { role: 1, signedOutAt: 1 };
     const match = await user.getOneById(token.id, {}, { projection });
     if (!match) throw Boom.unauthorized('Invalid user in refresh token');
 
     // Validate user did not log off after refresh token was created
-    if (match.logoutAt && token.iat * 1000 < match.logoutAt.getTime()) {
+    if (match.signedOutAt && token.iat * 1000 < match.signedOutAt.getTime()) {
       throw Boom.unauthorized('Refresh token expired');
     }
 

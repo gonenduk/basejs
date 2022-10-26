@@ -41,13 +41,13 @@ class UserModel extends BaseModel {
       // Hash password
       item.password = await bcrypt.hash(item.password, 10);
       // Logout user to force use of new password on all devices
-      item.logoutAt = new Date();
+      item.signedOutAt = new Date();
     }
     return super.updateOneById(id, filter, item);
   }
 
   signOut(id) {
-    const item = { logoutAt: new Date(), updatedAt: null };
+    const item = { signedOutAt: new Date(), updatedAt: null };
     return super.updateOneById(id, { }, item);
   }
 

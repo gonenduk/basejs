@@ -10,7 +10,7 @@ module.exports = {
         role: { enum: ['user', 'moderator', 'admin'] },
         createdAt: { bsonType: 'date' },
         updatedAt: { bsonType: 'date' },
-        logoutAt: { bsonType: 'date' },
+        signedOutAt: { bsonType: 'date' },
       },
     },
   },

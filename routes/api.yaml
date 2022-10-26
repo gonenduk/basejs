@@ -557,7 +557,7 @@ components:
                 - moderator
                 - admin
               readOnly: true
-            logoutAt:
+            signedOutAt:
               type: string
               format: date-time
               readOnly: true

@@ -89,7 +89,7 @@ describe('Handler of authentication', () => {
 
     it('should fail after logout', async () => {
       verifyTokenStub.resolves({ id: '1', iat: 1 });
-      getOneByIdStub.resolves({ logoutAt: new Date() });
+      getOneByIdStub.resolves({ signedOutAt: new Date() });
       await assert.rejects(() => auth.signInWithRefreshToken(req, res));
     });
 

@@ -64,10 +64,10 @@ class BaseModel {
     return this.collection.find(filter, options).toArray();
   }
 
-  updateMany(filter = {}, item = {}) {
+  updateMany(filter = {}, item = {}, unsetItem = []) {
     this.updateTimestamp(item);
     this.convertOwnerId(filter);
-    return this.collection.updateMany(filter, { $set: item });
+    return this.collection.updateMany(filter, [{ $set: item }, { $unset: unsetItem }]);
   }
 
   deleteMany(filter = {}) {
@@ -88,12 +88,12 @@ class BaseModel {
     return this.collection.findOne(query, options);
   }
 
-  async updateOneById(id, filter = {}, item = {}) {
+  async updateOneById(id, filter = {}, item = {}, unsetItem = []) {
     const objectId = BaseModel.toObjectId(id);
     this.updateTimestamp(item);
     this.convertOwnerId(filter);
     const query = { _id: objectId, ...filter };
-    const result = await this.collection.updateOne(query, { $set: item });
+    const result = await this.collection.updateOne(query, [{ $set: item }, { $unset: unsetItem }]);
     return result.modifiedCount === 1;
   }
 
@@ -108,14 +108,6 @@ class BaseModel {
   replaceOwnerById(id, filter, ownerId) {
     const item = { ownerId: BaseModel.toObjectId(ownerId) };
     return this.updateOneById(id, filter, item);
-  }
-
-  async removePropertiesById(id, filter = {}, item = {}) {
-    const objectId = BaseModel.toObjectId(id);
-    this.convertOwnerId(filter);
-    const query = { _id: objectId, ...filter };
-    const result = await this.collection.updateOne(query, { $unset: item });
-    return result.modifiedCount === 1;
   }
 }
 

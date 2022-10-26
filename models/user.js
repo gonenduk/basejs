@@ -57,9 +57,8 @@ class UserModel extends BaseModel {
   }
 
   disconnectOAuthProvider(id, provider) {
-    const key = `oauth.${provider}`;
-    const item = { [key]: '' };
-    return super.removePropertiesById(id, {}, item);
+    const providerKey = [`oauth.${provider}`];
+    return super.updateOneById(id, {}, {}, providerKey);
   }
 }
 

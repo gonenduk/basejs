@@ -29,7 +29,7 @@ describe('Handler of authentication', () => {
     getOneStub = sinon.stub(user, 'getOneByFilter');
     getOneByIdStub = sinon.stub(user, 'getOneById');
     validatePasswordStub = sinon.stub(user, 'validatePassword');
-    logoutStub = sinon.stub(user, 'logout');
+    logoutStub = sinon.stub(user, 'signOut');
     signAccessTokenStub = sinon.stub(jwt, 'signAccessToken');
     signRefreshTokenStub = sinon.stub(jwt, 'signRefreshToken');
     verifyTokenStub = sinon.stub(jwt, 'verifyToken');
@@ -44,12 +44,12 @@ describe('Handler of authentication', () => {
 
   context('Create access and refresh tokens from username and password', () => {
     it('should fail on invalid user', async () => {
-      await assert.rejects(() => auth.loginWithCredentials(req, res));
+      await assert.rejects(() => auth.signInWithCredentials(req, res));
     });
 
     it('should fail on invalid password', async () => {
       getOneStub.resolves({});
-      await assert.rejects(() => auth.loginWithCredentials(req, res));
+      await assert.rejects(() => auth.signInWithCredentials(req, res));
     });
 
     it('should return access and refresh tokens on success', async () => {
@@ -57,40 +57,40 @@ describe('Handler of authentication', () => {
       validatePasswordStub.resolves(true);
       signAccessTokenStub.resolves('ta');
       signRefreshTokenStub.resolves('tr');
-      await assert.doesNotReject(() => auth.loginWithCredentials(req, res));
+      await assert.doesNotReject(() => auth.signInWithCredentials(req, res));
       sinon.assert.calledWith(jsonStub, { access_token: 'ta', refresh_token: 'tr' });
     });
 
     it('should fail if cannot create tokens', async () => {
       signAccessTokenStub.rejects(Error('e'));
-      await assert.rejects(() => auth.loginWithCredentials(req, res));
+      await assert.rejects(() => auth.signInWithCredentials(req, res));
     });
   });
 
   context('Delete token', () => {
     it('should always succeed', async () => {
       logoutStub.resolves();
-      await auth.logout(req, res);
-      await assert.doesNotReject(() => auth.logout(req, res));
+      await auth.signOut(req, res);
+      await assert.doesNotReject(() => auth.signOut(req, res));
     });
   });
 
   context('Create access and refresh tokens from refresh token', () => {
     it('should fail on invalid token', async () => {
       verifyTokenStub.rejects(Error('e'));
-      await assert.rejects(() => auth.loginWithRefreshToken(req, res));
+      await assert.rejects(() => auth.signInWithRefreshToken(req, res));
     });
 
     it('should fail on invalid user in token', async () => {
       verifyTokenStub.resolves({ id: '1' });
       getOneByIdStub.resolves();
-      await assert.rejects(() => auth.loginWithRefreshToken(req, res));
+      await assert.rejects(() => auth.signInWithRefreshToken(req, res));
     });
 
     it('should fail after logout', async () => {
       verifyTokenStub.resolves({ id: '1', iat: 1 });
       getOneByIdStub.resolves({ logoutAt: new Date() });
-      await assert.rejects(() => auth.loginWithRefreshToken(req, res));
+      await assert.rejects(() => auth.signInWithRefreshToken(req, res));
     });
 
     it('should return access and refresh tokens on success', async () => {
@@ -99,27 +99,27 @@ describe('Handler of authentication', () => {
       signAccessTokenStub.resolves('ta');
       signRefreshTokenStub.resolves('tr');
       jsonStub.reset();
-      await assert.doesNotReject(() => auth.loginWithRefreshToken(req, res));
+      await assert.doesNotReject(() => auth.signInWithRefreshToken(req, res));
       sinon.assert.calledWith(jsonStub, { access_token: 'ta', refresh_token: 'tr' });
     });
   });
 
-  context('Create access and refresh tokens from social token', () => {
+  context('Create access and refresh tokens from oauth token', () => {
     it('should fail on unknown provider', async () => {
       isProviderSupported.returns(false);
-      await assert.rejects(() => auth.loginWithSocialToken(req, res));
+      await assert.rejects(() => auth.signInWithOAuthToken(req, res));
     });
 
     it('should fail if token not valid by provider', async () => {
       isProviderSupported.returns(true);
       validateWithProviderStub.rejects(Error());
-      await assert.rejects(() => auth.loginWithSocialToken(req, res));
+      await assert.rejects(() => auth.signInWithOAuthToken(req, res));
     });
 
     it('should fail if user in token not found', async () => {
       validateWithProviderStub.resolves({});
       getOneStub.resolves();
-      await assert.rejects(() => auth.loginWithSocialToken(req, res));
+      await assert.rejects(() => auth.signInWithOAuthToken(req, res));
     });
 
     it('should return access and refresh tokens on success', async () => {
@@ -127,7 +127,7 @@ describe('Handler of authentication', () => {
       signAccessTokenStub.resolves('ta');
       signRefreshTokenStub.resolves('tr');
       jsonStub.reset();
-      await assert.doesNotReject(() => auth.loginWithSocialToken(req, res));
+      await assert.doesNotReject(() => auth.signInWithOAuthToken(req, res));
       sinon.assert.calledWith(jsonStub, { access_token: 'ta', refresh_token: 'tr' });
     });
   });

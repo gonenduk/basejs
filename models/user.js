@@ -46,7 +46,7 @@ class UserModel extends BaseModel {
     return super.updateOneById(id, filter, item);
   }
 
-  logout(id) {
+  signOut(id) {
     const item = { logoutAt: new Date(), updatedAt: null };
     return super.updateOneById(id, { }, item);
   }

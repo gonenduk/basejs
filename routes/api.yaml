@@ -14,7 +14,7 @@ paths:
         - Authentication
       summary: Sign in existing user by credentials and return JWTs
       security: []
-      operationId: loginWithCredentials
+      operationId: signInWithCredentials
       x-eov-operation-handler: auth
       responses:
         '200':
@@ -47,7 +47,7 @@ paths:
         - Authentication
       summary: Renew JWTs based on a refresh token
       security: []
-      operationId: loginWithRefreshToken
+      operationId: signInWithRefreshToken
       x-eov-operation-handler: auth
       responses:
         '200':
@@ -70,13 +70,13 @@ paths:
                   type: string
         description: refresh token
         required: true
-  /auth/token/social:
+  /auth/token/oauth:
     post:
       tags:
         - Authentication
       summary: Sign in or sign up a user by oauth provider token and return JWTs
       security: []
-      operationId: loginWithSocialToken
+      operationId: signInWithOAuthToken
       x-eov-operation-handler: auth
       responses:
         '200':
@@ -107,7 +107,7 @@ paths:
       tags:
         - Authentication
       summary: Sign out current user and invalidate existing refresh tokens
-      operationId: logout
+      operationId: signOut
       x-eov-operation-handler: auth
       responses:
         '204':

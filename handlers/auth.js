@@ -13,7 +13,7 @@ function createJWT(match) {
 }
 
 module.exports = {
-  loginWithCredentials: async (req, res) => {
+  signInWithCredentials: async (req, res) => {
     const { username, password } = req.body;
 
     // Validate email/password
@@ -30,7 +30,7 @@ module.exports = {
     res.json(await createJWT(match));
   },
 
-  loginWithRefreshToken: async (req, res) => {
+  signInWithRefreshToken: async (req, res) => {
     // Verify refresh token
     const token = await jwt.verifyToken(req.body.token).catch((err) => {
       throw Boom.unauthorized(`Invalid refresh token: ${err.message}`);
@@ -49,8 +49,7 @@ module.exports = {
     // Create JWT with access and refresh tokens
     res.json(await createJWT(match));
   },
-
-  loginWithSocialToken: async (req, res) => {
+  signInWithOAuthToken: async (req, res) => {
     const { provider, token } = req.body;
 
     // Verify provider is supported
@@ -66,12 +65,12 @@ module.exports = {
     const match = await user.getOneByFilter({ email: profile.email }, { projection });
     if (!match) throw Boom.unauthorized('No matching user found');
 
-    // Create JWT for dummy user
+    // Create JWT with access and refresh tokens
     res.json(await createJWT(match));
   },
 
-  logout: async (req, res) => {
-    await user.logout(req.user.id);
+  signOut: async (req, res) => {
+    await user.signOut(req.user.id);
     res.status(204).end();
   },
 };

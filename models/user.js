@@ -48,12 +48,18 @@ class UserModel extends BaseModel {
 
   signOut(id) {
     const item = { signedOutAt: new Date(), updatedAt: null };
-    return super.updateOneById(id, { }, item);
+    return super.updateOneById(id, {}, item);
   }
 
   setRole(id, role) {
     const item = { role };
-    return super.updateOneById(id, { }, item);
+    return super.updateOneById(id, {}, item);
+  }
+
+  disconnectOAuthProvider(id, provider) {
+    const key = `oauth.${provider}`;
+    const item = { [key]: '' };
+    return super.removePropertiesById(id, {}, item);
   }
 }
 

@@ -73,4 +73,14 @@ module.exports = {
     await user.signOut(req.user.id);
     res.status(204).end();
   },
+
+  disconnectOAuthProvider: async (req, res) => {
+    const { provider } = req.body;
+
+    // Verify provider is supported
+    if (!oauth.isProviderSupported(provider)) throw Boom.unauthorized(`Unsupported provider '${provider}'`);
+
+    await user.disconnectOAuthProvider(req.user.id, provider);
+    res.status(204).end();
+  },
 };

@@ -109,6 +109,14 @@ class BaseModel {
     const item = { ownerId: BaseModel.toObjectId(ownerId) };
     return this.updateOneById(id, filter, item);
   }
+
+  async removePropertiesById(id, filter = {}, item = {}) {
+    const objectId = BaseModel.toObjectId(id);
+    this.convertOwnerId(filter);
+    const query = { _id: objectId, ...filter };
+    const result = await this.collection.updateOne(query, { $unset: item });
+    return result.modifiedCount === 1;
+  }
 }
 
 module.exports = BaseModel;

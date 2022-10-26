@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 module.exports = {
   schema: {
     $jsonSchema: {
@@ -25,8 +26,8 @@ module.exports = {
   indexes: [
     { fields: { email: 1 }, options: { unique: true } },
     { fields: { username: 1 }, options: { unique: true, partialFilterExpression: { username: { $exists: true } } } },
-    { fields: { facebook: 1 }, options: { unique: true, partialFilterExpression: { facebook: { $exists: true } } } },
-    { fields: { google: 1 }, options: { unique: true, partialFilterExpression: { google: { $exists: true } } } },
-    { fields: { apple: 1 }, options: { unique: true, partialFilterExpression: { apple: { $exists: true } } } },
+    { fields: { 'oauth.facebook': 1 }, options: { unique: true, partialFilterExpression: { 'oauth.facebook': { $exists: true } } } },
+    { fields: { 'oauth.google': 1 }, options: { unique: true, partialFilterExpression: { 'oauth.google': { $exists: true } } } },
+    { fields: { 'oauth.apple': 1 }, options: { unique: true, partialFilterExpression: { 'oauth.apple': { $exists: true } } } },
   ],
 };

@@ -85,6 +85,12 @@ module.exports = {
       throw Boom.unauthorized(err.error);
     });
 
+    // Check if already connected to provider
+    if (await user.isOAuthProviderConnected(req.user.id, provider)) {
+      throw Boom.badRequest('Provider already connected');
+    }
+
+    // Connect with provider
     await user.connectOAuthProvider(req.user.id, provider, profile.id);
     res.status(204).end();
   },

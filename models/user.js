@@ -57,11 +57,17 @@ class UserModel extends BaseModel {
   }
 
   connectOAuthProvider(id, provider, providerId) {
-    return super.updateOneById(id, {}, { [`oauth.${provider}`]: providerId });
+    const extra = { $push: { oauth: { provider, id: providerId } } };
+    return super.updateOneById(id, {}, {}, extra);
   }
 
   disconnectOAuthProvider(id, provider) {
-    return super.updateOneById(id, {}, {}, [`oauth.${provider}`]);
+    const extra = { $pull: { oauth: { provider } } };
+    return super.updateOneById(id, {}, {}, extra);
+  }
+
+  isOAuthProviderConnected(id, provider) {
+    return super.isExists({ _id: BaseModel.toObjectId(id), 'oauth.provider': provider });
   }
 }
 

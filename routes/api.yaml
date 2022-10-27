@@ -612,6 +612,17 @@ components:
               type: string
               format: date-time
               readOnly: true
+            oauth:
+              type: array
+              items:
+                type: object
+                properties:
+                  provider:
+                    type: string
+                    readOnly: true
+                  id:
+                    type: string
+                    readOnly: true
         - $ref: '#/components/schemas/TimeStamp'
     UserList:
       type: array

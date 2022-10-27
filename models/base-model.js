@@ -64,10 +64,11 @@ class BaseModel {
     return this.collection.find(filter, options).toArray();
   }
 
-  updateMany(filter = {}, item = {}, unsetItem = []) {
+  updateMany(filter = {}, item = {}, extra = {}) {
     this.updateTimestamp(item);
     this.convertOwnerId(filter);
-    return this.collection.updateMany(filter, [{ $set: item }, { $unset: unsetItem }]);
+    const pipeline = { $set: item, ...extra };
+    return this.collection.updateMany(filter, pipeline);
   }
 
   deleteMany(filter = {}) {
@@ -76,6 +77,11 @@ class BaseModel {
   }
 
   // ***** Documents
+  isExists(filter = {}) {
+    this.convertOwnerId(filter);
+    return this.collection.countDocuments(filter, { limit: 1 });
+  }
+
   getOneByFilter(filter = {}, options = {}) {
     this.convertOwnerId(filter);
     return this.collection.findOne(filter, options);
@@ -88,13 +94,12 @@ class BaseModel {
     return this.collection.findOne(query, options);
   }
 
-  async updateOneById(id, filter = {}, item = {}, unsetList = []) {
+  async updateOneById(id, filter = {}, item = {}, extra = {}) {
     const objectId = BaseModel.toObjectId(id);
     this.updateTimestamp(item);
     this.convertOwnerId(filter);
     const query = { _id: objectId, ...filter };
-    const pipeline = [{ $set: item }];
-    if (unsetList.length) pipeline[1] = ({ $unset: unsetList });
+    const pipeline = { $set: item, ...extra };
     const result = await this.collection.updateOne(query, pipeline);
     return result.modifiedCount === 1;
   }

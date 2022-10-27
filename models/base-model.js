@@ -1,7 +1,17 @@
 /* eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["item"] }] */
+const { MongoError } = require('mongodb');
+const Boom = require('@hapi/boom');
 const mongo = require('../lib/mongodb');
 
 const { ObjectId } = mongo.driver;
+
+function convertError(err) {
+  if (err instanceof MongoError && err.code === 11000) {
+    const keys = Object.keys(err.keyValue).toString();
+    throw Boom.conflict(`Already in use: ${keys}`);
+  }
+  throw err;
+}
 
 class BaseModel {
   constructor(collectionName, options = {}) {
@@ -19,9 +29,7 @@ class BaseModel {
     try {
       return new ObjectId(id);
     } catch (err) {
-      err.message = `id: ${err.message}`;
-      err.status = 400;
-      throw err;
+      throw Boom.badRequest(`id: ${err.message}`);
     }
   }
 
@@ -55,7 +63,7 @@ class BaseModel {
   async addOne(item = {}) {
     this.addTimestamp(item);
     this.convertOwnerId(item);
-    await this.collection.insertOne(item);
+    await this.collection.insertOne(item).catch(convertError);
     return item;
   }
 
@@ -68,7 +76,7 @@ class BaseModel {
     this.updateTimestamp(item);
     this.convertOwnerId(filter);
     const pipeline = { $set: item, ...extra };
-    return this.collection.updateMany(filter, pipeline);
+    return this.collection.updateMany(filter, pipeline).catch(convertError);
   }
 
   deleteMany(filter = {}) {
@@ -100,7 +108,7 @@ class BaseModel {
     this.convertOwnerId(filter);
     const query = { _id: objectId, ...filter };
     const pipeline = { $set: item, ...extra };
-    const result = await this.collection.updateOne(query, pipeline);
+    const result = await this.collection.updateOne(query, pipeline).catch(convertError);
     return result.modifiedCount === 1;
   }
 

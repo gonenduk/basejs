@@ -614,6 +614,7 @@ components:
               readOnly: true
             oauth:
               type: array
+              readOnly: true
               items:
                 type: object
                 properties:

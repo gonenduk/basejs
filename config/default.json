@@ -36,5 +36,11 @@
     "web": false,
     "api": true,
     "client": true
+  },
+  "oauth": {
+    "facebook": "https://graph.facebook.com/me",
+    "google": "https://www.googleapis.com/oauth2/v3/tokeninfo",
+    "github": "https://api.github.com/user",
+    "windows": "https://apis.live.net/v5.0/me"
   }
 }

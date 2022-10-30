@@ -53,7 +53,7 @@ module.exports = {
     const { provider, token } = req.body;
 
     // Verify provider is supported
-    if (!oauth.isProviderSupported(provider)) throw Boom.unauthorized(`Unsupported provider '${provider}'`);
+    if (!oauth.isProviderSupported(provider)) throw Boom.badRequest(`Unsupported provider '${provider}'`);
 
     // Verify token with provider and get user profile data
     const profile = await oauth.validateWithProvider(provider, token).catch((err) => {
@@ -78,7 +78,7 @@ module.exports = {
     const { provider, token } = req.body;
 
     // Verify provider is supported
-    if (!oauth.isProviderSupported(provider)) throw Boom.unauthorized(`Unsupported provider '${provider}'`);
+    if (!oauth.isProviderSupported(provider)) throw Boom.badRequest(`Unsupported provider '${provider}'`);
 
     // Verify token with provider and get user profile data
     const profile = await oauth.validateWithProvider(provider, token).catch((err) => {
@@ -99,7 +99,7 @@ module.exports = {
     const { provider } = req.body;
 
     // Verify provider is supported
-    if (!oauth.isProviderSupported(provider)) throw Boom.unauthorized(`Unsupported provider '${provider}'`);
+    if (!oauth.isProviderSupported(provider)) throw Boom.badRequest(`Unsupported provider '${provider}'`);
 
     await user.disconnectOAuthProvider(req.user.id, provider);
     res.status(204).end();

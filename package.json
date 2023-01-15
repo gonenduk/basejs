@@ -19,7 +19,7 @@
     "auto-strict": "^0.0.5",
     "bcryptjs": "^2.4.3",
     "cls-rtracer": "^2.4.0",
-    "commander": "^9.0.0",
+    "commander": "^10.0.0",
     "config": "^3.3.2",
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",

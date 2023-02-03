@@ -28,7 +28,7 @@
     "express-openapi-validator": "^5.0.0",
     "ioredis": "^5.0.1",
     "jsonwebtoken": "^9.0.0",
-    "mongodb": "^4.4.0",
+    "mongodb": "^5.0.0",
     "morgan": "^1.10.0",
     "nodemailer": "^6.4.16",
     "pug": "^3.0.0",

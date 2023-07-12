@@ -75,6 +75,6 @@ initServices()
   .then(initApp)
   .then(listen)
   .catch((err) => {
-    logger.error(`Failed to start. ${err.stack}`);
+    logger.error(`Failed to start. ${err.message}`);
     process.exit(1);
   });

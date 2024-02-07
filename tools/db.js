@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 const bcrypt = require('bcryptjs');
-const program = require('commander');
+const { program } = require('commander');
 const schemas = require('../models/schemas');
 const mongo = require('../lib/mongodb');
 

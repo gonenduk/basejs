@@ -34,24 +34,24 @@
     "request-ip": "^3.0.2",
     "require-directory": "^2.1.1",
     "serve-favicon": "^2.5.0",
-    "superagent": "^8.0.0",
+    "superagent": "^10.1.1",
     "swagger-ui-express": "^5.0.0",
     "throng": "^5.0.0",
     "universal-analytics": "^0.5.1",
-    "uuid": "^9.0.0",
+    "uuid": "^11.0.3",
     "winston": "^3.3.3"
   },
   "devDependencies": {
-    "eslint": "^8.22.0",
+    "eslint": "^8.57.1",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.3",
     "husky": "^9.0.2",
     "lint-staged": "^15.2.0",
     "mocha": "^10.0.0",
     "mochawesome": "^7.0.1",
-    "nyc": "^15.1.0",
-    "sinon": "^17.0.1",
-    "supertest": "^6.0.1",
+    "nyc": "^17.1.0",
+    "sinon": "^19.0.2",
+    "supertest": "^7.0.0",
     "swagger-cli": "^4.0.4"
   }
 }

@@ -17,6 +17,10 @@
     "url": "mongodb://127.0.0.1:27017",
     "db": "basejs"
   },
+  "redis": {
+    "host": "127.0.0.1",
+    "port": 6379
+  },
   "log": {
     "level": "debug",
     "console": true,
